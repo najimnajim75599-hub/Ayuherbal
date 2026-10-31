@@ -76,6 +76,7 @@ main{padding:18px;max-width:1000px}
   <div class="logo">🌿 AYU LIFE HEARBAL<br><small style="color:#a9dcb0;font-weight:400;font-family:sans-serif">Admin Panel</small></div>
   <nav id="nav">
    <a data-s="dashboard">📊 Dashboard</a>
+   <a data-s="owner-tree">🌳 Owner Direct Tree</a>
    <a data-s="distributors">🤝 Distributors</a>
    <a data-s="users">👥 Users &amp; Accounts</a>
    <a data-s="products">🌿 Products</a>
@@ -97,7 +98,7 @@ const $=id=>document.getElementById(id);
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const B="ayu-media",D="ayu-docs";
 const STAT={draft:"Draft",submitted:"Submitted",under_review:"Under review",approved:"Approved",rejected:"Rejected"};
-const TITLES={dashboard:"Dashboard",distributors:"Distributors",users:"Users & Accounts",products:"Products",gallery:"Gallery",content:"Website Content",settings:"Settings"};
+const TITLES={dashboard:"Dashboard","owner-tree":"Owner Direct Tree",distributors:"Distributors",users:"Users & Accounts",products:"Products",gallery:"Gallery",content:"Website Content",settings:"Settings"};
 let me=null,cur="dashboard",DL=[];
 
 function toast(t,err){$("toast").innerHTML=t?`<div class="msg ${err?"err":""}">${esc(t)}</div>`:"";if(t)scrollTo(0,0)}
@@ -130,10 +131,40 @@ function go(s){
   $("title").textContent=TITLES[s];
   document.querySelectorAll("#nav a").forEach(a=>a.classList.toggle("on",a.dataset.s===s));
   $("main").innerHTML='<div class="card"><small>Loading…</small></div>';
-  ({dashboard,distributors,users,products,gallery,content,settings})[s]().catch(err=>{$("main").innerHTML="";toast(err.message||String(err),true)});
+  ({dashboard,"owner-tree":ownerTree,distributors,users,products,gallery,content,settings})[s]().catch(err=>{$("main").innerHTML="";toast(err.message||String(err),true)});
 }
 const cnt=async(t,f)=>{let q=sb.from(t).select("*",{count:"exact",head:true});if(f)q=f(q);const{count,error}=await q;if(error)throw error;return count||0};
 const fmt=d=>d?new Date(d).toLocaleDateString():"—";
+
+async function ownerTree(){
+  const settings=await sb.from("ayu_site_settings").select("owner_name").eq("id",1).maybeSingle();
+  const ownerName=settings.data?.owner_name||"Robiul Awal CMD";
+  const{data,error}=await sb.from("ayu_distributors").select("user_id,distributor_code,full_name,contact_person,business_name,parent_id,position,network_status,status").order("created_at");
+  if(error){toast(error.message,true);return}
+  const rows=data||[];
+  let scale=1,panX=0,panY=0,drag=false,startX=0,startY=0;
+  const name=d=>d.full_name||d.contact_person||d.business_name||"Distributor";
+  const kids=(id,pos)=>rows.filter(d=>d.parent_id===id&&d.position===pos);
+  const count=(id,out=0)=>{const children=rows.filter(d=>d.parent_id===id);children.forEach(d=>out+=1+count(d.user_id));return out};
+  const node=d=>{
+    const left=kids(d.user_id,"LEFT"),right=kids(d.user_id,"RIGHT");
+    const branch=(list,pos)=>`<div class="owner-node"><div class="owner-node-label">${pos}</div>${list[0]?node(list[0]):'<div class="owner-slot">Open '+pos+' position</div>'}</div>`;
+    return `<div class="owner-org"><div class="owner-card ${posClass(d)}" data-profile="${d.user_id}" data-search="${esc((name(d)+" "+(d.distributor_code||"")).toLowerCase())}">${esc(name(d))}<small>${esc(d.distributor_code||"")} · ${esc(d.network_status||"ACTIVE")}</small><small>${count(d.user_id)} in downline</small></div><div class="owner-children">${branch(left,"Left")}${branch(right,"Right")}</div></div>`;
+  };
+  const posClass=()=>"";
+  const roots=rows.filter(d=>!d.parent_id);
+  const leftRoot=roots.find(d=>d.position=== "LEFT");
+  const rightRoot=roots.find(d=>d.position=== "RIGHT");
+  const rootBranch=(root,label)=>root?node(root):`<div class="owner-slot">Open ${label} position</div>`;
+  $("main").innerHTML=`<div class="card"><h2>${esc(ownerName)} · OWNER</h2><div class="owner-tree-toolbar"><input id="owner-search" type="search" placeholder="Search distributor name or ID"><button class="ghost" id="tree-out">−</button><button class="ghost" id="tree-in">+</button><button class="ghost" id="tree-reset">Reset</button></div><div class="owner-tree-viewport" id="owner-viewport"><div class="owner-tree-canvas" id="owner-canvas"><div class="owner-org"><div class="owner-card owner-root">${esc(ownerName)}<small>OWNER · AYU LIFE HEARBAL</small></div><div class="owner-children"><div class="owner-node"><div class="owner-node-label">LEFT TEAM</div>${rootBranch(leftRoot,"LEFT")}</div><div class="owner-node"><div class="owner-node-label">RIGHT TEAM</div>${rootBranch(rightRoot,"RIGHT")}</div></div></div></div></div><small>Drag the tree to move it. Click a distributor card to open its profile.</small>`;
+  const canvas=$("owner-canvas"),viewport=$("owner-viewport");
+  const apply=()=>{canvas.style.transform=`translate(${panX}px,${panY}px) scale(${scale})`};
+  $("tree-in").onclick=()=>{scale=Math.min(2,scale+.1);apply()};$("tree-out").onclick=()=>{scale=Math.max(.35,scale-.1);apply()};$("tree-reset").onclick=()=>{scale=1;panX=0;panY=0;apply()};
+  viewport.onpointerdown=e=>{if(e.target.closest("button"))return;drag=true;startX=e.clientX-panX;startY=e.clientY-panY;viewport.classList.add("dragging");viewport.setPointerCapture(e.pointerId)};
+  viewport.onpointermove=e=>{if(!drag)return;panX=e.clientX-startX;panY=e.clientY-startY;apply()};viewport.onpointerup=()=>{drag=false;viewport.classList.remove("dragging")};
+  $("owner-search").oninput=e=>{const q=e.target.value.trim().toLowerCase();document.querySelectorAll("[data-search]").forEach(c=>c.classList.toggle("search-hit",q&&c.dataset.search.includes(q)))};
+  document.querySelectorAll("[data-profile]").forEach(card=>card.onclick=()=>{location.hash="distributors";setTimeout(()=>distDetail(card.dataset.profile),0)});
+}
 
 async function dashboard(){
   const[total,active,pend,users,prods,gal]=await Promise.all([
