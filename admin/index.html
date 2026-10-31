@@ -160,7 +160,18 @@ async function distributors(){
   await autoApprovePending();
   const{data,error}=await sb.from("ayu_distributors").select("*").order("created_at",{ascending:false});
   if(error)throw error;DL=data||[];
-  $("main").innerHTML=`<div class="card"><div class="tools"><input type="text" id="q" placeholder="Search ID, name, city, phone"><select id="f"><option value="">All statuses</option>${Object.keys(STAT).map(k=>`<option value="${k}">${STAT[k]}</option>`).join("")}<option value="LEFT">Left Team</option><option value="RIGHT">Right Team</option></select><button class="ghost" id="csv">Export CSV</button></div><small id="cnt"></small><div id="dl"></div></div>`;
+  const distributorOptions=DL.map(d=>`<option value="${d.user_id}">${esc(d.distributor_code||d.user_id)} · ${esc(d.full_name||d.contact_person||d.business_name||"")}</option>`).join("");
+  $("main").innerHTML=`<div class="card"><h2>Assign Distributor to Team</h2><div class="network-controls"><select id="team-parent"><option value="">Company / No parent</option>${distributorOptions}</select><select id="team-position"><option value="LEFT">Left Team</option><option value="RIGHT">Right Team</option></select><select id="team-member"><option value="">Choose distributor</option>${distributorOptions}</select></div><p style="margin:12px 0 0"><button id="team-assign">Add to Team</button></p><small>One distributor can be assigned to each LEFT or RIGHT position only.</small></div><div class="card"><div class="tools"><input type="text" id="q" placeholder="Search ID, name, city, phone"><select id="f"><option value="">All statuses</option>${Object.keys(STAT).map(k=>`<option value="${k}">${STAT[k]}</option>`).join("")}<option value="LEFT">Left Team</option><option value="RIGHT">Right Team</option></select><button class="ghost" id="csv">Export CSV</button></div><small id="cnt"></small><div id="dl"></div></div>`;
+  $("team-assign").onclick=async()=>{
+    const member=$("team-member").value,parent=$("team-parent").value,position=$("team-position").value;
+    if(!member)return toast("Choose a distributor first.",true);
+    if(member===parent)return toast("A distributor cannot be placed under itself.",true);
+    const occupied=(await sb.from("ayu_distributors").select("user_id").is("parent_id",parent||null).eq("position",position).neq("user_id",member).maybeSingle()).data;
+    if(occupied)return toast("This LEFT or RIGHT position is already occupied.",true);
+    const{error}=await sb.from("ayu_distributors").update({parent_id:parent||null,sponsor_id:parent||null,position}).eq("user_id",member);
+    if(error)return toast(error.message,true);
+    toast("Distributor added to the "+position+" team.");await distributors();
+  };
   const draw=()=>{
     const q=$("q").value.toLowerCase(),f=$("f").value;
     const l=DL.filter(d=>(!f||d.status===f||d.position===f)&&(!q||[d.distributor_code,d.business_name,d.contact_person,d.city,d.phone,d.email].join(" ").toLowerCase().includes(q)));

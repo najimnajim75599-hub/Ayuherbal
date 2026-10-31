@@ -23,6 +23,9 @@ alter table public.ayu_distributors
 create unique index if not exists ayu_distributors_parent_position_uidx
   on public.ayu_distributors(parent_id, position)
   where parent_id is not null and position is not null;
+create unique index if not exists ayu_distributors_root_position_uidx
+  on public.ayu_distributors(position)
+  where parent_id is null and position is not null;
 
 alter table public.ayu_distributors
   drop constraint if exists ayu_distributors_sponsor_fk;
