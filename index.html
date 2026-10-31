@@ -389,13 +389,11 @@ $("menu").onclick=async e=>{
 };
 $("go").onclick=async()=>{
   say("");const email=$("em").value.trim(),password=$("pw").value,full_name=$("nm").value.trim();
-  const confirmationUrl=location.origin+location.pathname+"#distributor";
-  const r=signup?await sb.auth.signUp({email,password,options:{data:{full_name},emailRedirectTo:confirmationUrl}}):await sb.auth.signInWithPassword({email,password});
+  const r=signup?await sb.auth.signUp({email,password,options:{data:{full_name}}}):await sb.auth.signInWithPassword({email,password});
   if(r.error)return say(r.error.message,true);
   if(signup&&!r.data.session){
-    localStorage.setItem("ayu-open-distributor-after-confirm","1");
-    say("Account created. Open the confirmation link sent to your email; the distributor form will open automatically.");
-    return;
+    const login=await sb.auth.signInWithPassword({email,password});
+    if(login.error)return say(login.error.message,true);
   }
   await check();$("ov").classList.remove("open");
   if(signup){location.hash="#distributor";return}
@@ -469,7 +467,13 @@ async function myDist(){
   if(!data){const r=await sb.from("ayu_distributors").insert({user_id:me.id,email:me.email,contact_person:me.full_name||null}).select().single();if(r.error)throw r.error;data=r.data}
   return data;
 }
+async function autoApprovePending(){
+  if(!me)return;
+  const deadline=new Date(Date.now()-5*60*1000).toISOString();
+  await sb.from("ayu_distributors").update({status:"approved"}).eq("user_id",me.id).eq("status","submitted").lt("submitted_at",deadline);
+}
 async function renderDist(){
+  await autoApprovePending();
   const box=$("dist-body");
   if(!me){box.innerHTML='<div class="pc"><p>Join our distributor network. Create an account or sign in to receive your permanent Distributor ID and complete your business application.</p><button class="btn" id="dl-login">Login / Register as Distributor</button></div>';$("dl-login").onclick=()=>view("auth");return}
   if(me.staff){box.innerHTML='<div class="msg">Please use a customer account to apply as a distributor.</div>';return}
@@ -515,7 +519,7 @@ async function renderDist(){
       if(miss.length)return msg("Please fill: "+miss.join(", "),true);
       if(!d.doc_id_proof&&!$("dd-doc_id_proof").files[0])return msg("Please upload your ID proof.",true);
       if(!$("df-decl").checked)return msg("Please accept the declaration.",true);
-      save({declaration_accepted:true,status:"submitted"},e.target,"Application submitted. We will review it shortly.");
+      save({declaration_accepted:true,status:"submitted",submitted_at:new Date().toISOString()},e.target,"Application submitted. It will be reviewed by our team.");
     };
   }
   if(appr)$("d-bank").onclick=async e=>{

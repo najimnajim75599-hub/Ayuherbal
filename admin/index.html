@@ -151,7 +151,12 @@ async function dashboard(){
 const FIELDS=[["business_name","Business name"],["business_type","Business type"],["year_started","Year started"],["business_description","About business"],["contact_person","Contact person"],["designation","Designation"],["phone","Phone"],["whatsapp","WhatsApp"],["email","Email"],["address","Address"],["city","City"],["state","State"],["pincode","PIN code"],["territory","Territory"],["gst_number","GST number"],["pan_number","PAN number"],["registration_number","Registration no."],["years_in_business","Years in business"],["current_products","Current products"],["premises_size","Premises size"],["ref1_name","Reference 1"],["ref1_phone","Reference 1 phone"],["ref2_name","Reference 2"],["ref2_phone","Reference 2 phone"]];
 const DOCS=[["doc_id_proof","ID proof"],["doc_address_proof","Address proof"],["doc_gst","GST / licence"],["doc_photo","Photo"]];
 const BANK=[["bank_holder","Account holder"],["bank_name","Bank"],["bank_account","Account number"],["bank_ifsc","IFSC"]];
+async function autoApprovePending(){
+  const deadline=new Date(Date.now()-5*60*1000).toISOString();
+  await sb.from("ayu_distributors").update({status:"approved"}).eq("status","submitted").lt("submitted_at",deadline);
+}
 async function distributors(){
+  await autoApprovePending();
   const{data,error}=await sb.from("ayu_distributors").select("*").order("created_at",{ascending:false});
   if(error)throw error;DL=data||[];
   $("main").innerHTML=`<div class="card"><div class="tools"><input type="text" id="q" placeholder="Search ID, name, city, phone"><select id="f"><option value="">All statuses</option>${Object.keys(STAT).map(k=>`<option value="${k}">${STAT[k]}</option>`).join("")}</select><button class="ghost" id="csv">Export CSV</button></div><small id="cnt"></small><div id="dl"></div></div>`;
@@ -294,6 +299,7 @@ async function settings(){
   };
 }
 gate();
+setInterval(()=>{if(me&&cur=== "distributors")distributors()},60000);
 </script>
 </body>
 </html>
