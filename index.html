@@ -389,7 +389,8 @@ $("menu").onclick=async e=>{
 };
 $("go").onclick=async()=>{
   say("");const email=$("em").value.trim(),password=$("pw").value,full_name=$("nm").value.trim();
-  const r=signup?await sb.auth.signUp({email,password,options:{data:{full_name},emailRedirectTo:location.origin+location.pathname}}):await sb.auth.signInWithPassword({email,password});
+  const confirmationUrl=location.origin+location.pathname+"#distributor";
+  const r=signup?await sb.auth.signUp({email,password,options:{data:{full_name},emailRedirectTo:confirmationUrl}}):await sb.auth.signInWithPassword({email,password});
   if(r.error)return say(r.error.message,true);
   if(signup&&!r.data.session){
     localStorage.setItem("ayu-open-distributor-after-confirm","1");
