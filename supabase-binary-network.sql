@@ -63,7 +63,7 @@ begin
       new.distributor_code := 'AYU' || lpad((floor(random() * 900000000)::bigint + 100000000)::text, 9, '0');
       exit when not exists(select 1 from public.ayu_distributors where distributor_code = new.distributor_code);
     end loop;
-  end;
+  end if;
   return new;
 end; $$;
 
@@ -83,7 +83,7 @@ begin
   else
     select hierarchy_path into parent_path from public.ayu_distributors where user_id = parent_id_value;
     update public.ayu_distributors set hierarchy_path = coalesce(parent_path,'') || '/' || coalesce(code,target_id::text) where user_id = target_id;
-  end;
+  end if;
 end; $$;
 
 create index if not exists ayu_distributors_parent_idx on public.ayu_distributors(parent_id);
