@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AYU LIFE HEARBAL – Natural Herbal Wellness</title>
+<meta name="description" content="AYU LIFE HEARBAL – trusted herbal wellness products made with care. Explore our products and apply to become an authorised distributor.">
+<meta name="theme-color" content="#064E35">
+<meta property="og:type" content="website">
+<meta property="og:title" content="AYU LIFE HEARBAL – Natural Herbal Wellness">
+<meta property="og:description" content="Trusted herbal wellness products and an authorised distributor network.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2C6 8 4 14 12 22c8-8 6-14 0-20z' fill='%2316834A'/%3E%3C/svg%3E">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"AYU LIFE HEARBAL","telephone":"+91 60026 09418"}</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<style>
+:root{--forest:#064E35;--green:#16834A;--leaf:#65A765;--mist:#F1F8F2;--paper:#FAFCF9;--ink:#1d3a2e;--text:#3b5649;--line:#dbe9de;color-scheme:light}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:76px;-webkit-text-size-adjust:100%}
+body{margin:0;background:#fff;color:var(--text);font:16px/1.7 "Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;overflow-x:hidden}
+h1,h2,h3,h4{font-family:Georgia,"Times New Roman",serif;color:var(--forest);line-height:1.18;margin:0 0 .5em;font-weight:700;letter-spacing:-.01em}
+h1{font-size:clamp(2.3rem,6.5vw,3.9rem)}h2{font-size:clamp(1.7rem,4.2vw,2.4rem)}h3{font-size:1.12rem}h4{font-size:1rem}
+p{margin:0 0 1em}a{color:inherit;text-decoration:none}img{max-width:100%}
+:focus-visible{outline:2px solid var(--green);outline-offset:2px}
+.skip{position:absolute;left:-999px;top:8px;background:#fff;padding:8px 14px;z-index:200;border-radius:8px}.skip:focus{left:8px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 22px;position:relative;z-index:1}
+header{position:sticky;top:0;z-index:40;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-bottom:1px solid transparent;padding-top:env(safe-area-inset-top,0px);transition:box-shadow .25s,border-color .25s}
+header.scrolled{border-color:var(--line);box-shadow:0 6px 24px rgba(6,78,53,.06)}
+.bar{display:flex;align-items:center;justify-content:space-between;height:68px;gap:12px}
+.brand{font-family:Georgia,serif;font-weight:700;color:var(--forest);letter-spacing:.05em;font-size:1.02rem;display:flex;gap:9px;align-items:center;min-width:0;white-space:nowrap}
+.brand img{height:32px;width:auto;border-radius:6px}
+nav{display:flex;gap:26px;align-items:center;font-size:.93rem;font-weight:500}
+nav a{position:relative;padding:4px 0;color:var(--ink)}
+nav a::after{content:"";position:absolute;left:0;bottom:-2px;height:2px;width:0;background:var(--green);transition:width .25s}
+nav a:hover::after{width:100%}
+.right{display:flex;align-items:center;gap:10px;position:relative}
+#burger{display:none;background:#fff;border:1px solid var(--line);border-radius:10px;width:42px;height:42px;cursor:pointer;align-items:center;justify-content:center;color:var(--forest)}
+@media(max-width:980px){
+ #burger{display:inline-flex}
+ nav{position:absolute;left:0;right:0;top:100%;background:#fff;flex-direction:column;align-items:stretch;gap:0;padding:6px 22px 16px;border-bottom:1px solid var(--line);box-shadow:0 18px 30px rgba(6,78,53,.08);transform:translateY(-8px);opacity:0;pointer-events:none;transition:opacity .22s,transform .22s}
+ nav.open{transform:none;opacity:1;pointer-events:auto}
+ nav a{padding:14px 0;border-bottom:1px solid var(--line)}nav a:last-child{border:0}nav a::after{display:none}
+}
+.btn{display:inline-block;padding:13px 26px;border-radius:10px;background:var(--green);color:#fff;font:inherit;font-weight:600;font-size:.95rem;border:1.5px solid var(--green);cursor:pointer;transition:background .2s,transform .2s,box-shadow .2s;text-align:center}
+.btn:hover{background:var(--forest);border-color:var(--forest);transform:translateY(-1px);box-shadow:0 8px 20px rgba(6,78,53,.18)}
+.btn.ghost{background:#fff;color:var(--green)}.btn.ghost:hover{background:var(--mist);color:var(--forest)}
+.btn.light{background:#fff;color:var(--forest);border-color:#fff}.btn.light:hover{background:var(--mist)}
+.btn.outl{background:transparent;color:#fff;border-color:rgba(255,255,255,.65)}.btn.outl:hover{background:rgba(255,255,255,.12)}
+.btn.sm{padding:8px 16px;font-size:.88rem}
+.btn.danger{background:#fff;color:#b3261e;border-color:#e3b5b1;padding:6px 14px;font-size:.85rem}
+.btn:disabled{opacity:.5;cursor:wait}
+#menu{position:absolute;right:0;top:50px;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 12px 30px rgba(6,78,53,.15);min-width:200px;padding:6px;display:none}
+#menu.open{display:block}
+#menu button{display:block;width:100%;text-align:left;background:none;border:0;padding:10px 14px;border-radius:8px;font:inherit;color:var(--forest);cursor:pointer}
+#menu button:hover{background:var(--mist)}#menu hr{border:0;border-top:1px solid var(--line);margin:4px 0}
+.hero{position:relative;overflow:hidden;background:var(--paper) center/cover;padding:84px 0 96px}
+.hero.has-banner::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.7),#fff 96%);z-index:0}
+.hgrid{display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center}
+.kicker{display:inline-flex;align-items:center;gap:8px;color:var(--green);font-size:.8rem;letter-spacing:.16em;text-transform:uppercase;font-weight:700;margin-bottom:18px}
+.kicker::before{content:"";width:28px;height:2px;background:var(--leaf)}
+.hero h1{margin-bottom:.35em}
+.hero .sub{font-family:Georgia,serif;font-size:clamp(1.15rem,3vw,1.5rem);color:var(--green);margin:0 0 18px}
+.lead{max-width:540px;font-size:1.08rem;margin:0 0 30px}
+.cta{display:flex;gap:12px;flex-wrap:wrap}
+.hart svg{width:100%;height:auto;display:block}
+@media(max-width:860px){.hgrid{grid-template-columns:1fr;text-align:center;gap:28px}.hero{padding:56px 0 64px}.cta{justify-content:center}.lead{margin-left:auto;margin-right:auto}.kicker{justify-content:center}.hart{max-width:300px;margin:0 auto;order:-1}}
+.trust{background:#fff;border-bottom:1px solid var(--line)}
+.trust .wrap{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
+.ti{display:flex;gap:12px;align-items:center;padding:22px 10px;font-weight:600;color:var(--ink);font-size:.93rem}
+.ti svg{width:26px;height:26px;fill:var(--green);flex:none}
+section{padding:84px 0;position:relative;overflow:hidden}section.alt{background:var(--mist)}
+@media(max-width:700px){section{padding:60px 0}}
+.eyebrow{color:var(--green);font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;font-weight:700;margin-bottom:10px}
+.center{text-align:center;max-width:660px;margin:0 auto 44px}
+.grid{display:grid;gap:22px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:26px;transition:transform .25s,box-shadow .25s,border-color .25s}
+.card:hover{transform:translateY(-3px);box-shadow:0 14px 32px rgba(6,78,53,.09);border-color:#c5dfcb}
+.ico{width:46px;height:46px;border-radius:12px;background:var(--mist);display:grid;place-items:center;margin-bottom:16px}.ico svg{width:24px;height:24px;fill:var(--green)}
+.ph{aspect-ratio:4/3;border-radius:10px;background:var(--mist);display:grid;place-items:center;margin-bottom:14px;border:1px dashed var(--leaf);overflow:hidden}
+.ph span{font-size:.8rem;color:var(--green)}.ph img{width:100%;height:100%;object-fit:cover}
+.pgrid .card{padding:0;overflow:hidden}.pgrid .card .ph{margin:0;border:0;border-radius:0;aspect-ratio:1}
+.pgrid .card h3{padding:18px 20px 4px;margin:0}.pgrid .card p{padding:0 20px 20px;color:var(--text)}
+.empty{grid-column:1/-1;text-align:center;padding:44px 20px;border:1px dashed var(--leaf);border-radius:14px;background:#fff;color:var(--green)}
+.two{display:grid;gap:56px;align-items:center;grid-template-columns:1fr 1fr}
+@media(max-width:800px){.two{grid-template-columns:1fr;gap:36px}}
+.ticks{list-style:none;margin:0;padding:0}
+.ticks li{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--line)}
+.ticks li:last-child{border:0}
+.ticks svg{width:22px;height:22px;fill:var(--green);flex:none;margin-top:3px}
+.ticks b{display:block;color:var(--ink)}
+.plan{display:grid;gap:44px;grid-template-columns:.9fr 1.1fr;align-items:center}
+@media(max-width:860px){.plan{grid-template-columns:1fr}}
+.pdiag{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px}
+.pdiag svg{width:100%;height:auto;display:block;max-width:440px;margin:0 auto}
+.steps{counter-reset:s;list-style:none;margin:0 0 20px;padding:0}
+.steps li{counter-increment:s;display:flex;gap:16px;padding:14px 0;border-bottom:1px solid var(--line)}
+.steps li::before{content:counter(s);flex:none;width:34px;height:34px;border-radius:50%;background:var(--forest);color:#fff;display:grid;place-items:center;font-weight:700;font-size:.9rem}
+.steps b{display:block;color:var(--ink)}
+.note{font-size:.85rem;color:#5d7b6c;border-left:3px solid var(--leaf);padding:4px 0 4px 12px;margin:0 0 22px}
+.founder-frame{max-width:320px;margin:0 auto;width:100%}
+.founder-photo{aspect-ratio:1;border-radius:50%;border:5px solid var(--leaf);background:var(--mist);display:grid;place-items:center;text-align:center;color:var(--green);font-size:.9rem;padding:24px;overflow:hidden;box-shadow:0 0 0 14px #e6f3e8}
+.founder-photo img{width:100%;height:100%;object-fit:cover;margin:-24px;max-width:none}
+blockquote{margin:20px 0;padding:14px 18px;border-left:4px solid var(--leaf);background:#fff;border-radius:0 10px 10px 0;font-style:italic}
+.vm{display:grid;gap:22px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}.vm .card{border-top:3px solid var(--green)}
+.gal{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}.gal .ph{margin:0;aspect-ratio:1;border-radius:10px}
+.band{background:var(--forest);color:#d8f0dc;text-align:center;padding:64px 0}.band h2{color:#fff}.band p{max-width:560px;margin:0 auto 24px}
+.contact{background:#fff}
+.cgrid{display:grid;gap:22px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));max-width:860px;margin:0 auto 28px}
+.cgrid .card{text-align:center}.cgrid .card a{color:var(--green);font-weight:600;word-break:break-word}
+.foot{background:#04382a;color:#b9d8c1;padding:56px 0 0;font-size:.92rem}
+.fcols{display:grid;gap:34px;grid-template-columns:1.4fr 1fr 1fr}
+@media(max-width:760px){.fcols{grid-template-columns:1fr}}
+.foot h4{color:#fff;font-family:inherit;text-transform:uppercase;letter-spacing:.12em;font-size:.78rem;margin-bottom:14px}
+.foot a{display:block;padding:4px 0;color:#b9d8c1}.foot a:hover{color:#fff}
+.foot .brand{color:#fff;margin-bottom:12px}
+.copy{border-top:1px solid rgba(255,255,255,.12);margin-top:40px;padding:18px 22px;text-align:center;font-size:.82rem;color:#8fb59b}
+.leaves{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.leaf{position:absolute;top:-50px;will-change:transform;opacity:.5}.leaf svg{display:block;width:100%;height:100%}
+@keyframes fall{0%{transform:translate3d(0,0,0) rotate(0)}50%{transform:translate3d(var(--sway),calc(var(--h)*.5),0) rotate(calc(var(--rot)*.5))}100%{transform:translate3d(0,calc(var(--h) + 100px),0) rotate(var(--rot))}}
+@keyframes drift{0%,100%{transform:translate3d(0,0,0) rotate(-8deg)}50%{transform:translate3d(18px,-16px,0) rotate(10deg)}}
+.leaf.f{animation:fall var(--dur) linear var(--del) infinite}
+.leaf.d{top:auto;animation:drift var(--dur) ease-in-out var(--del) infinite;opacity:.35}
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .7s ease,transform .7s ease}.reveal.in{opacity:1;transform:none}
+#ov{position:fixed;inset:0;background:rgba(6,78,53,.45);z-index:100;display:none;align-items:flex-start;justify-content:center;overflow-y:auto;padding:20px 12px}
+#ov.open{display:flex}
+#box{background:var(--mist);border-radius:20px;width:100%;max-width:640px;padding:18px;margin:auto 0}
+#box h2{font-size:1.4rem}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.pc{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px}
+.pc label{display:block;font-weight:600;font-size:.85rem;margin:12px 0 4px;color:var(--forest)}
+.pc input[type=text],.pc input[type=email],.pc input[type=password],.pc textarea{width:100%;padding:10px 12px;border:1px solid #bcd8c2;border-radius:10px;font:inherit}
+.pc textarea{min-height:84px;resize:vertical}
+.row{display:flex;gap:12px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}.row:first-child{border-top:0}
+.grow{flex:1;min-width:0}
+.thumb{width:60px;height:60px;border-radius:10px;object-fit:cover;background:var(--mist);border:1px solid var(--line);flex:none}.thumb.round{border-radius:50%}
+.msg{padding:10px 14px;border-radius:10px;margin:0 0 12px;background:#e6f3e8;color:var(--forest)}.msg.err{background:#fdeceb;color:#8a1c14}
+.pc input[type=number]{width:100%;padding:10px 12px;border:1px solid #bcd8c2;border-radius:10px;font:inherit}
+.fgrid{display:grid;gap:0 14px;grid-template-columns:1fr 1fr}.fgrid .full{grid-column:1/-1}
+@media(max-width:620px){.fgrid{grid-template-columns:1fr}}
+.idcard{background:linear-gradient(135deg,#064E35,#16834A);color:#fff;border-radius:18px;padding:18px 20px;margin-bottom:16px}
+.idcard b{font-size:1.5rem;letter-spacing:.06em}.idcard .badge{margin-top:6px}
+#d-body select,.pc select{padding:8px;border:1px solid #bcd8c2;border-radius:10px;font:inherit;background:#fff}
+.badge{display:inline-block;background:#e6f3e8;color:var(--forest);border-radius:999px;padding:2px 12px;font-size:.8rem;font-weight:700}
+.hide{display:none!important}small{color:#5d7b6c}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.leaf{animation:none!important}.leaf.f{display:none}.reveal{opacity:1;transform:none;transition:none}.btn,.card{transition:none}}
+</style>
+</head>
+<body>
+<a class="skip" href="#top">Skip to content</a>
+<header><div class="wrap bar">
+<a href="#top" class="brand"><span id="logo"><svg width="28" height="28" viewBox="0 0 24 24" fill="#16834A" aria-hidden="true"><path d="M12 2C6 8 4 14 12 22c8-8 6-14 0-20z"/></svg></span>AYU LIFE HEARBAL</a>
+<nav id="nav" aria-label="Main"><a href="#about">About</a><a href="#products">Products</a><a href="#plan">Distributor Plan</a><a href="#founder">Founder</a><a href="#gallery">Gallery</a><a href="#contact">Contact</a></nav>
+<div class="right">
+<button class="btn sm" id="adm">🔒 Login</button>
+<div id="menu"></div>
+<button id="burger" aria-label="Open menu" aria-expanded="false"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+</div>
+</div></header>
+
+<div id="main-site"><main id="top">
+
+<div class="hero" id="hero">
+<div class="leaves" data-mode="fall"></div>
+<div class="wrap hgrid">
+<div>
+<span class="kicker">Natural Herbal Wellness</span>
+<h1>AYU LIFE HEARBAL</h1>
+<p class="sub">Pure herbal care, rooted in nature</p>
+<p class="lead">Carefully prepared herbal products for families who want a cleaner, more natural approach to everyday wellness, backed by an honest and growing distributor network.</p>
+<div class="cta"><a class="btn" href="#products">Explore Products</a><a class="btn ghost" href="#distributor">Become a Distributor</a></div>
+</div>
+<div class="hart" aria-hidden="true">
+<svg viewBox="0 0 400 400"><defs><symbol id="lf" viewBox="0 0 24 24"><path d="M12 2C6 8 4 14 12 22c8-8 6-14 0-20z"/><path d="M12 5v15" stroke="#fff" stroke-opacity=".45" stroke-width=".7" fill="none"/></symbol></defs>
+<circle cx="200" cy="200" r="178" fill="#E6F3E8"/><circle cx="200" cy="200" r="128" fill="#F1F8F2" stroke="#cfe5d4"/>
+<path d="M200 340V96" stroke="#16834A" stroke-width="4" stroke-linecap="round" fill="none"/>
+<g fill="#16834A"><g transform="translate(200 305) rotate(-58)"><use href="#lf" x="-34" y="-68" width="68" height="68"/></g><g transform="translate(200 255) rotate(-55)"><use href="#lf" x="-31" y="-62" width="62" height="62"/></g><g transform="translate(200 205) rotate(-52)"><use href="#lf" x="-28" y="-56" width="56" height="56"/></g><g transform="translate(200 158) rotate(-48)"><use href="#lf" x="-24" y="-48" width="48" height="48"/></g></g>
+<g fill="#65A765"><g transform="translate(200 280) rotate(58)"><use href="#lf" x="-34" y="-68" width="68" height="68"/></g><g transform="translate(200 230) rotate(55)"><use href="#lf" x="-31" y="-62" width="62" height="62"/></g><g transform="translate(200 182) rotate(52)"><use href="#lf" x="-28" y="-56" width="56" height="56"/></g><g transform="translate(200 138) rotate(48)"><use href="#lf" x="-24" y="-48" width="48" height="48"/></g></g>
+<g fill="#064E35"><use href="#lf" x="170" y="58" width="60" height="60"/></g></svg>
+</div>
+</div></div>
+
+<div class="trust"><div class="wrap">
+<div class="ti"><svg viewBox="0 0 24 24"><path d="M12 2C6 8 4 14 12 22c8-8 6-14 0-20z"/></svg>Natural ingredients</div>
+<div class="ti"><svg viewBox="0 0 24 24"><path d="M12 1 3 5v6c0 5 3.8 9.7 9 11 5.2-1.3 9-6 9-11V5l-9-4zm-1 15-4-4 1.4-1.4L11 13.2l5.6-5.6L18 9l-7 7z"/></svg>Careful preparation</div>
+<div class="ti"><svg viewBox="0 0 24 24"><path d="M12 21s-8-5.3-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 5.700-8 11-8 11z"/></svg>Honest guidance</div>
+<div class="ti"><svg viewBox="0 0 24 24"><path d="M16 11a4 4 0 1 0-8 0 4 4 0 0 0 8 0zM4 21c0-4 3.6-6 8-6s8 2 8 6z"/></svg>Authorised distributors</div>
+</div></div>
+
+<section id="about"><div class="leaves" data-mode="drift"></div><div class="wrap two">
+<div class="reveal"><div class="eyebrow">About the Company</div><h2>Wellness grown from nature</h2>
+<p>AYU LIFE HEARBAL creates herbal wellness products with care, honesty and respect for traditional plant knowledge.</p>
+<p>Every product is selected and prepared with a focus on quality, cleanliness and customer trust, so families can feel confident in what they bring home.</p></div>
+<ul class="ticks reveal">
+<li><svg viewBox="0 0 24 24"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg><div><b>Plant-based focus</b>Products built around the goodness of herbs.</div></li>
+<li><svg viewBox="0 0 24 24"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg><div><b>Clean preparation</b>Careful handling at every step.</div></li>
+<li><svg viewBox="0 0 24 24"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg><div><b>Transparent approach</b>Clear information for customers and distributors.</div></li>
+</ul>
+</div></section>
+
+<section id="products" class="alt"><div class="wrap">
+<div class="center reveal"><div class="eyebrow">Our Herbal Products</div><h2>Made from the goodness of leaves &amp; roots</h2></div>
+<div class="grid pgrid" id="prodgrid"><div class="empty">Our product range will be listed here shortly.</div></div>
+</div></section>
+
+<section id="plan"><div class="wrap plan">
+<div class="reveal"><div class="eyebrow">Distributor Plan</div><h2>Build your network with two teams</h2>
+<p>Every AYU LIFE HEARBAL distributor builds a network made up of a <b>Left Team</b> and a <b>Right Team</b>. Growing both sides in balance is the heart of the business plan.</p>
+<ol class="steps">
+<li><div><b>Apply and get your Distributor ID</b>Create an account and submit your business details for review.</div></li>
+<li><div><b>Get approved</b>Our team reviews your application and activates your distributor profile.</div></li>
+<li><div><b>Grow your Left and Right Teams</b>Introduce people to the products and build your network on both sides.</div></li>
+</ol>
+<p class="note">Plan details, eligibility and rewards are explained by the company during onboarding. No income is guaranteed, and results depend on individual effort.</p>
+<a class="btn" href="#distributor">Become a Distributor</a></div>
+<div class="pdiag reveal">
+<svg viewBox="0 0 360 255" role="img" aria-label="Diagram: you at the top with a Left Team and a Right Team below you">
+<g stroke="#65A765" stroke-width="2" fill="none"><path d="M180 56 90 102M180 56 270 102M90 150 55 196M90 150 125 196M270 150 235 196M270 150 305 196"/></g>
+<circle cx="180" cy="34" r="24" fill="#064E35"/><text x="180" y="39" text-anchor="middle" fill="#fff" font-size="13" font-weight="700">You</text>
+<circle cx="90" cy="126" r="26" fill="#16834A"/><text x="90" y="130" text-anchor="middle" fill="#fff" font-size="12" font-weight="700">Left</text>
+<circle cx="270" cy="126" r="26" fill="#16834A"/><text x="270" y="130" text-anchor="middle" fill="#fff" font-size="12" font-weight="700">Right</text>
+<g fill="#65A765"><circle cx="55" cy="212" r="16"/><circle cx="125" cy="212" r="16"/><circle cx="235" cy="212" r="16"/><circle cx="305" cy="212" r="16"/></g>
+<text x="90" y="246" text-anchor="middle" fill="#064E35" font-size="13" font-weight="700">Left Team</text><text x="270" y="246" text-anchor="middle" fill="#064E35" font-size="13" font-weight="700">Right Team</text>
+</svg></div>
+</div></section>
+
+<section id="why" class="alt"><div class="wrap">
+<div class="center reveal"><div class="eyebrow">Why Choose Us</div><h2>Trust you can feel</h2></div>
+<div class="grid">
+<div class="card reveal"><div class="ico"><svg viewBox="0 0 24 24"><path d="M12 2C6 8 4 14 12 22c8-8 6-14 0-20z"/></svg></div><h3>Natural ingredients</h3><p style="margin:0">Herbs chosen for purity and potency.</p></div>
+<div class="card reveal"><div class="ico"><svg viewBox="0 0 24 24"><path d="M12 1 3 5v6c0 5 3.8 9.7 9 11 5.2-1.3 9-6 9-11V5l-9-4zm-1 15-4-4 1.4-1.4L11 13.2l5.6-5.6L18 9l-7 7z"/></svg></div><h3>Quality focused</h3><p style="margin:0">Clean, careful preparation at every step.</p></div>
+<div class="card reveal"><div class="ico"><svg viewBox="0 0 24 24"><path d="M12 21s-8-5.3-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 5.7-8 11-8 11z"/></svg></div><h3>Customer care</h3><p style="margin:0">Honest guidance and dependable support.</p></div>
+</div></div></section>
+
+<section id="founder"><div class="leaves" data-mode="drift"></div><div class="wrap two">
+<div class="founder-frame reveal"><div class="founder-photo" id="owner-photo">Owner photograph<br>will appear here</div></div>
+<div class="reveal"><div class="eyebrow">Meet the Founder</div>
+<h2 id="owner-name">Owner Name</h2>
+<p id="owner-designation" style="color:var(--green);font-weight:600">Founder &amp; Managing Director</p>
+<p id="owner-bio">Founder biography will appear here.</p>
+<blockquote id="owner-message">“Founder message will appear here.”</blockquote>
+<a class="btn" href="#contact">Get in Touch</a> <a class="btn ghost" href="#founder-page">Full Story</a></div>
+</div></section>
+
+<section id="vision" class="alt"><div class="wrap">
+<div class="center reveal"><div class="eyebrow">Vision &amp; Mission</div><h2>Where we are headed</h2></div>
+<div class="vm">
+<div class="card reveal"><h3>Our Vision</h3><p style="margin:0">To be a trusted name in natural herbal wellness, helping people live healthier lives with the gifts of nature.</p></div>
+<div class="card reveal"><h3>Our Mission</h3><p style="margin:0">To offer pure, high-quality herbal products with honesty, care and consistent excellence.</p></div>
+</div></div></section>
+
+<section id="gallery"><div class="wrap">
+<div class="center reveal"><div class="eyebrow">Company Gallery</div><h2>A glimpse of our world</h2></div>
+<div class="gal" id="galgrid"><div class="empty">Photos will appear here soon.</div></div>
+</div></section>
+
+<div class="band"><div class="wrap reveal">
+<h2>Ready to grow with AYU LIFE HEARBAL?</h2>
+<p>Apply to become an authorised distributor and receive your own permanent Distributor ID.</p>
+<a class="btn light" href="#distributor">Apply as a Distributor</a></div></div>
+
+<section id="contact" class="contact"><div class="wrap">
+<div class="center reveal"><div class="eyebrow">Contact Information</div><h2>Let’s talk herbal wellness</h2></div>
+<div class="cgrid reveal">
+<div class="card"><h3>Phone</h3><a id="c-phone" href="tel:+916002609418">+91 60026 09418</a></div>
+<div class="card hide" id="c-email-w"><h3>Email</h3><a id="c-email"></a></div>
+<div class="card hide" id="c-addr-w"><h3>Address</h3><span id="c-addr"></span></div>
+</div>
+<p style="text-align:center"><a class="btn" id="c-call" href="tel:+916002609418">Call Now</a></p>
+</div></section>
+
+</main></div>
+
+<div id="pg-founder" class="hide"><section style="padding-top:56px"><div class="leaves" data-mode="drift"></div><div class="wrap two">
+<div class="founder-frame"><div class="founder-photo" id="owner-photo2">Owner photograph<br>will appear here</div></div>
+<div><div class="eyebrow">Our Founder</div>
+<h1 id="owner-name2" style="font-size:clamp(2rem,6vw,3rem)">Owner Name</h1>
+<p id="owner-designation2" style="color:var(--green);font-weight:600">Founder &amp; Managing Director</p>
+<p id="owner-bio2">Founder biography will appear here.</p>
+<blockquote id="owner-message2">“Founder message will appear here.”</blockquote>
+<a class="btn" href="#contact">Contact Us</a> <a class="btn ghost" href="#top">Back to Home</a></div>
+</div></section></div>
+
+<div id="pg-dist" class="hide"><section style="padding-top:48px;min-height:70vh"><div class="leaves" data-mode="drift"></div><div class="wrap">
+<div class="eyebrow">Distributor Programme</div><h2>Become an AYU LIFE HEARBAL Distributor</h2><div id="dist-body"></div>
+</div></section></div>
+
+<div id="pg-dash" class="hide"><section style="padding-top:48px;min-height:70vh"><div class="wrap">
+<div class="eyebrow" id="d-role"></div><h2 id="d-hello"></h2><div id="d-body"></div>
+</div></section></div>
+
+<footer class="foot"><div class="wrap fcols">
+<div><div class="brand"><svg width="26" height="26" viewBox="0 0 24 24" fill="#65A765" aria-hidden="true"><path d="M12 2C6 8 4 14 12 22c8-8 6-14 0-20z"/></svg>AYU LIFE HEARBAL</div><p>Natural herbal wellness, prepared with care, honesty and respect for nature.</p></div>
+<div><h4>Explore</h4><a href="#about">About us</a><a href="#products">Products</a><a href="#plan">Distributor plan</a><a href="#founder-page">Our founder</a><a href="#gallery">Gallery</a></div>
+<div><h4>Contact</h4><a id="f-phone" href="tel:+916002609418">+91 60026 09418</a><a href="#distributor">Become a distributor</a></div>
+</div><div class="copy">© 2026 AYU LIFE HEARBAL. All rights reserved.</div></footer>
+
+<!-- Admin overlay -->
+<div id="ov"><div id="box">
+<div class="top"><h2 id="ptitle">Account</h2><button class="btn ghost sm" id="close">Close</button></div>
+<div id="msg"></div>
+
+<div id="v-auth" class="pc hide">
+<div id="nmw" class="hide"><label style="margin-top:0">Full name</label><input type="text" id="nm" autocomplete="name"></div>
+<label>Email</label><input type="email" id="em" autocomplete="username">
+<label>Password</label><input type="password" id="pw" autocomplete="current-password">
+<p style="margin:14px 0 0"><button class="btn sm" id="go">Sign in</button> <button class="btn ghost sm" id="sw">Create account</button></p>
+<small>Sign in to open your dashboard. New here? Create a free account.</small></div>
+
+</div></div>
+
+<script>
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const B="ayu-media";
+let sb=null,isAdmin=false,signup=false,settings={};
+try{sb=supabase.createClient("https://oedyspddtgniuiderpox.supabase.co","sb_publishable_2DaViVS7ziIaUizlmPW4fA_MOkxNanp")}catch(e){}
+
+/* ---------- leaves, reveal ---------- */
+(function(){
+var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+var small=innerWidth<760||(navigator.hardwareConcurrency&&navigator.hardwareConcurrency<=4);
+var shapes=['<svg viewBox="0 0 24 24"><path d="M12 2C6 8 4 14 12 22c8-8 6-14 0-20z" fill="#65A765"/><path d="M12 5v15" stroke="#16834A" stroke-width=".8" fill="none"/></svg>','<svg viewBox="0 0 24 24"><path d="M3 21C3 9 10 3 21 3c0 11-6 18-18 18z" fill="#16834A"/><path d="M4 20 16 8" stroke="#F1F8F2" stroke-width=".8" fill="none"/></svg>','<svg viewBox="0 0 24 24"><path d="M12 2c4 3 6 7 4 10 2 2 1 6-4 10-5-4-6-8-4-10-2-3 0-7 4-10z" fill="#064E35"/></svg>'];
+function rnd(a,b){return a+Math.random()*(b-a)}
+function make(box,cls,n){var h=box.offsetHeight;for(var i=0;i<n;i++){var s=Math.round(rnd(16,34)),l=document.createElement('span');l.className='leaf '+cls;l.innerHTML=shapes[i%3];l.style.width=l.style.height=s+'px';l.style.left=(cls==='d'?(i%2?rnd(2,10):rnd(88,96)):rnd(2,96))+'%';if(cls==='d')l.style.top=rnd(8,80)+'%';l.style.setProperty('--h',h+'px');l.style.setProperty('--sway',rnd(-60,60)+'px');l.style.setProperty('--rot',rnd(200,520)*(Math.random()<.5?-1:1)+'deg');l.style.setProperty('--dur',(cls==='d'?rnd(9,14):rnd(16,28))+'s');l.style.setProperty('--del',(-rnd(0,24))+'s');box.appendChild(l)}}
+if(!reduce)document.querySelectorAll('.leaves').forEach(function(b){var f=b.dataset.mode==='fall';make(b,f?'f':'d',f?(small?5:11):(small?2:3))});
+var els=document.querySelectorAll('.reveal');
+if('IntersectionObserver' in window&&!reduce){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});els.forEach(function(e){io.observe(e)})}else els.forEach(function(e){e.classList.add('in')});
+})();
+
+/* ---------- public content from Supabase ---------- */
+function setImg(el,url,alt){el.innerHTML=url?`<img src="${esc(url)}" alt="${esc(alt)}">`:el.innerHTML}
+async function loadPublic(){
+  if(!sb)return;
+  try{
+    const{data:s}=await sb.from("ayu_site_settings").select("*").eq("id",1).single();
+    if(s){
+      settings=s;
+      ["","2"].forEach(k=>{
+        if(s.owner_name)$("owner-name"+k).textContent=s.owner_name;
+        if(s.owner_designation)$("owner-designation"+k).textContent=s.owner_designation;
+        if(s.founder_biography)$("owner-bio"+k).textContent=s.founder_biography;
+        if(s.founder_message)$("owner-message"+k).textContent="“"+s.founder_message.replace(/^[“"]|[”"]$/g,"")+"”";
+        if(s.owner_photo_url)setImg($("owner-photo"+k),s.owner_photo_url,s.owner_name||"Founder");
+      });
+      if(s.logo_url)$("logo").innerHTML=`<img src="${esc(s.logo_url)}" alt="Logo">`;
+      if(s.banner_url){const h=$("hero");h.style.backgroundImage=`url("${s.banner_url}")`;h.classList.add("has-banner")}
+      if(s.contact_phone){$("c-phone").textContent=s.contact_phone;const t="tel:"+s.contact_phone.replace(/[^\d+]/g,"");$("c-phone").href=t;$("c-call").href=t;$("f-phone").textContent=s.contact_phone;$("f-phone").href=t}
+      if(s.contact_email){$("c-email").textContent=s.contact_email;$("c-email").href="mailto:"+s.contact_email;$("c-email-w").classList.remove("hide")}
+      if(s.contact_address){$("c-addr").textContent=s.contact_address;$("c-addr-w").classList.remove("hide")}
+    }
+    const{data:p}=await sb.from("ayu_products").select("*").eq("is_published",true).order("sort_order").order("created_at");
+    if(p&&p.length)$("prodgrid").innerHTML=p.map(x=>`<div class="card"><div class="ph">${x.image_url?`<img loading="lazy" src="${esc(x.image_url)}" alt="${esc(x.name)}">`:"<span>Product</span>"}</div><h3>${esc(x.name)}</h3><p style="margin:0">${esc(x.description)}</p></div>`).join("");
+    const{data:g}=await sb.from("ayu_gallery").select("*").order("sort_order").order("created_at",{ascending:false});
+    if(g&&g.length)$("galgrid").innerHTML=g.map(x=>`<div class="ph"><img loading="lazy" src="${esc(x.image_url)}" alt="${esc(x.caption||"Gallery photo")}"></div>`).join("");
+  }catch(e){}
+}
+
+/* ---------- account ---------- */
+function say(t,err){$("msg").innerHTML=t?`<div class="msg ${err?"err":""}">${esc(t)}</div>`:""}
+const views=["auth"],titles={auth:"Login / Register"};
+let me=null;
+function view(v){say("");$("ov").classList.add("open");views.forEach(x=>$("v-"+x).classList.toggle("hide",x!==v));$("ptitle").textContent=titles[v]}
+$("close").onclick=()=>$("ov").classList.remove("open");
+function renderMenu(){
+  const m=$("menu");
+  if(!me){m.innerHTML="";$("adm").textContent="🔒 Login";return}
+  let h='<button data-a="dash">📊 My Dashboard</button>';
+  m.innerHTML=h+'<hr><button data-a="out">Sign out</button>';
+  $("adm").textContent="👤 My Account";
+}
+async function check(){
+  const{data:{session}}=await sb.auth.getSession();
+  if(!session){me=null;isAdmin=false;renderMenu();return}
+  const{data:p}=await sb.from("ayu_profiles").select("*").eq("id",session.user.id).maybeSingle();
+  me={...(p||{id:session.user.id,role:"user"}),email:session.user.email};
+  isAdmin=false;if(me.role==="admin"){me.role="user";me.staff=true}renderMenu();
+}
+$("adm").onclick=async e=>{
+  e.stopPropagation();
+  if(!sb)return alert("Connection library failed to load. Open this file in a normal browser.");
+  await check();
+  if(!me){view("auth");return}
+  $("menu").classList.toggle("open");
+};
+document.addEventListener("click",()=>$("menu").classList.remove("open"));
+$("menu").onclick=async e=>{
+  const a=e.target.dataset.a;if(!a)return;
+  if(a==="out"){await sb.auth.signOut();me=null;isAdmin=false;renderMenu();if(location.hash==="#dashboard")location.hash="";route();return}
+  if(a==="dash"){location.hash="#dashboard";return}
+};
+$("go").onclick=async()=>{
+  say("");const email=$("em").value.trim(),password=$("pw").value,full_name=$("nm").value.trim();
+  const r=signup?await sb.auth.signUp({email,password,options:{data:{full_name},emailRedirectTo:location.origin+location.pathname}}):await sb.auth.signInWithPassword({email,password});
+  if(r.error)return say(r.error.message,true);
+  if(signup&&!r.data.session){
+    localStorage.setItem("ayu-open-distributor-after-confirm","1");
+    say("Account created. Open the confirmation link sent to your email; the distributor form will open automatically.");
+    return;
+  }
+  await check();$("ov").classList.remove("open");
+  if(signup){location.hash="#distributor";return}
+  if(location.hash==="#dashboard"||location.hash==="#distributor")route();else location.hash="#dashboard";
+};
+$("sw").onclick=()=>{signup=!signup;$("nmw").classList.toggle("hide",!signup);$("go").textContent=signup?"Sign up":"Sign in";$("sw").textContent=signup?"I have an account":"Create account"};
+
+/* ---------- pages & dashboards ---------- */
+function route(){
+  const h=location.hash;
+  ["main-site","pg-founder","pg-dash","pg-dist"].forEach(i=>$(i).classList.add("hide"));
+  if(h==="#founder-page"){$("pg-founder").classList.remove("hide");scrollTo(0,0)}
+  else if(h==="#distributor"){$("pg-dist").classList.remove("hide");renderDist();scrollTo(0,0)}
+  else if(h==="#dashboard"){
+    if(!me){$("main-site").classList.remove("hide");history.replaceState(null,"",location.pathname);view("auth");return}
+    $("pg-dash").classList.remove("hide");renderDash();scrollTo(0,0);
+  }else{
+    $("main-site").classList.remove("hide");
+    if(h.length>1)setTimeout(()=>{try{document.querySelector(h).scrollIntoView()}catch(e){}},30);else scrollTo(0,0);
+  }
+}
+async function renderDash(){
+  const r=me.role,box=$("d-body");
+  $("d-role").textContent=r==="distributor"?"Distributor Dashboard":"User Dashboard";
+  $("d-hello").textContent="Welcome, "+(me.full_name||me.email);
+  let h=`<div class="pc"><b>My profile</b> <span class="badge">${esc(r)}</span>
+  <label>Full name</label><input type="text" id="d-name" value="${esc(me.full_name||"")}">
+  <label>Email</label><input type="text" value="${esc(me.email)}" disabled>
+  <p style="margin:14px 0 0"><button class="btn sm" id="d-save">Save name</button></p></div>`;
+  if(r==="user")h+=`<div class="pc"><b>Welcome to AYU LIFE HEARBAL</b><p style="margin:8px 0 0">Browse our herbal products anytime. Interested in becoming a distributor? Apply and receive your permanent Distributor ID.</p><p style="margin:14px 0 0"><a class="btn sm" href="#distributor">Become a Distributor</a> <a class="btn ghost sm" href="#products">View Products</a></p></div>`;
+  if(r==="distributor"){
+    h+='<div class="pc"><b>Distributor profile</b><p style="margin:8px 0 0">View your Distributor ID, details and bank information.</p><p style="margin:12px 0 0"><a class="btn sm" href="#distributor">Open my distributor profile</a></p></div>';
+    const{data:pr}=await sb.from("ayu_products").select("*").eq("is_published",true).order("sort_order");
+    h+=`<div class="pc"><b>Distributor catalogue</b>${(pr||[]).length?pr.map(x=>`<div class="row"><img class="thumb" src="${esc(x.image_url)}" alt=""><div class="grow"><b>${esc(x.name)}</b><br><small>${esc(x.description)}</small></div></div>`).join(""):"<p><small>No products published yet.</small></p>"}</div>`;
+  }
+  box.innerHTML=h;
+  $("d-save").onclick=async e=>{e.target.disabled=true;const full_name=$("d-name").value.trim()||null;const{error}=await sb.from("ayu_profiles").update({full_name}).eq("id",me.id);e.target.disabled=false;if(error)return alert(error.message);me.full_name=full_name;$("d-hello").textContent="Welcome, "+(full_name||me.email)};
+}
+
+async function toWebp(file,max){
+  if(file.type==="image/svg+xml")return{blob:file,ext:"svg",type:file.type};
+  const bmp=await createImageBitmap(file),k=Math.min(1,max/Math.max(bmp.width,bmp.height));
+  const c=document.createElement("canvas");c.width=Math.round(bmp.width*k);c.height=Math.round(bmp.height*k);
+  c.getContext("2d").drawImage(bmp,0,0,c.width,c.height);
+  return{blob:await new Promise(r=>c.toBlob(r,"image/webp",.84)),ext:"webp",type:"image/webp"};
+}
+/* ---------- distributors ---------- */
+const DSEC=[
+["Business",[["business_name","Business name"],["business_type","Business type","select:Proprietorship,Partnership,Private Limited,LLP,Other"],["year_started","Year started","number"],["business_description","Business description","textarea"]]],
+["Contact",[["contact_person","Contact person"],["designation","Designation"],["phone","Phone"],["whatsapp","WhatsApp"],["email","Business email"]]],
+["Address & territory",[["address","Street address","textarea"],["city","City"],["state","State"],["pincode","PIN code"],["territory","Territory you want to cover","textarea"]]],
+["Legal",[["gst_number","GST number"],["pan_number","PAN"],["registration_number","Business registration number"]]],
+["Experience & references",[["years_in_business","Years in business","number"],["current_products","Products you currently sell","textarea"],["premises_size","Shop / warehouse size"],["ref1_name","Reference 1 name"],["ref1_phone","Reference 1 phone"],["ref2_name","Reference 2 name"],["ref2_phone","Reference 2 phone"]]]];
+const DDOCS=[["doc_id_proof","ID proof (Aadhaar / Passport / Voter ID)"],["doc_address_proof","Address proof"],["doc_gst","GST certificate / business licence"],["doc_photo","Passport-size photograph"]];
+const DBANK=[["bank_holder","Account holder name"],["bank_name","Bank name"],["bank_account","Account number"],["bank_ifsc","IFSC code"]];
+const DLABEL={};DSEC.forEach(x=>x[1].forEach(f=>DLABEL[f[0]]=f[1]));DBANK.concat(DDOCS).forEach(f=>DLABEL[f[0]]=f[1]);
+const STAT={draft:"Draft",submitted:"Submitted",under_review:"Under review",approved:"Approved",rejected:"Rejected"};
+function fld(f,v,dis){
+  const k=f[0],l=f[1],t=f[2]||"",id="df-"+k,d=dis?"disabled":"";
+  if(t==="textarea")return `<div class="full"><label>${esc(l)}</label><textarea id="${id}" ${d}>${esc(v)}</textarea></div>`;
+  if(t.startsWith("select:"))return `<div><label>${esc(l)}</label><select id="${id}" ${d} style="width:100%"><option value="">Select</option>${t.slice(7).split(",").map(o=>`<option ${o===v?"selected":""}>${o}</option>`).join("")}</select></div>`;
+  return `<div><label>${esc(l)}</label><input type="${t==="number"?"number":"text"}" id="${id}" value="${esc(v)}" ${d}></div>`;
+}
+async function signedLink(path){
+  if(!path)return "<small>Not uploaded</small>";
+  const{data}=await sb.storage.from("ayu-docs").createSignedUrl(path,600);
+  return data?`<a href="${esc(data.signedUrl)}" target="_blank" rel="noopener" style="color:var(--green);font-weight:600">View file</a>`:"<small>Unavailable</small>";
+}
+async function myDist(){
+  let{data}=await sb.from("ayu_distributors").select("*").eq("user_id",me.id).maybeSingle();
+  if(!data){const r=await sb.from("ayu_distributors").insert({user_id:me.id,email:me.email,contact_person:me.full_name||null}).select().single();if(r.error)throw r.error;data=r.data}
+  return data;
+}
+async function renderDist(){
+  const box=$("dist-body");
+  if(!me){box.innerHTML='<div class="pc"><p>Join our distributor network. Create an account or sign in to receive your permanent Distributor ID and complete your business application.</p><button class="btn" id="dl-login">Login / Register as Distributor</button></div>';$("dl-login").onclick=()=>view("auth");return}
+  if(me.staff){box.innerHTML='<div class="msg">Please use a customer account to apply as a distributor.</div>';return}
+  box.innerHTML='<div class="pc">Loading…</div>';
+  let d;try{d=await myDist()}catch(e){box.innerHTML=`<div class="msg err">${esc(e.message)}</div>`;return}
+  const edit=d.status==="draft"||d.status==="rejected",appr=d.status==="approved";
+  let h=`<div class="idcard"><small style="color:#cfeed5">Your permanent Distributor ID</small><br><b>${esc(d.distributor_code)}</b><br><span class="badge">${STAT[d.status]}</span></div>`;
+  if(d.status==="rejected"&&d.admin_remarks)h+=`<div class="msg err"><b>Message from our team:</b> ${esc(d.admin_remarks)}<br>Please update your details and submit again.</div>`;
+  if(d.status==="submitted"||d.status==="under_review")h+='<div class="msg">Your application is with our team. We will contact you soon.</div>';
+  if(appr)h+='<div class="msg">Congratulations! You are an approved AYU LIFE HEARBAL distributor.'+(d.admin_remarks?" Note: "+esc(d.admin_remarks):"")+'</div>';
+  DSEC.forEach(sec=>{h+=`<div class="pc"><b>${sec[0]}</b><div class="fgrid">${sec[1].map(f=>fld(f,d[f[0]]??"",!edit)).join("")}</div></div>`});
+  h+='<div class="pc"><b>Documents</b><small style="display:block">PDF, JPG, PNG or WebP · max 5 MB each · stored privately</small>';
+  for(const[k,l]of DDOCS)h+=`<div class="row"><div class="grow"><b>${esc(l)}</b><br>${await signedLink(d[k])}</div>${edit?`<input type="file" id="dd-${k}" accept="image/jpeg,image/png,image/webp,application/pdf" style="max-width:46%">`:""}</div>`;
+  h+="</div>";
+  if(appr)h+=`<div class="pc"><b>Bank details</b><div class="fgrid">${DBANK.map(f=>fld(f,d[f[0]]??"",false)).join("")}</div></div>`;
+  if(edit)h+=`<div class="pc"><label style="display:flex;gap:10px;align-items:flex-start;margin:0"><input type="checkbox" id="df-decl" ${d.declaration_accepted?"checked":""} style="margin-top:4px"> I declare that all information provided is true and I agree to the company’s distributor terms and conditions.</label></div>`;
+  h+='<div id="dmsg"></div><p>'+(edit?'<button class="btn ghost" id="d-draft">Save draft</button> <button class="btn" id="d-submit">Submit application</button>':appr?'<button class="btn" id="d-bank">Save bank details</button>':"")+"</p>";
+  box.innerHTML=h;
+  const msg=(t,er)=>{$("dmsg").innerHTML=`<div class="msg ${er?"err":""}">${esc(t)}</div>`};
+  const collect=()=>{const o={};DSEC.forEach(x=>x[1].forEach(f=>{const v=$("df-"+f[0]).value.trim();o[f[0]]=f[2]==="number"?(v===""?null:parseInt(v,10)):(v||null)}));return o};
+  async function save(extra,btn,ok){
+    btn.disabled=true;
+    try{
+      const o=Object.assign(collect(),extra);
+      for(const[k]of DDOCS){
+        const inp=$("dd-"+k),f=inp&&inp.files[0];if(!f)continue;
+        if(f.size>5*1024*1024)throw new Error("Each file must be under 5 MB.");
+        let blob=f,ext=(f.name.split(".").pop()||"bin").toLowerCase(),type=f.type;
+        if(f.type.startsWith("image/")){const w=await toWebp(f,1800);blob=w.blob;ext=w.ext;type=w.type}
+        const path=`${me.id}/${k}-${Date.now()}.${ext}`;
+        const{error}=await sb.storage.from("ayu-docs").upload(path,blob,{contentType:type});if(error)throw error;
+        if(d[k])await sb.storage.from("ayu-docs").remove([d[k]]);o[k]=path;
+      }
+      const{error}=await sb.from("ayu_distributors").update(o).eq("user_id",me.id);if(error)throw error;
+      await renderDist();$("dmsg").innerHTML=`<div class="msg">${esc(ok)}</div>`;
+    }catch(e){btn.disabled=false;msg(e.message||String(e),true)}
+  }
+  if(edit){
+    $("d-draft").onclick=e=>save({declaration_accepted:$("df-decl").checked},e.target,"Draft saved.");
+    $("d-submit").onclick=e=>{
+      const o=collect(),need=["business_name","contact_person","phone","address","city","state","pincode"];
+      const miss=need.filter(k=>!o[k]).map(k=>DLABEL[k]);
+      if(miss.length)return msg("Please fill: "+miss.join(", "),true);
+      if(!d.doc_id_proof&&!$("dd-doc_id_proof").files[0])return msg("Please upload your ID proof.",true);
+      if(!$("df-decl").checked)return msg("Please accept the declaration.",true);
+      save({declaration_accepted:true,status:"submitted"},e.target,"Application submitted. We will review it shortly.");
+    };
+  }
+  if(appr)$("d-bank").onclick=async e=>{
+    e.target.disabled=true;const o={};DBANK.forEach(f=>o[f[0]]=$("df-"+f[0]).value.trim()||null);
+    const{error}=await sb.from("ayu_distributors").update(o).eq("user_id",me.id);e.target.disabled=false;
+    msg(error?error.message:"Bank details saved.",!!error);
+  };
+}
+(function(){
+ const hd=document.querySelector("header"),nv=$("nav"),bg=$("burger");
+ addEventListener("scroll",()=>hd.classList.toggle("scrolled",scrollY>8),{passive:true});
+ bg.onclick=e=>{e.stopPropagation();const o=nv.classList.toggle("open");bg.setAttribute("aria-expanded",o)};
+ nv.addEventListener("click",e=>{if(e.target.tagName==="A"){nv.classList.remove("open");bg.setAttribute("aria-expanded","false")}});
+ document.addEventListener("click",e=>{if(!nv.contains(e.target)&&e.target!==bg){nv.classList.remove("open")}});
+})();
+addEventListener("hashchange",route);(async()=>{
+  if(sb){
+    await check();
+    if(me&&localStorage.getItem("ayu-open-distributor-after-confirm")=== "1"){
+      localStorage.removeItem("ayu-open-distributor-after-confirm");
+      history.replaceState(null,"",location.pathname+location.search+"#distributor");
+    }
+  }
+  route();loadPublic();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Admin – AYU LIFE HEARBAL</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<style>
+:root{--forest:#064E35;--green:#16834A;--leaf:#65A765;--mist:#F1F8F2;--line:#d9eadc;color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:var(--mist);color:#24473a;font:15px/1.5 "Segoe UI",system-ui,Arial,sans-serif}
+h1,h2,h3{font-family:Georgia,serif;color:var(--forest);margin:0 0 10px}
+h1{font-size:1.5rem}h2{font-size:1.15rem}
+.hide{display:none!important}small{color:#5d7b6c}
+button,.btn{background:var(--green);color:#fff;border:0;border-radius:10px;padding:10px 16px;font:inherit;font-weight:600;cursor:pointer}
+button:hover{background:var(--forest)}button:disabled{opacity:.5;cursor:wait}
+button.ghost{background:#fff;color:var(--green);border:1px solid var(--green)}
+button.danger{background:#fff;color:#b3261e;border:1px solid #e3b5b1}
+button.sm{padding:6px 12px;font-size:.85rem}
+input[type=text],input[type=email],input[type=password],input[type=number],textarea,select{width:100%;padding:10px 12px;border:1px solid #bcd8c2;border-radius:10px;font:inherit;background:#fff}
+textarea{min-height:84px;resize:vertical}
+label{display:block;font-weight:600;font-size:.85rem;margin:12px 0 4px;color:var(--forest)}
+/* login */
+#login{min-height:100vh;display:grid;place-items:center;padding:20px}
+.lc{background:#fff;border:1px solid var(--line);border-radius:18px;padding:28px;width:100%;max-width:380px;box-shadow:0 14px 40px rgba(6,78,53,.08)}
+.lc .brand{text-align:center;margin-bottom:18px}
+/* app */
+#app{display:flex;min-height:100vh}
+aside{width:250px;background:var(--forest);color:#fff;padding:18px 12px;position:fixed;inset:0 auto 0 0;display:flex;flex-direction:column;z-index:30;transition:transform .25s}
+aside .logo{font:700 1.05rem Georgia,serif;padding:6px 12px 18px;letter-spacing:.04em}
+aside nav a{display:block;padding:11px 14px;border-radius:10px;color:#d8f0dc;cursor:pointer;margin-bottom:2px}
+aside nav a:hover{background:rgba(255,255,255,.08)}
+aside nav a.on{background:#fff;color:var(--forest);font-weight:700}
+aside .foot{margin-top:auto;padding:12px;font-size:.8rem;color:#a9dcb0;word-break:break-all}
+.content{flex:1;margin-left:250px;min-width:0}
+.top{background:#fff;border-bottom:1px solid var(--line);padding:12px 18px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:20}
+#burger{display:none;padding:8px 12px}
+main{padding:18px;max-width:1000px}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px}
+.stats{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));margin-bottom:14px}
+.stat{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px}
+.stat b{display:block;font:700 1.7rem Georgia,serif;color:var(--forest)}
+.row{display:flex;gap:12px;align-items:center;padding:10px 0;border-top:1px solid var(--line);flex-wrap:wrap}
+.row:first-child{border-top:0}.grow{flex:1;min-width:140px}
+.thumb{width:56px;height:56px;border-radius:10px;object-fit:cover;background:var(--mist);border:1px solid var(--line)}
+.thumb.round{border-radius:50%}
+.badge{display:inline-block;background:#e6f3e8;color:var(--forest);border-radius:999px;padding:2px 12px;font-size:.78rem;font-weight:700}
+.badge.submitted,.badge.under_review{background:#fff4d6;color:#7a5a00}
+.badge.rejected{background:#fdeceb;color:#8a1c14}
+.msg{padding:10px 14px;border-radius:10px;margin-bottom:12px;background:#e6f3e8;color:var(--forest)}.msg.err{background:#fdeceb;color:#8a1c14}
+.kv{display:grid;grid-template-columns:minmax(110px,40%) 1fr;gap:6px 12px;padding:6px 0;border-top:1px solid var(--line);word-break:break-word}
+.tools{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}.tools input{flex:1;min-width:150px}.tools select{width:auto}
+@media(max-width:860px){
+ aside{transform:translateX(-100%)}aside.open{transform:none;box-shadow:0 0 0 100vmax rgba(0,0,0,.35)}
+ .content{margin-left:0}#burger{display:block}main{padding:12px}
+}
+</style>
+</head>
+<body>
+
+<div id="login" class="hide">
+ <form class="lc" id="lf" autocomplete="on">
+  <div class="brand"><h1>🌿 AYU LIFE HEARBAL</h1><small>Administrator sign in</small></div>
+  <div id="lmsg"></div>
+  <label>Email</label><input type="email" id="em" autocomplete="username" required>
+  <label>Password</label><input type="password" id="pw" autocomplete="current-password" required>
+  <p style="margin:18px 0 0"><button style="width:100%" id="lgo">Sign in</button></p>
+ </form>
+</div>
+
+<div id="app" class="hide">
+ <aside id="side">
+  <div class="logo">🌿 AYU LIFE HEARBAL<br><small style="color:#a9dcb0;font-weight:400;font-family:sans-serif">Admin Panel</small></div>
+  <nav id="nav">
+   <a data-s="dashboard">📊 Dashboard</a>
+   <a data-s="distributors">🤝 Distributors</a>
+   <a data-s="users">👥 Users &amp; Accounts</a>
+   <a data-s="products">🌿 Products</a>
+   <a data-s="gallery">🖼️ Gallery</a>
+   <a data-s="content">📝 Website Content</a>
+   <a data-s="settings">⚙️ Settings</a>
+  </nav>
+  <div class="foot"><span id="who"></span><br><button class="ghost sm" id="out" style="margin-top:8px">Sign out</button></div>
+ </aside>
+ <div class="content">
+  <div class="top"><button id="burger" class="ghost">☰</button><h1 id="title" style="margin:0">Dashboard</h1></div>
+  <main><div id="toast"></div><div id="main"></div></main>
+ </div>
+</div>
+
+<script>
+const sb=supabase.createClient("https://oedyspddtgniuiderpox.supabase.co","sb_publishable_2DaViVS7ziIaUizlmPW4fA_MOkxNanp",{auth:{storageKey:"ayu-admin-auth",persistSession:true,autoRefreshToken:true}});
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const B="ayu-media",D="ayu-docs";
+const STAT={draft:"Draft",submitted:"Submitted",under_review:"Under review",approved:"Approved",rejected:"Rejected"};
+const TITLES={dashboard:"Dashboard",distributors:"Distributors",users:"Users & Accounts",products:"Products",gallery:"Gallery",content:"Website Content",settings:"Settings"};
+let me=null,cur="dashboard",DL=[];
+
+function toast(t,err){$("toast").innerHTML=t?`<div class="msg ${err?"err":""}">${esc(t)}</div>`:"";if(t)scrollTo(0,0)}
+function showLogin(m){$("app").classList.add("hide");$("login").classList.remove("hide");$("lmsg").innerHTML=m?`<div class="msg err">${esc(m)}</div>`:""}
+async function gate(){
+  const{data:{session}}=await sb.auth.getSession();
+  if(!session)return showLogin();
+  const{data:p}=await sb.from("ayu_profiles").select("role,full_name").eq("id",session.user.id).maybeSingle();
+  if(!p||p.role!=="admin"){await sb.auth.signOut();return showLogin("Invalid credentials or this account is not authorised.")}
+  me={...p,id:session.user.id,email:session.user.email};
+  $("login").classList.add("hide");$("app").classList.remove("hide");$("who").textContent=me.email;
+  go(location.hash.slice(1)||"dashboard");
+}
+$("lf").onsubmit=async e=>{
+  e.preventDefault();$("lgo").disabled=true;$("lmsg").innerHTML="";
+  const{error}=await sb.auth.signInWithPassword({email:$("em").value.trim(),password:$("pw").value});
+  $("lgo").disabled=false;
+  if(error)return showLogin("Invalid credentials or this account is not authorised.");
+  $("pw").value="";gate();
+};
+$("out").onclick=async()=>{await sb.auth.signOut();me=null;location.hash="";showLogin()};
+sb.auth.onAuthStateChange(ev=>{if(ev==="SIGNED_OUT"&&me){me=null;showLogin()}});
+$("burger").onclick=()=>$("side").classList.toggle("open");
+$("nav").onclick=e=>{const s=e.target.dataset.s;if(s){location.hash=s;$("side").classList.remove("open")}};
+addEventListener("hashchange",()=>{if(me)go(location.hash.slice(1)||"dashboard")});
+document.addEventListener("click",e=>{if(!$("side").contains(e.target)&&e.target!==$("burger"))$("side").classList.remove("open")});
+
+function go(s){
+  if(!TITLES[s])s="dashboard";cur=s;toast("");
+  $("title").textContent=TITLES[s];
+  document.querySelectorAll("#nav a").forEach(a=>a.classList.toggle("on",a.dataset.s===s));
+  $("main").innerHTML='<div class="card"><small>Loading…</small></div>';
+  ({dashboard,distributors,users,products,gallery,content,settings})[s]().catch(err=>{$("main").innerHTML="";toast(err.message||String(err),true)});
+}
+const cnt=async(t,f)=>{let q=sb.from(t).select("*",{count:"exact",head:true});if(f)q=f(q);const{count,error}=await q;if(error)throw error;return count||0};
+const fmt=d=>d?new Date(d).toLocaleDateString():"—";
+
+async function dashboard(){
+  const[total,active,pend,users,prods,gal]=await Promise.all([
+    cnt("ayu_distributors"),cnt("ayu_distributors",q=>q.eq("status","approved")),
+    cnt("ayu_distributors",q=>q.in("status",["submitted","under_review"])),
+    cnt("ayu_profiles"),cnt("ayu_products"),cnt("ayu_gallery")]);
+  const{data:rec,error}=await sb.from("ayu_distributors").select("user_id,distributor_code,business_name,contact_person,city,status,created_at").order("created_at",{ascending:false}).limit(5);
+  if(error)throw error;
+  const S=(n,l)=>`<div class="stat"><b>${n}</b><small>${l}</small></div>`;
+  $("main").innerHTML=`<div class="stats">${S(total,"Registered distributors")}${S(active,"Active (approved)")}${S(pend,"Pending review")}${S(users,"Registered accounts")}${S(prods,"Products")}${S(gal,"Gallery photos")}</div>
+  <div class="card"><h2>Notifications</h2>${pend?`<p style="margin:0">🔔 <b>${pend}</b> distributor application${pend>1?"s are":" is"} waiting for review. <a href="#distributors" style="color:var(--green);font-weight:600">Review now</a></p>`:"<small>No new notifications.</small>"}</div>
+  <div class="card"><h2>Recent distributor registrations</h2>${(rec||[]).length?rec.map(d=>`<div class="row"><div class="grow"><b>${esc(d.distributor_code)}</b> · ${esc(d.contact_person||d.business_name||"—")}<br><small>${esc(d.city||"")} · ${fmt(d.created_at)}</small></div><span class="badge ${d.status}">${STAT[d.status]}</span></div>`).join(""):"<small>No distributors yet.</small>"}</div>
+  <small>Sales, business volume and payments will appear here once those modules exist in the database.</small>`;
+}
+
+/* ---------- distributors ---------- */
+const FIELDS=[["business_name","Business name"],["business_type","Business type"],["year_started","Year started"],["business_description","About business"],["contact_person","Contact person"],["designation","Designation"],["phone","Phone"],["whatsapp","WhatsApp"],["email","Email"],["address","Address"],["city","City"],["state","State"],["pincode","PIN code"],["territory","Territory"],["gst_number","GST number"],["pan_number","PAN number"],["registration_number","Registration no."],["years_in_business","Years in business"],["current_products","Current products"],["premises_size","Premises size"],["ref1_name","Reference 1"],["ref1_phone","Reference 1 phone"],["ref2_name","Reference 2"],["ref2_phone","Reference 2 phone"]];
+const DOCS=[["doc_id_proof","ID proof"],["doc_address_proof","Address proof"],["doc_gst","GST / licence"],["doc_photo","Photo"]];
+const BANK=[["bank_holder","Account holder"],["bank_name","Bank"],["bank_account","Account number"],["bank_ifsc","IFSC"]];
+async function distributors(){
+  const{data,error}=await sb.from("ayu_distributors").select("*").order("created_at",{ascending:false});
+  if(error)throw error;DL=data||[];
+  $("main").innerHTML=`<div class="card"><div class="tools"><input type="text" id="q" placeholder="Search ID, name, city, phone"><select id="f"><option value="">All statuses</option>${Object.keys(STAT).map(k=>`<option value="${k}">${STAT[k]}</option>`).join("")}</select><button class="ghost" id="csv">Export CSV</button></div><small id="cnt"></small><div id="dl"></div></div>`;
+  const draw=()=>{
+    const q=$("q").value.toLowerCase(),f=$("f").value;
+    const l=DL.filter(d=>(!f||d.status===f)&&(!q||[d.distributor_code,d.business_name,d.contact_person,d.city,d.phone,d.email].join(" ").toLowerCase().includes(q)));
+    $("cnt").textContent=`${l.length} of ${DL.length}`;
+    $("dl").innerHTML=l.length?l.map(d=>`<div class="row" data-u="${d.user_id}" style="cursor:pointer"><div class="grow"><b>${esc(d.distributor_code)}</b> · ${esc(d.contact_person||d.business_name||d.email||"—")}<br><small>${esc([d.business_name,d.city].filter(Boolean).join(", "))}</small></div><span class="badge ${d.status}">${STAT[d.status]}</span></div>`).join(""):"<p><small>No distributors found.</small></p>";
+    $("dl").querySelectorAll("[data-u]").forEach(r=>r.onclick=()=>distDetail(r.dataset.u));
+  };
+  $("q").oninput=draw;$("f").onchange=draw;draw();
+  $("csv").onclick=()=>{
+    const cols=["distributor_code","status",...FIELDS.map(f=>f[0]),"submitted_at","created_at"],c=v=>`"${String(v??"").replace(/"/g,'""')}"`;
+    const csv=[cols.join(",")].concat(DL.map(d=>cols.map(k=>c(d[k])).join(","))).join("\n");
+    const a=document.createElement("a");a.href=URL.createObjectURL(new Blob(["\ufeff"+csv],{type:"text/csv"}));a.download="distributors.csv";a.click();
+  };
+}
+async function openDoc(path){
+  const w=window.open("","_blank");
+  const{data,error}=await sb.storage.from(D).createSignedUrl(path,120);
+  if(error||!data){if(w)w.close();return toast(error?error.message:"Could not open file",true)}
+  if(w)w.location=data.signedUrl;else location.href=data.signedUrl;
+}
+function distDetail(uid){
+  const d=DL.find(x=>x.user_id===uid);if(!d)return;toast("");
+  const kv=a=>a.map(([k,l])=>`<div class="kv"><small>${l}</small><div>${esc(d[k]??"—")}</div></div>`).join("");
+  $("main").innerHTML=`<p><button class="ghost sm" id="back">← Back to list</button></p>
+  <div class="card"><small>Distributor ID</small><h1>${esc(d.distributor_code)}</h1><span class="badge ${d.status}">${STAT[d.status]}</span> <small>Submitted: ${fmt(d.submitted_at)}</small></div>
+  <div class="card"><h2>Application</h2>${kv(FIELDS)}<div class="kv"><small>Declaration accepted</small><div>${d.declaration_accepted?"Yes":"No"}</div></div></div>
+  <div class="card"><h2>Documents</h2>${DOCS.map(([k,l])=>`<div class="row"><div class="grow">${l}</div>${d[k]?`<button class="ghost sm" data-p="${esc(d[k])}">View</button>`:"<small>Not uploaded</small>"}</div>`).join("")}</div>
+  <div class="card"><h2>Bank details</h2>${kv(BANK)}</div>
+  <div class="card"><h2>Decision</h2><label style="margin-top:0">Status</label><select id="st">${Object.keys(STAT).map(k=>`<option value="${k}" ${k===d.status?"selected":""}>${STAT[k]}</option>`).join("")}</select><label>Remarks to distributor</label><textarea id="rm">${esc(d.admin_remarks||"")}</textarea><p style="margin:14px 0 0"><button id="sv">Save decision</button></p></div>`;
+  $("back").onclick=distributors;
+  $("main").querySelectorAll("[data-p]").forEach(b=>b.onclick=()=>openDoc(b.dataset.p));
+  $("sv").onclick=async e=>{e.target.disabled=true;
+    const{error}=await sb.from("ayu_distributors").update({status:$("st").value,admin_remarks:$("rm").value.trim()||null}).eq("user_id",uid);
+    e.target.disabled=false;if(error)return toast(error.message,true);
+    await distributors();toast("Decision saved.");
+  };
+}
+
+/* ---------- users ---------- */
+async function users(){
+  const{data,error}=await sb.from("ayu_profiles").select("*").order("created_at",{ascending:false});
+  if(error)throw error;
+  $("main").innerHTML=`<div class="card"><small>${data.length} account${data.length===1?"":"s"}</small>${data.map(u=>`<div class="row"><div class="grow"><b>${esc(u.full_name||"—")}</b><br><small>${esc(u.email||"")} · joined ${fmt(u.created_at)}</small></div><select data-id="${u.id}" style="width:auto">${["user","distributor","admin"].map(r=>`<option ${r===u.role?"selected":""}>${r}</option>`).join("")}</select></div>`).join("")}</div>`;
+  $("main").querySelectorAll("select[data-id]").forEach(sel=>sel.onchange=async()=>{
+    if(sel.dataset.id===me.id&&sel.value!=="admin"&&!confirm("You will lose admin access. Continue?")){return users()}
+    if(sel.value==="admin"&&!confirm("Give this account full administrator access?")){return users()}
+    const{error}=await sb.from("ayu_profiles").update({role:sel.value}).eq("id",sel.dataset.id);
+    if(error)toast(error.message,true);else toast("Role updated.");
+    if(sel.dataset.id===me.id)gate();
+  });
+}
+
+/* ---------- images ---------- */
+async function toWebp(file,max){
+  if(file.type==="image/svg+xml")return{blob:file,ext:"svg",type:file.type};
+  const bmp=await createImageBitmap(file),k=Math.min(1,max/Math.max(bmp.width,bmp.height));
+  const c=document.createElement("canvas");c.width=Math.round(bmp.width*k);c.height=Math.round(bmp.height*k);
+  c.getContext("2d").drawImage(bmp,0,0,c.width,c.height);
+  return{blob:await new Promise(r=>c.toBlob(r,"image/webp",.84)),ext:"webp",type:"image/webp"};
+}
+async function upload(file,folder,max=1600){
+  const o=await toWebp(file,max),path=`${folder}/${Date.now()}-${Math.random().toString(36).slice(2,8)}.${o.ext}`;
+  const{error}=await sb.storage.from(B).upload(path,o.blob,{contentType:o.type,cacheControl:"31536000"});
+  if(error)throw error;return sb.storage.from(B).getPublicUrl(path).data.publicUrl;
+}
+async function removeFile(url){if(!url)return;const i=url.indexOf("/"+B+"/");if(i>-1)await sb.storage.from(B).remove([url.slice(i+B.length+2)])}
+
+async function products(){
+  const{data,error}=await sb.from("ayu_products").select("*").order("sort_order").order("created_at");
+  if(error)throw error;
+  $("main").innerHTML=`<div class="card"><h2>Add product</h2><label style="margin-top:0">Name</label><input type="text" id="pn"><label>Description</label><textarea id="pd"></textarea><label>Photograph</label><input type="file" id="pi" accept="image/*"><p style="margin:14px 0 0"><button id="pa">Add product</button></p></div>
+  <div class="card"><h2>Products (${data.length})</h2>${data.length?data.map(p=>`<div class="row"><img class="thumb" src="${esc(p.image_url)}" alt=""><div class="grow"><b>${esc(p.name)}</b><br><small>${esc(p.description)}</small></div><button class="ghost sm" data-pub="${p.id}" data-v="${p.is_published}">${p.is_published?"Hide":"Publish"}</button><button class="danger sm" data-del="${p.id}">Delete</button></div>`).join(""):"<small>No products yet.</small>"}</div>`;
+  $("pa").onclick=async e=>{
+    const name=$("pn").value.trim();if(!name)return toast("Enter a product name.",true);
+    e.target.disabled=true;
+    try{const f=$("pi").files[0],image_url=f?await upload(f,"products"):null;
+      const{error}=await sb.from("ayu_products").insert({name,description:$("pd").value.trim()||null,image_url});if(error)throw error;
+      await products();toast("Product added.");
+    }catch(err){toast(err.message||String(err),true);e.target.disabled=false}
+  };
+  $("main").querySelectorAll("[data-pub]").forEach(b=>b.onclick=async()=>{const{error}=await sb.from("ayu_products").update({is_published:b.dataset.v!=="true"}).eq("id",b.dataset.pub);if(error)toast(error.message,true);else products()});
+  $("main").querySelectorAll("[data-del]").forEach(b=>b.onclick=async()=>{if(!confirm("Delete this product?"))return;const p=data.find(x=>x.id===b.dataset.del);const{error}=await sb.from("ayu_products").delete().eq("id",p.id);if(error)return toast(error.message,true);await removeFile(p.image_url);products()});
+}
+async function gallery(){
+  const{data,error}=await sb.from("ayu_gallery").select("*").order("sort_order").order("created_at",{ascending:false});
+  if(error)throw error;
+  $("main").innerHTML=`<div class="card"><h2>Add photos</h2><label style="margin-top:0">Choose one or more</label><input type="file" id="gi" accept="image/*" multiple><label>Caption (optional)</label><input type="text" id="gc"><p style="margin:14px 0 0"><button id="ga">Upload</button></p></div>
+  <div class="card"><h2>Gallery (${data.length})</h2>${data.length?data.map(g=>`<div class="row"><img class="thumb" src="${esc(g.image_url)}" alt=""><div class="grow">${esc(g.caption)||"<small>No caption</small>"}</div><button class="danger sm" data-del="${g.id}">Delete</button></div>`).join(""):"<small>No photos yet.</small>"}</div>`;
+  $("ga").onclick=async e=>{
+    const files=[...$("gi").files];if(!files.length)return toast("Choose at least one photo.",true);
+    e.target.disabled=true;
+    try{for(const f of files){const image_url=await upload(f,"gallery");const{error}=await sb.from("ayu_gallery").insert({image_url,caption:$("gc").value.trim()||null});if(error)throw error}
+      await gallery();toast("Photos uploaded.");
+    }catch(err){toast(err.message||String(err),true);e.target.disabled=false}
+  };
+  $("main").querySelectorAll("[data-del]").forEach(b=>b.onclick=async()=>{if(!confirm("Delete this photo?"))return;const g=data.find(x=>x.id===b.dataset.del);const{error}=await sb.from("ayu_gallery").delete().eq("id",g.id);if(error)return toast(error.message,true);await removeFile(g.image_url);gallery()});
+}
+
+/* ---------- website content ---------- */
+const SF=["owner_name","owner_designation","founder_biography","founder_message","contact_phone","contact_email","contact_address"];
+async function content(){
+  const{data:s,error}=await sb.from("ayu_site_settings").select("*").eq("id",1).single();
+  if(error)throw error;
+  const img=(id,url,round)=>`<img id="p-${id}" class="thumb ${round?"round":""}" src="${esc(url||"")}" alt="" style="${url?"":"visibility:hidden"}">`;
+  $("main").innerHTML=`<div class="card"><h2>Owner / Founder</h2>
+  <div class="row">${img("o",s.owner_photo_url,1)}<div class="grow"><b>Owner photograph</b><br><input type="file" id="f-o" accept="image/*"><small>Shown exactly as uploaded.</small></div></div>
+  <label>Owner name</label><input type="text" id="s-owner_name"><label>Owner designation</label><input type="text" id="s-owner_designation">
+  <label>Founder biography</label><textarea id="s-founder_biography"></textarea><label>Founder message</label><textarea id="s-founder_message"></textarea></div>
+  <div class="card"><h2>Branding &amp; contact</h2>
+  <div class="row">${img("l",s.logo_url)}<div class="grow"><b>Company logo</b><br><input type="file" id="f-l" accept="image/*"></div></div>
+  <div class="row">${img("b",s.banner_url)}<div class="grow"><b>Home banner</b><br><input type="file" id="f-b" accept="image/*"></div></div>
+  <label>Phone</label><input type="text" id="s-contact_phone"><label>Email</label><input type="text" id="s-contact_email"><label>Address</label><textarea id="s-contact_address"></textarea></div>
+  <button id="sv">Save changes</button>`;
+  SF.forEach(f=>$("s-"+f).value=s[f]||"");
+  $("sv").onclick=async e=>{
+    e.target.disabled=true;
+    try{
+      const u={updated_at:new Date().toISOString()};SF.forEach(f=>u[f]=$("s-"+f).value.trim()||null);
+      for(const[id,col,folder,max]of[["f-o","owner_photo_url","owner",1200],["f-l","logo_url","branding",800],["f-b","banner_url","branding",2000]]){
+        const f=$(id).files[0];if(!f)continue;u[col]=await upload(f,folder,max);await removeFile(s[col]);
+      }
+      const{error}=await sb.from("ayu_site_settings").update(u).eq("id",1);if(error)throw error;
+      await content();toast("Saved. The public website is updated.");
+    }catch(err){toast(err.message||String(err),true);e.target.disabled=false}
+  };
+}
+
+/* ---------- settings ---------- */
+async function settings(){
+  $("main").innerHTML=`<div class="card"><h2>Account</h2><div class="kv"><small>Signed in as</small><div>${esc(me.email)}</div></div></div>
+  <div class="card"><h2>Change password</h2><label style="margin-top:0">New password (min. 10 characters)</label><input type="password" id="np" autocomplete="new-password"><label>Repeat new password</label><input type="password" id="np2" autocomplete="new-password"><p style="margin:14px 0 0"><button id="cp">Update password</button></p></div>`;
+  $("cp").onclick=async e=>{
+    const a=$("np").value;if(a.length<10)return toast("Use at least 10 characters.",true);
+    if(a!==$("np2").value)return toast("Passwords do not match.",true);
+    e.target.disabled=true;const{error}=await sb.auth.updateUser({password:a});e.target.disabled=false;
+    if(error)return toast(error.message,true);$("np").value=$("np2").value="";toast("Password updated.");
+  };
+}
+gate();
+</script>
+</body>
+</html>
