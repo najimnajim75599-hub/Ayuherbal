@@ -42,9 +42,9 @@ create or replace function public.prevent_distributor_cycles()
 returns trigger language plpgsql as $$
 declare cursor_id uuid := coalesce(new.parent_id, new.sponsor_id);
 begin
-  if cursor_id = new.user_id then raise exception 'A distributor cannot sponsor or parent itself'; end;
+  if cursor_id = new.user_id then raise exception 'A distributor cannot sponsor or parent itself'; end if;
   while cursor_id is not null loop
-    if cursor_id = new.user_id then raise exception 'Circular distributor relationship is not allowed'; end;
+    if cursor_id = new.user_id then raise exception 'Circular distributor relationship is not allowed'; end if;
     select parent_id into cursor_id from public.ayu_distributors where user_id = cursor_id;
   end loop;
   return new;
@@ -89,3 +89,5 @@ end; $$;
 create index if not exists ayu_distributors_parent_idx on public.ayu_distributors(parent_id);
 create index if not exists ayu_distributors_sponsor_idx on public.ayu_distributors(sponsor_id);
 create index if not exists ayu_distributors_hierarchy_path_idx on public.ayu_distributors(hierarchy_path text_pattern_ops);
+
+notify pgrst, 'reload schema';
