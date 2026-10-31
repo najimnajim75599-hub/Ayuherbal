@@ -90,4 +90,35 @@ create index if not exists ayu_distributors_parent_idx on public.ayu_distributor
 create index if not exists ayu_distributors_sponsor_idx on public.ayu_distributors(sponsor_id);
 create index if not exists ayu_distributors_hierarchy_path_idx on public.ayu_distributors(hierarchy_path text_pattern_ops);
 
+create or replace function public.admin_remove_ayu_distributor(target_id uuid)
+returns void
+language plpgsql
+security definer
+set search_path = ''
+as $$
+begin
+  if auth.uid() is null or not exists (
+    select 1 from public.ayu_profiles
+    where id = auth.uid() and role = 'admin'
+  ) then
+    raise exception 'Administrator access required';
+  end if;
+
+  if not exists (
+    select 1 from public.ayu_distributors where user_id = target_id
+  ) then
+    raise exception 'Distributor not found';
+  end if;
+
+  update public.ayu_distributors
+  set parent_id = null, sponsor_id = null, position = null
+  where parent_id = target_id;
+
+  delete from public.ayu_distributors where user_id = target_id;
+end;
+$$;
+
+revoke all on function public.admin_remove_ayu_distributor(uuid) from public;
+grant execute on function public.admin_remove_ayu_distributor(uuid) to authenticated;
+
 notify pgrst, 'reload schema';
