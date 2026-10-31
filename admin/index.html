@@ -160,10 +160,10 @@ async function distributors(){
   await autoApprovePending();
   const{data,error}=await sb.from("ayu_distributors").select("*").order("created_at",{ascending:false});
   if(error)throw error;DL=data||[];
-  $("main").innerHTML=`<div class="card"><div class="tools"><input type="text" id="q" placeholder="Search ID, name, city, phone"><select id="f"><option value="">All statuses</option>${Object.keys(STAT).map(k=>`<option value="${k}">${STAT[k]}</option>`).join("")}</select><button class="ghost" id="csv">Export CSV</button></div><small id="cnt"></small><div id="dl"></div></div>`;
+  $("main").innerHTML=`<div class="card"><div class="tools"><input type="text" id="q" placeholder="Search ID, name, city, phone"><select id="f"><option value="">All statuses</option>${Object.keys(STAT).map(k=>`<option value="${k}">${STAT[k]}</option>`).join("")}<option value="LEFT">Left Team</option><option value="RIGHT">Right Team</option></select><button class="ghost" id="csv">Export CSV</button></div><small id="cnt"></small><div id="dl"></div></div>`;
   const draw=()=>{
     const q=$("q").value.toLowerCase(),f=$("f").value;
-    const l=DL.filter(d=>(!f||d.status===f)&&(!q||[d.distributor_code,d.business_name,d.contact_person,d.city,d.phone,d.email].join(" ").toLowerCase().includes(q)));
+    const l=DL.filter(d=>(!f||d.status===f||d.position===f)&&(!q||[d.distributor_code,d.business_name,d.contact_person,d.city,d.phone,d.email].join(" ").toLowerCase().includes(q)));
     $("cnt").textContent=`${l.length} of ${DL.length}`;
     $("dl").innerHTML=l.length?l.map(d=>`<div class="row" data-u="${d.user_id}" style="cursor:pointer"><div class="grow"><b>${esc(d.distributor_code)}</b> · ${esc(d.contact_person||d.business_name||d.email||"—")}<br><small>${esc([d.business_name,d.city].filter(Boolean).join(", "))}</small></div><span class="badge ${d.status}">${STAT[d.status]}</span></div>`).join(""):"<p><small>No distributors found.</small></p>";
     $("dl").querySelectorAll("[data-u]").forEach(r=>r.onclick=()=>distDetail(r.dataset.u));
