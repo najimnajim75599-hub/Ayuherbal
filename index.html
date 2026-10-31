@@ -139,6 +139,7 @@ blockquote{margin:20px 0;padding:14px 18px;border-left:4px solid var(--leaf);bac
 .idcard{background:linear-gradient(135deg,#064E35,#16834A);color:#fff;border-radius:18px;padding:18px 20px;margin-bottom:16px}
 .idcard b{font-size:1.5rem;letter-spacing:.06em}.idcard .badge{margin-top:6px}
 #d-body select,.pc select{padding:8px;border:1px solid #bcd8c2;border-radius:10px;font:inherit;background:#fff}
+.network-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.network-panel{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;overflow:auto}.network-panel h3{margin-bottom:5px}.network-stats{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 14px}.network-stat{background:var(--mist);border-radius:8px;padding:5px 10px;font-size:.82rem}.network-tree{border-left:2px solid var(--line);padding-left:14px}.network-node{position:relative;margin:9px 0;padding-left:8px}.network-node::before{content:"";position:absolute;left:-16px;top:22px;width:14px;border-top:2px solid var(--line)}.network-person{width:min(230px,100%);background:#fff;border:1px solid var(--line);border-radius:10px;padding:9px 11px}.network-person b{display:block;color:var(--ink)}.network-empty{color:#769080;font-size:.85rem}@media(max-width:760px){.network-grid{grid-template-columns:1fr}}
 .badge{display:inline-block;background:#e6f3e8;color:var(--forest);border-radius:999px;padding:2px 12px;font-size:.8rem;font-weight:700}
 .hide{display:none!important}small{color:#5d7b6c}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.leaf{animation:none!important}.leaf.f{display:none}.reveal{opacity:1;transform:none;transition:none}.btn,.card{transition:none}}
@@ -414,6 +415,25 @@ function route(){
     if(h.length>1)setTimeout(()=>{try{document.querySelector(h).scrollIntoView()}catch(e){}},30);else scrollTo(0,0);
   }
 }
+async function networkDashboard(){
+  const{data,error}=await sb.from("ayu_distributors").select("user_id,distributor_code,full_name,contact_person,business_name,parent_id,position,network_status,status");
+  if(error)return '<div class="msg err">Apply the binary network database migration to load team hierarchy.</div>';
+  const rows=data||[],mine=rows.find(x=>x.user_id===me.id);
+  if(!mine)return '<div class="pc"><b>Two-Team Network</b><small>No distributor placement has been assigned yet.</small></div>';
+  const children=id=>rows.filter(x=>x.parent_id===id);
+  const descendants=(id,out=[])=>{children(id).forEach(x=>{out.push(x);descendants(x.user_id,out)});return out};
+  const tree=(id,level=0)=>{
+    const kids=children(id);if(!kids.length)return '';
+    return '<div class="network-tree">'+kids.map(x=>`<div class="network-node"><details open><summary class="network-person"><b>${esc(x.full_name||x.contact_person||x.business_name||"Distributor")}</b><small>${esc(x.distributor_code||"")} · ${esc(x.position||"")} · ${esc(x.network_status||"ACTIVE")}</small></summary><div>${tree(x.user_id,level+1)}</div></details></div>`).join("")+"</div>";
+  };
+  const panel=(position,label)=>{
+    const direct=rows.find(x=>x.parent_id===mine.user_id&&x.position===position);
+    const all=direct?descendants(direct.user_id,[direct]):[];
+    const active=all.filter(x=>x.network_status!=="INACTIVE"&&x.status!=="inactive").length;
+    return `<div class="network-panel"><h3>${label}</h3><div class="network-stats"><span class="network-stat"><b>${all.length}</b> members</span><span class="network-stat"><b>${active}</b> active</span><span class="network-stat"><b>${all.length-active}</b> inactive</span></div>${direct?`<div class="network-person"><b>${esc(direct.full_name||direct.contact_person||direct.business_name||"Distributor")}</b><small>${esc(direct.distributor_code||"")}</small></div>${tree(direct.user_id)}`:'<small class="network-empty">No direct distributor assigned.</small>'}</div>`;
+  };
+  return `<div class="pc"><b>My Two-Team Network</b><div class="network-grid" style="margin-top:12px">${panel("LEFT","LEFT DISTRIBUTOR TEAM")}${panel("RIGHT","RIGHT DISTRIBUTOR TEAM")}</div></div>`;
+}
 async function renderDash(){
   const r=me.role,box=$("d-body");
   $("d-role").textContent=r==="distributor"?"Distributor Dashboard":"User Dashboard";
@@ -424,7 +444,7 @@ async function renderDash(){
   <p style="margin:14px 0 0"><button class="btn sm" id="d-save">Save name</button></p></div>`;
   if(r==="user")h+=`<div class="pc"><b>Welcome to AYU LIFE HEARBAL</b><p style="margin:8px 0 0">Browse our herbal products anytime. Interested in becoming a distributor? Apply and receive your permanent Distributor ID.</p><p style="margin:14px 0 0"><a class="btn sm" href="#distributor">Become a Distributor</a> <a class="btn ghost sm" href="#products">View Products</a></p></div>`;
   if(r==="distributor"){
-    h+='<div class="pc"><b>Distributor profile</b><p style="margin:8px 0 0">View your Distributor ID, details and bank information.</p><p style="margin:12px 0 0"><a class="btn sm" href="#distributor">Open my distributor profile</a></p></div>';
+    h+='<div class="pc"><b>Distributor profile</b><p style="margin:8px 0 0">View your Distributor ID, details and bank information.</p><p style="margin:12px 0 0"><a class="btn sm" href="#distributor">Open my distributor profile</a></p></div>'+await networkDashboard();
     const{data:pr}=await sb.from("ayu_products").select("*").eq("is_published",true).order("sort_order");
     h+=`<div class="pc"><b>Distributor catalogue</b>${(pr||[]).length?pr.map(x=>`<div class="row"><img class="thumb" src="${esc(x.image_url)}" alt=""><div class="grow"><b>${esc(x.name)}</b><br><small>${esc(x.description)}</small></div></div>`).join(""):"<p><small>No products published yet.</small></p>"}</div>`;
   }

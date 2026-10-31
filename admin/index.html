@@ -51,6 +51,7 @@ main{padding:18px;max-width:1000px}
 .msg{padding:10px 14px;border-radius:10px;margin-bottom:12px;background:#e6f3e8;color:var(--forest)}.msg.err{background:#fdeceb;color:#8a1c14}
 .kv{display:grid;grid-template-columns:minmax(110px,40%) 1fr;gap:6px 12px;padding:6px 0;border-top:1px solid var(--line);word-break:break-word}
 .tools{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}.tools input{flex:1;min-width:150px}.tools select{width:auto}
+.network-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.network-panel{border:1px solid var(--line);border-radius:12px;padding:14px}.network-panel h2{font-size:1rem}.network-row{border-top:1px solid var(--line);padding:8px 0}.network-row:first-child{border-top:0}.network-controls{display:grid;grid-template-columns:minmax(0,1fr) 110px 120px;gap:8px}.network-controls select,.network-controls button{width:100%}@media(max-width:860px){.network-grid{grid-template-columns:1fr}.network-controls{grid-template-columns:1fr}}
 @media(max-width:860px){
  aside{transform:translateX(-100%)}aside.open{transform:none;box-shadow:0 0 0 100vmax rgba(0,0,0,.35)}
  .content{margin-left:0}#burger{display:block}main{padding:12px}
@@ -180,7 +181,7 @@ async function openDoc(path){
   if(error||!data){if(w)w.close();return toast(error?error.message:"Could not open file",true)}
   if(w)w.location=data.signedUrl;else location.href=data.signedUrl;
 }
-function distDetail(uid){
+async function distDetail(uid){
   const d=DL.find(x=>x.user_id===uid);if(!d)return;toast("");
   const kv=a=>a.map(([k,l])=>`<div class="kv"><small>${l}</small><div>${esc(d[k]??"—")}</div></div>`).join("");
   $("main").innerHTML=`<p><button class="ghost sm" id="back">← Back to list</button></p>
@@ -188,14 +189,31 @@ function distDetail(uid){
   <div class="card"><h2>Application</h2>${kv(FIELDS)}<div class="kv"><small>Declaration accepted</small><div>${d.declaration_accepted?"Yes":"No"}</div></div></div>
   <div class="card"><h2>Documents</h2>${DOCS.map(([k,l])=>`<div class="row"><div class="grow">${l}</div>${d[k]?`<button class="ghost sm" data-p="${esc(d[k])}">View</button>`:"<small>Not uploaded</small>"}</div>`).join("")}</div>
   <div class="card"><h2>Bank details</h2>${kv(BANK)}</div>
+  <div class="card"><h2>Two-Team Network</h2><div id="network-management"><small>Loading network…</small></div></div>
   <div class="card"><h2>Decision</h2><label style="margin-top:0">Status</label><select id="st">${Object.keys(STAT).map(k=>`<option value="${k}" ${k===d.status?"selected":""}>${STAT[k]}</option>`).join("")}</select><label>Remarks to distributor</label><textarea id="rm">${esc(d.admin_remarks||"")}</textarea><p style="margin:14px 0 0"><button id="sv">Save decision</button></p></div>`;
   $("back").onclick=distributors;
+  loadNetworkManagement(uid);
   $("main").querySelectorAll("[data-p]").forEach(b=>b.onclick=()=>openDoc(b.dataset.p));
   $("sv").onclick=async e=>{e.target.disabled=true;
     const{error}=await sb.from("ayu_distributors").update({status:$("st").value,admin_remarks:$("rm").value.trim()||null}).eq("user_id",uid);
     e.target.disabled=false;if(error)return toast(error.message,true);
     await distributors();toast("Decision saved.");
   };
+}
+async function loadNetworkManagement(uid){
+  const{data,error}=await sb.from("ayu_distributors").select("user_id,distributor_code,full_name,contact_person,business_name,parent_id,sponsor_id,position,network_status,status");
+  if(error){$("network-management").innerHTML=`<div class="msg err">${esc(error.message)}</div>`;return}
+  const rows=data||[];
+  const panel=position=>{
+    const members=rows.filter(x=>x.parent_id===uid&&x.position===position);
+    return `<div class="network-panel"><h2>${position} DISTRIBUTOR TEAM</h2><small>${members.length} direct member${members.length===1?"":"s"}</small>${members.map(x=>`<div class="network-row"><b>${esc(x.full_name||x.contact_person||x.business_name||"Distributor")}</b><br><small>${esc(x.distributor_code||"")} · ${esc(x.network_status||"ACTIVE")}</small><div style="margin-top:6px"><button class="ghost sm" data-network-status="${x.user_id}">${x.network_status=== "INACTIVE"?"Activate":"Deactivate"}</button></div></div>`).join("")||'<div class="network-row"><small>Position available.</small></div>'}<div class="network-controls" style="margin-top:10px"><select id="place-${position}"><option value="">Choose existing distributor</option>${rows.filter(x=>x.user_id!==uid&&!members.some(m=>m.user_id===x.user_id)).map(x=>`<option value="${x.user_id}">${esc(x.full_name||x.contact_person||x.business_name||x.distributor_code||x.user_id)}</option>`).join("")}</select><button class="ghost" id="assign-${position}" ${members.length?"disabled":""}>Assign</button></div></div>`;
+  };
+  $("network-management").innerHTML=`<div class="network-grid">${panel("LEFT")}${panel("RIGHT")}</div>`;
+  for(const position of ["LEFT","RIGHT"]){
+    const assign=$("assign-"+position);
+    if(assign)assign.onclick=async()=>{const member=$("place-"+position).value;if(!member)return toast("Choose a distributor first.",true);assign.disabled=true;const{error}=await sb.from("ayu_distributors").update({parent_id:uid,sponsor_id:uid,position}).eq("user_id",member);assign.disabled=false;if(error)return toast(error.message,true);toast("Distributor assigned to the "+position+" team.");await loadNetworkManagement(uid)};
+  }
+  document.querySelectorAll("[data-network-status]").forEach(b=>b.onclick=async()=>{b.disabled=true;const member=rows.find(x=>x.user_id===b.dataset.networkStatus);const network_status=member.network_status=== "INACTIVE"?"ACTIVE":"INACTIVE";const{error}=await sb.from("ayu_distributors").update({network_status}).eq("user_id",b.dataset.networkStatus);b.disabled=false;if(error)return toast(error.message,true);toast("Network status updated.");await loadNetworkManagement(uid)});
 }
 
 /* ---------- users ---------- */
