@@ -52,6 +52,7 @@ main{padding:18px;max-width:1000px}
 .kv{display:grid;grid-template-columns:minmax(110px,40%) 1fr;gap:6px 12px;padding:6px 0;border-top:1px solid var(--line);word-break:break-word}
 .tools{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}.tools input{flex:1;min-width:150px}.tools select{width:auto}
 .network-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.network-panel{border:1px solid var(--line);border-radius:12px;padding:14px}.network-panel h2{font-size:1rem}.network-row{border-top:1px solid var(--line);padding:8px 0}.network-row:first-child{border-top:0}.network-controls{display:grid;grid-template-columns:minmax(0,1fr) 110px 120px;gap:8px}.network-controls select,.network-controls button{width:100%}@media(max-width:860px){.network-grid{grid-template-columns:1fr}.network-controls{grid-template-columns:1fr}}
+.binary-tree{overflow-x:auto;padding:24px 12px;text-align:center}.binary-root{display:inline-flex}.binary-node{display:flex;flex-direction:column;align-items:center}.binary-card{min-width:150px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px 10px;color:var(--forest);font-weight:700;box-shadow:0 4px 12px rgba(6,78,53,.06)}.binary-card small{display:block;font-weight:400}.binary-children{display:flex;justify-content:center;gap:28px;position:relative;padding-top:24px}.binary-children::before{content:"";position:absolute;top:0;left:25%;right:25%;height:2px;background:#bcd8c2}.binary-child{position:relative;padding-top:24px}.binary-child::before{content:"";position:absolute;top:0;left:50%;height:24px;border-left:2px solid #bcd8c2}.binary-slot{min-width:150px;border:1px dashed #a8c8b0;border-radius:10px;padding:9px;color:#769080;background:var(--mist)}details.binary-node summary{cursor:pointer;list-style:none}.binary-branch{font-size:.72rem;letter-spacing:.08em;color:#5d7b6c;margin-bottom:4px}
 @media(max-width:860px){
  aside{transform:translateX(-100%)}aside.open{transform:none;box-shadow:0 0 0 100vmax rgba(0,0,0,.35)}
  .content{margin-left:0}#burger{display:block}main{padding:12px}
@@ -215,6 +216,16 @@ async function loadNetworkManagement(uid){
   const{data,error}=await sb.from("ayu_distributors").select("user_id,distributor_code,full_name,contact_person,business_name,parent_id,sponsor_id,position,network_status,status");
   if(error){$("network-management").innerHTML=`<div class="msg err">${esc(error.message)}</div>`;return}
   const rows=data||[];
+  const children=(id,position)=>rows.filter(x=>x.parent_id===id&&x.position===position);
+  const person=x=>`<div class="binary-card">${esc(x.full_name||x.contact_person||x.business_name||"Distributor")}<small>${esc(x.distributor_code||"")} · ${esc(x.network_status||"ACTIVE")}</small></div>`;
+  const tree=(x,expanded=true)=>{
+    const left=children(x.user_id,"LEFT"),right=children(x.user_id,"RIGHT");
+    const branch=(list,position)=>`<div class="binary-child"><div class="binary-branch">${position}</div>${list[0]?tree(list[0]):'<div class="binary-slot">Open position</div>'}</div>`;
+    return `<details class="binary-node" ${expanded?"open":""}><summary>${person(x)}</summary><div class="binary-children">${branch(left,"LEFT")}${branch(right,"RIGHT")}</div></details>`;
+  };
+  const current=rows.find(x=>x.user_id===uid);
+  const visual=current?`<div class="card" style="padding-bottom:6px"><h2>Binary Network Tree</h2><div class="binary-tree"><div class="binary-root">${tree(current)}</div></div></div>`:"";
+  $("network-management").insertAdjacentHTML("afterbegin",visual);
   const panel=position=>{
     const members=rows.filter(x=>x.parent_id===uid&&x.position===position);
     return `<div class="network-panel"><h2>${position} DISTRIBUTOR TEAM</h2><small>${members.length} direct member${members.length===1?"":"s"}</small>${members.map(x=>`<div class="network-row"><b>${esc(x.full_name||x.contact_person||x.business_name||"Distributor")}</b><br><small>${esc(x.distributor_code||"")} · ${esc(x.network_status||"ACTIVE")}</small><div style="margin-top:6px"><button class="ghost sm" data-network-status="${x.user_id}">${x.network_status=== "INACTIVE"?"Activate":"Deactivate"}</button></div></div>`).join("")||'<div class="network-row"><small>Position available.</small></div>'}<div class="network-controls" style="margin-top:10px"><select id="place-${position}"><option value="">Choose existing distributor</option>${rows.filter(x=>x.user_id!==uid&&!members.some(m=>m.user_id===x.user_id)).map(x=>`<option value="${x.user_id}">${esc(x.full_name||x.contact_person||x.business_name||x.distributor_code||x.user_id)}</option>`).join("")}</select><button class="ghost" id="assign-${position}" ${members.length?"disabled":""}>Assign</button></div></div>`;
