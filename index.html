@@ -461,12 +461,10 @@ async function toWebp(file,max){
 }
 /* ---------- distributors ---------- */
 const DSEC=[
-["Business",[["business_name","Business name"],["business_type","Business type","select:Proprietorship,Partnership,Private Limited,LLP,Other"],["year_started","Year started","number"],["business_description","Business description","textarea"]]],
-["Contact",[["contact_person","Contact person"],["designation","Designation"],["phone","Phone"],["whatsapp","WhatsApp"],["email","Business email"]]],
-["Address & territory",[["address","Street address","textarea"],["city","City"],["state","State"],["pincode","PIN code"],["territory","Territory you want to cover","textarea"]]],
-["Legal",[["gst_number","GST number"],["pan_number","PAN"],["registration_number","Business registration number"]]],
-["Experience & references",[["years_in_business","Years in business","number"],["current_products","Products you currently sell","textarea"],["premises_size","Shop / warehouse size"],["ref1_name","Reference 1 name"],["ref1_phone","Reference 1 phone"],["ref2_name","Reference 2 name"],["ref2_phone","Reference 2 phone"]]]];
-const DDOCS=[["doc_id_proof","ID proof (Aadhaar / Passport / Voter ID)"],["doc_address_proof","Address proof"],["doc_gst","GST certificate / business licence"],["doc_photo","Passport-size photograph"]];
+["Business",[["business_name","Business name"],["business_type","Business type","select:Proprietorship,Partnership,Private Limited,LLP,Other"]]],
+["Contact",[["contact_person","Contact person"],["phone","Phone"],["whatsapp","WhatsApp"],["email","Business email"]]],
+["Address",[["address","Street address","textarea"],["city","City"],["state","State"],["pincode","PIN code"]]]];
+const DDOCS=[["doc_id_proof","ID proof (Aadhaar / Passport / Voter ID)"]];
 const DBANK=[["bank_holder","Account holder name"],["bank_name","Bank name"],["bank_account","Account number"],["bank_ifsc","IFSC code"]];
 const DLABEL={};DSEC.forEach(x=>x[1].forEach(f=>DLABEL[f[0]]=f[1]));DBANK.concat(DDOCS).forEach(f=>DLABEL[f[0]]=f[1]);
 const STAT={draft:"Draft",submitted:"Submitted",under_review:"Under review",approved:"Approved",rejected:"Rejected"};
