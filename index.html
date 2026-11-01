@@ -138,8 +138,11 @@ blockquote{margin:20px 0;padding:14px 18px;border-left:4px solid var(--leaf);bac
 @media(max-width:620px){.fgrid{grid-template-columns:1fr}}
 .idcard{background:linear-gradient(135deg,#064E35,#16834A);color:#fff;border-radius:18px;padding:18px 20px;margin-bottom:16px}
 .idcard b{font-size:1.5rem;letter-spacing:.06em}.idcard .badge{margin-top:6px}
+.distributor-id-card{width:min(100%,460px);aspect-ratio:1.586;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;padding:15px 17px;border:1px solid #0b5b3b;border-radius:12px;background:linear-gradient(135deg,#064E35,#16834A 68%,#65A765);color:#fff;box-shadow:0 10px 24px rgba(6,78,53,.16);print-color-adjust:exact;-webkit-print-color-adjust:exact}.distributor-id-head{display:flex;justify-content:space-between;gap:8px;align-items:start}.distributor-id-head b{font:700 .95rem Georgia,serif}.distributor-id-head small{color:#d8f0dc;font-size:.62rem}.distributor-id-body{display:grid;grid-template-columns:76px minmax(0,1fr);gap:13px;align-items:center;min-height:0}.distributor-id-photo{width:76px;height:92px;border:2px solid rgba(255,255,255,.82);border-radius:7px;object-fit:cover;background:#fff}.distributor-id-photo-placeholder{display:grid;place-items:center;color:var(--forest);font:700 1.7rem Georgia,serif}.distributor-id-data{min-width:0}.distributor-id-data small{display:block;color:#d8f0dc;font-size:.63rem;line-height:1.3}.distributor-id-data b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#fff}.distributor-id-name{font:700 1rem Georgia,serif}.distributor-id-code{font-size:.92rem;letter-spacing:.04em}.distributor-id-meta{margin-top:5px;font-size:.65rem;line-height:1.4;color:#eef8ef;overflow-wrap:anywhere}.distributor-id-foot{display:flex;justify-content:space-between;gap:8px;align-items:center;border-top:1px solid rgba(255,255,255,.3);padding-top:6px;font-size:.65rem}.id-photo-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.id-photo-actions input{min-width:0;max-width:100%}
+@media print{body.printing-distributor-id *{visibility:hidden!important}body.printing-distributor-id #distributor-id-card,body.printing-distributor-id #distributor-id-card *{visibility:visible!important}body.printing-distributor-id #distributor-id-card{position:fixed;left:10mm;top:10mm;width:85.6mm;height:54mm;max-width:none;padding:3mm;border-radius:2mm;box-shadow:none}}
 #d-body select,.pc select{padding:8px;border:1px solid #bcd8c2;border-radius:10px;font:inherit;background:#fff}
 .network-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.network-panel{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;overflow:auto}.network-panel h3{margin-bottom:5px}.network-stats{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 14px}.network-stat{background:var(--mist);border-radius:8px;padding:5px 10px;font-size:.82rem}.network-tree{border-left:2px solid var(--line);padding-left:14px}.network-node{position:relative;margin:9px 0;padding-left:8px}.network-node::before{content:"";position:absolute;left:-16px;top:22px;width:14px;border-top:2px solid var(--line)}.network-person{width:min(230px,100%);background:#fff;border:1px solid var(--line);border-radius:10px;padding:9px 11px}.network-person b{display:block;color:var(--ink)}.network-empty{color:#769080;font-size:.85rem}@media(max-width:760px){.network-grid{grid-template-columns:1fr}}
+.account-tabs{display:flex;gap:6px;overflow:auto;border-bottom:1px solid var(--line);margin:18px 0 14px;padding-bottom:8px}.account-tabs button{flex:none;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--forest);padding:8px 11px;font:inherit;font-size:.84rem;cursor:pointer}.account-tabs button.active{background:var(--forest);border-color:var(--forest);color:#fff}.account-panel{display:none}.account-panel.active{display:block}.account-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}.account-stat{background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px}.account-stat b{display:block;color:var(--forest);font:700 1.3rem Georgia,serif;overflow-wrap:anywhere}.account-stat small{display:block}.account-table-wrap{overflow:auto}.account-table{width:100%;border-collapse:collapse;font-size:.88rem}.account-table th,.account-table td{text-align:left;padding:9px 8px;border-bottom:1px solid var(--line);white-space:nowrap}.account-table th{color:var(--forest);font-size:.78rem}.account-tools{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.account-tools input,.account-tools select{flex:1;min-width:145px;padding:8px;border:1px solid #bcd8c2;border-radius:8px;font:inherit;background:#fff}.account-note{padding:10px 12px;background:#f1f8f2;border-left:3px solid var(--leaf);font-size:.86rem}
 .badge{display:inline-block;background:#e6f3e8;color:var(--forest);border-radius:999px;padding:2px 12px;font-size:.8rem;font-weight:700}
 .hide{display:none!important}small{color:#5d7b6c}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.leaf{animation:none!important}.leaf.f{display:none}.reveal{opacity:1;transform:none;transition:none}.btn,.card{transition:none}}
@@ -359,20 +362,45 @@ async function loadPublic(){
 function say(t,err){$("msg").innerHTML=t?`<div class="msg ${err?"err":""}">${esc(t)}</div>`:""}
 const views=["auth"],titles={auth:"Login / Register"};
 let me=null;
+async function getActiveSession(){
+  const{data,error}=await sb.auth.getSession();if(error)throw error;
+  let session=data.session;if(!session)return null;
+  if(session.expires_at&&session.expires_at*1000<Date.now()+60000){
+    const{data:refreshed,error:refreshError}=await sb.auth.refreshSession();
+    if(refreshError)return null;session=refreshed.session;
+  }
+  return session;
+}
+function requestSignInAgain(){
+  me=null;isAdmin=false;renderMenu();view("auth");say("Your session expired. Please sign in again to continue.",true);
+}
 function view(v){say("");$("ov").classList.add("open");views.forEach(x=>$("v-"+x).classList.toggle("hide",x!==v));$("ptitle").textContent=titles[v]}
 $("close").onclick=()=>$("ov").classList.remove("open");
 function renderMenu(){
   const m=$("menu");
   if(!me){m.innerHTML="";$("adm").textContent="🔒 Login";return}
-  let h='<button data-a="dash">📊 My Dashboard</button>';
+  let h=me.isDistributor||me.role==="distributor"?'<button data-a="dash">MY BUSINESS ACCOUNT</button><button data-a="profile">MY PROFILE &amp; ID CARD</button>':'<button data-a="dash">📊 My Dashboard</button>';
   m.innerHTML=h+'<hr><button data-a="out">Sign out</button>';
   $("adm").textContent="👤 My Account";
 }
 async function check(){
-  const{data:{session}}=await sb.auth.getSession();
+  let session=await getActiveSession();
   if(!session){me=null;isAdmin=false;renderMenu();return}
-  const{data:p}=await sb.from("ayu_profiles").select("*").eq("id",session.user.id).maybeSingle();
-  me={...(p||{id:session.user.id,role:"user"}),email:session.user.email};
+  const loadAccount=()=>Promise.all([
+    sb.from("ayu_profiles").select("*").eq("id",session.user.id).maybeSingle(),
+    sb.from("ayu_distributors").select("user_id").eq("user_id",session.user.id).maybeSingle()
+  ]);
+  let[profileResult,distributorResult]=await loadAccount();
+  const firstError=profileResult.error||distributorResult.error;
+  if(firstError&&/jwt expired|token expired/i.test(firstError.message||"")){
+    const{data:refreshed,error:refreshError}=await sb.auth.refreshSession();
+    if(refreshError||!refreshed.session){me=null;isAdmin=false;renderMenu();return}
+    session=refreshed.session;[profileResult,distributorResult]=await loadAccount();
+  }
+  const queryError=profileResult.error||distributorResult.error;
+  if(queryError){say("Could not load your account: "+queryError.message,true);return}
+  const p=profileResult.data,distributor=distributorResult.data;
+  me={...(p||{id:session.user.id,role:"user"}),email:session.user.email,isDistributor:!!distributor};
   isAdmin=false;if(me.role==="admin"){me.role="user";me.staff=true}renderMenu();
 }
 $("adm").onclick=async e=>{
@@ -387,6 +415,7 @@ $("menu").onclick=async e=>{
   const a=e.target.dataset.a;if(!a)return;
   if(a==="out"){await sb.auth.signOut();me=null;isAdmin=false;renderMenu();if(location.hash==="#dashboard")location.hash="";route();return}
   if(a==="dash"){location.hash="#dashboard";return}
+  if(a==="profile"){location.hash="#distributor";return}
 };
 $("go").onclick=async()=>{
   say("");const email=$("em").value.trim(),password=$("pw").value,full_name=$("nm").value.trim();
@@ -442,14 +471,132 @@ async function renderDash(){
   <label>Full name</label><input type="text" id="d-name" value="${esc(me.full_name||"")}">
   <label>Email</label><input type="text" value="${esc(me.email)}" disabled>
   <p style="margin:14px 0 0"><button class="btn sm" id="d-save">Save name</button></p></div>`;
-  if(r==="user")h+=`<div class="pc"><b>Welcome to AYU LIFE HEARBAL</b><p style="margin:8px 0 0">Browse our herbal products anytime. Interested in becoming a distributor? Apply and receive your permanent Distributor ID.</p><p style="margin:14px 0 0"><a class="btn sm" href="#distributor">Become a Distributor</a> <a class="btn ghost sm" href="#products">View Products</a></p></div>`;
-  if(r==="distributor"){
-    h+='<div class="pc"><b>Distributor profile</b><p style="margin:8px 0 0">View your Distributor ID, details and bank information.</p><p style="margin:12px 0 0"><a class="btn sm" href="#distributor">Open my distributor profile</a></p></div>'+await networkDashboard();
-    const{data:pr}=await sb.from("ayu_products").select("*").eq("is_published",true).order("sort_order");
-    h+=`<div class="pc"><b>Distributor catalogue</b>${(pr||[]).length?pr.map(x=>`<div class="row"><img class="thumb" src="${esc(x.image_url)}" alt=""><div class="grow"><b>${esc(x.name)}</b><br><small>${esc(x.description)}</small></div></div>`).join(""):"<p><small>No products published yet.</small></p>"}</div>`;
+  if(r==="user"&&!me.isDistributor)h+=`<div class="pc"><b>Welcome to AYU LIFE HEARBAL</b><p style="margin:8px 0 0">Browse our herbal products anytime. Interested in becoming a distributor? Apply and receive your permanent Distributor ID.</p><p style="margin:14px 0 0"><a class="btn sm" href="#distributor">Become a Distributor</a> <a class="btn ghost sm" href="#products">View Products</a></p></div>`;
+  if(r==="distributor"||me.isDistributor){
+    h+='<div class="pc"><b>Distributor profile</b><p style="margin:8px 0 0">View your Distributor ID, details and bank information.</p><p style="margin:12px 0 0"><a class="btn sm" href="#distributor">Open my distributor profile</a></p></div>'+await networkDashboard()+'<div id="d-business-account"></div>';
   }
   box.innerHTML=h;
-  $("d-save").onclick=async e=>{e.target.disabled=true;const full_name=$("d-name").value.trim()||null;const{error}=await sb.from("ayu_profiles").update({full_name}).eq("id",me.id);e.target.disabled=false;if(error)return alert(error.message);me.full_name=full_name;$("d-hello").textContent="Welcome, "+(full_name||me.email)};
+  $("d-save").onclick=async event=>{
+    event.target.disabled=true;
+    try{
+      const session=await getActiveSession();if(!session){requestSignInAgain();return}
+      const full_name=$("d-name").value.trim()||null;
+      const saveName=()=>sb.from("ayu_profiles").update({full_name}).eq("id",me.id);
+      let result=await saveName();
+      if(result.error&&/jwt expired|token expired/i.test(result.error.message||"")){
+        const{data,error}=await sb.auth.refreshSession();if(error||!data.session){requestSignInAgain();return}
+        result=await saveName();
+      }
+      if(result.error)throw result.error;
+      me.full_name=full_name;$("d-hello").textContent="Welcome, "+(full_name||me.email);
+    }catch(error){say("Could not save your name: "+(error.message||String(error)),true)}
+    finally{event.target.disabled=false}
+  };
+  if(r==="distributor"||me.isDistributor)await renderBusinessAccount();
+}
+
+const money=value=>new Intl.NumberFormat("en-IN",{style:"currency",currency:"INR",maximumFractionDigits:2}).format(Number(value)||0);
+async function selectAllPages(queryFactory){
+  const pageSize=1000,rows=[];
+  for(let offset=0;;offset+=pageSize){
+    const{data,error}=await queryFactory().range(offset,offset+pageSize-1);
+    if(error)return{data:null,error};
+    rows.push(...(data||[]));
+    if(!data||data.length<pageSize)return{data:rows,error:null};
+  }
+}
+async function renderBusinessAccount(){
+  const root=$("d-business-account");if(!root)return;
+  root.innerHTML='<div class="pc">Loading business account…</div>';
+  const [distributorResult,productsResult,stockResult,ledgerResult,adjustmentResult]=await Promise.all([
+    sb.from("ayu_distributors").select("user_id,distributor_code,full_name,contact_person,business_name,status").eq("user_id",me.id).maybeSingle(),
+    sb.from("ayu_products").select("id,name,account_sale_price,distributor_commission_rate,is_published").order("sort_order"),
+    sb.from("ayu_distributor_inventory").select("product_id,quantity").eq("distributor_id",me.id),
+    selectAllPages(()=>sb.from("ayu_distributor_ledger").select("*").eq("distributor_id",me.id).order("created_at",{ascending:false})),
+    selectAllPages(()=>sb.from("ayu_distributor_adjustment_requests").select("id,product_id,quantity_delta,description,status,created_at").eq("distributor_id",me.id).order("created_at",{ascending:false}))
+  ]);
+  const failed=[distributorResult,productsResult,stockResult,ledgerResult,adjustmentResult].find(result=>result.error);
+  if(failed){root.innerHTML=`<div class="msg err">${esc(failed.error.message)}. Apply the distributor account migration, then reload.</div>`;return}
+  const distributor=distributorResult.data,products=productsResult.data||[],publishedProducts=products.filter(product=>product.is_published),stock=stockResult.data||[],ledger=(ledgerResult.data||[]).filter(row=>row.record_status==="VERIFIED"),adjustments=adjustmentResult.data||[];
+  const productById=new Map(products.map(product=>[product.id,product.name]));
+  const qty=(type)=>ledger.filter(row=>row.transaction_type===type).reduce((sum,row)=>sum+Number(row.quantity||0),0);
+  const sales=ledger.filter(row=>row.transaction_type==="PRODUCT_SOLD").reduce((sum,row)=>sum+Number(row.total_amount||0),0);
+  const commission=ledger.filter(row=>row.transaction_type==="COMMISSION_EARNED").reduce((sum,row)=>sum+Number(row.total_amount||0),0);
+  const payments=ledger.filter(row=>row.transaction_type==="PAYMENT_RECEIVED").reduce((sum,row)=>sum+Number(row.total_amount||0),0);
+  const pendingCustomerPayments=ledger.filter(row=>row.transaction_type==="PAYMENT_PENDING").reduce((sum,row)=>sum+Number(row.total_amount||0),0);
+  const pending=Math.max(0,commission-payments);
+  const available=stock.reduce((sum,row)=>sum+Number(row.quantity||0),0);
+  const received=qty("PRODUCT_RECEIVED"),sold=qty("PRODUCT_SOLD"),returned=qty("PRODUCT_RETURNED");
+  const stats=[
+    [received,"Total products received"],[sold,"Total products sold"],[returned,"Products returned"],[available,"Available stock"],
+    [money(sales),"Sales revenue"],[money(commission),"Commission earned"],[money(payments),"Payments received"],[money(pendingCustomerPayments),"Customer payments pending"],[money(pending),"Pending commission payout"],[money(commission-payments),"Commission balance"]
+  ];
+  const rows=ledger.map(row=>({ ...row, product_name:productById.get(row.product_id)||row.product_name||"—" }));
+  const transactionRows=rows.map(row=>`<tr data-ledger-row data-search="${esc((row.transaction_id+" "+row.product_name+" "+row.transaction_type).toLowerCase())}" data-date="${esc(row.sale_date||row.created_at.slice(0,10))}" data-product="${esc(row.product_id||"")}" data-type="${esc(row.transaction_type)}"><td>${esc(row.transaction_id)}</td><td>${esc(new Date(row.created_at).toLocaleString())}</td><td>${esc(row.product_name)}</td><td>${esc(row.transaction_type.replaceAll("_"," "))}</td><td>${Number(row.quantity)||"—"}</td><td>${row.selling_price==null?"—":money(row.selling_price)}</td><td>${money(row.total_amount)}</td><td>${esc(row.payment_status)}</td></tr>`).join("");
+  root.innerHTML=`<div class="pc"><div class="idcard"><small style="color:#cfeed5">MY BUSINESS ACCOUNT · ${esc(distributor?.full_name||distributor?.contact_person||distributor?.business_name||"Distributor")}</small><br><b>${esc(distributor?.distributor_code||"Pending ID")}</b><br><span class="badge">${esc(distributor?.status||"unknown")}</span></div>
+    <div class="account-tabs">${[["overview","Overview"],["stock","My Stock"],["sale","Product Sales"],["ledger","My Ledger"],["earnings","My Earnings"],["payments","Payments"],["statement","Account Statement"]].map(([id,label],index)=>`<button data-account-tab="${id}" class="${index===0?"active":""}">${label}</button>`).join("")}</div>
+    <section class="account-panel active" data-account-panel="overview"><div class="account-stats">${stats.map(([value,label])=>`<div class="account-stat"><b>${value}</b><small>${label}</small></div>`).join("")}</div><p class="account-note" style="margin-top:14px">Personal sales are kept separate from binary business volume. No commission rule is defined in this project, so this account does not invent or award a commission.</p></section>
+    <section class="account-panel" data-account-panel="stock"><h3>Available stock</h3>${stock.length?`<div class="account-table-wrap"><table class="account-table"><thead><tr><th>Product</th><th>Available quantity</th></tr></thead><tbody>${stock.map(row=>`<tr><td>${esc(productById.get(row.product_id)||"Product")}</td><td>${Number(row.quantity)||0}</td></tr>`).join("")}</tbody></table></div>`:'<p class="empty">No stock has been assigned to your account.</p>'}</section>
+    <section class="account-panel" data-account-panel="sale"><h3>Record product sale</h3>${distributor?.status!=="approved"?'<div class="msg">Sales are available after your distributor account is approved.</div>':publishedProducts.length?`<div class="fgrid"><div><label>Product</label><select id="sale-product"><option value="">Select product</option>${publishedProducts.map(p=>`<option value="${p.id}" ${Number(p.account_sale_price)<=0?"disabled":""}>${esc(p.name)}${Number(p.account_sale_price)>0?` · ${money(p.account_sale_price)}`:" · Price not set"}</option>`).join("")}</select></div><div><label>Quantity sold</label><input id="sale-quantity" type="number" min="1" step="1"></div><div><label>Selling price per product</label><input id="sale-price" type="text" readonly value="Set by company"></div><div><label>Payment method</label><select id="sale-method"><option value="CASH">Cash</option><option value="UPI">UPI</option><option value="BANK_TRANSFER">Bank transfer</option><option value="OTHER">Other</option></select></div><div><label>Customer payment</label><select id="sale-payment"><option value="PAID">Paid</option><option value="PENDING">Pending</option></select></div><div><label>Customer name (optional)</label><input id="sale-customer" type="text"></div><div><label>Customer phone (optional)</label><input id="sale-phone" type="text"></div><div><label>Sale date</label><input id="sale-date" type="date" value="${new Date().toISOString().slice(0,10)}"></div></div><p id="sale-total">Total: ${money(0)}</p><div id="sale-message"></div><p><button class="btn sm" id="sale-submit">Record sale</button></p>`:'<p class="empty">No published products are available.</p>'}</section>
+    <section class="account-panel" data-account-panel="ledger"><h3>Transaction history</h3>${ledger.length?`<div class="account-table-wrap"><table class="account-table"><thead><tr><th>Transaction ID</th><th>Date</th><th>Product</th><th>Type</th><th>Qty</th><th>Price</th><th>Total</th><th>Status</th></tr></thead><tbody>${transactionRows}</tbody></table></div>`:'<p class="empty">No transactions recorded yet.</p>'}</section>
+    <section class="account-panel" data-account-panel="earnings"><h3>My Earnings</h3><div class="account-stat"><b>${money(commission)}</b><small>Verified commission recorded</small></div><p class="account-note" style="margin-top:12px">The repository contains no commission calculation rule. Binary commissions remain unchanged and personal product sales are excluded from binary volume until the existing rule is supplied.</p></section>
+    <section class="account-panel" data-account-panel="payments"><h3>Payments</h3><div class="account-stats"><div class="account-stat"><b>${money(payments)}</b><small>Commission payouts received</small></div><div class="account-stat"><b>${money(pendingCustomerPayments)}</b><small>Customer payments pending</small></div><div class="account-stat"><b>${money(pending)}</b><small>Commission payout pending</small></div></div><p class="account-note" style="margin-top:12px">Customer balances come from pending sale entries; commission payouts come from administrator-recorded payments.</p></section>
+    <section class="account-panel" data-account-panel="statement"><h3>Account Statement</h3><div class="account-tools"><input id="statement-search" type="search" placeholder="Search transaction ID"><input id="statement-from" type="date" aria-label="From date"><input id="statement-to" type="date" aria-label="To date"><select id="statement-product"><option value="">All products</option>${products.map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join("")}</select><select id="statement-type"><option value="">All types</option>${[...new Set(rows.map(row=>row.transaction_type))].map(type=>`<option value="${type}">${esc(type.replaceAll("_"," "))}</option>`).join("")}</select><button class="btn ghost sm" id="statement-csv">Export CSV</button><button class="btn ghost sm" id="statement-print">Print / PDF</button></div><div class="account-table-wrap"><table class="account-table"><thead><tr><th>Transaction ID</th><th>Date</th><th>Product</th><th>Type</th><th>Qty</th><th>Price</th><th>Total</th><th>Status</th></tr></thead><tbody id="statement-rows">${transactionRows||'<tr><td colspan="8">No transactions recorded yet.</td></tr>'}</tbody></table></div></section>
+  </div>`;
+  root.querySelector('[data-account-panel="overview"] .account-note').textContent="Personal-sale commission rates are configured per product by an administrator. Personal sales and commissions remain separate from the existing binary plan.";
+  root.querySelector('[data-account-panel="stock"]').insertAdjacentHTML("beforeend",`<div class="card"><h3>Request a stock adjustment</h3><div class="network-controls"><select id="adjust-product"><option value="">Select product</option>${products.map(product=>`<option value="${product.id}">${esc(product.name)}</option>`).join("")}</select><input id="adjust-quantity" type="number" step="1" placeholder="Quantity change"><input id="adjust-note" type="text" maxlength="300" placeholder="Reason"></div><p style="margin:10px 0 0"><button class="btn sm" id="adjust-submit">Submit request</button></p><div id="adjust-message"></div></div><h3>Adjustment requests</h3>${adjustments.length?adjustments.map(request=>`<div class="row"><div class="grow"><b>${esc(productById.get(request.product_id)||"Product")} · ${request.quantity_delta>0?"+":""}${request.quantity_delta}</b><br><small>${esc(request.description)} · ${esc(new Date(request.created_at).toLocaleString())}</small></div><span class="badge">${esc(request.status)}</span></div>`).join(""):'<p><small>No requests submitted.</small></p>'}`);
+  const paymentPanel=root.querySelector('[data-account-panel="payments"]');
+  paymentPanel.querySelector(".account-stats").insertAdjacentHTML("afterend",ledger.some(row=>row.transaction_type==="PAYMENT_RECEIVED")?`<div class="account-table-wrap"><table class="account-table"><thead><tr><th>Date</th><th>Amount</th><th>Method</th><th>Reference</th></tr></thead><tbody>${ledger.filter(row=>row.transaction_type==="PAYMENT_RECEIVED").map(row=>`<tr><td>${esc(new Date(row.created_at).toLocaleString())}</td><td>${money(row.total_amount)}</td><td>${esc(row.payment_method||"—")}</td><td>${esc(row.description||"—")}</td></tr>`).join("")}</tbody></table></div>`:'<p class="empty">No payments recorded.</p>');
+  root.querySelector('[data-account-panel="earnings"] .account-note').textContent="Personal-sale commissions are calculated using the product rate set by the company. These entries do not change binary commissions.";
+  const statementPanel=root.querySelector('[data-account-panel="statement"]');
+  statementPanel.querySelector("h3").insertAdjacentHTML("afterend",'<p>Opening balance: <b id="statement-opening"></b> · Closing balance: <b id="statement-closing"></b></p>');
+  statementPanel.querySelector(".account-tools").insertAdjacentHTML("afterbegin",'<select id="statement-period"><option value="all">All dates</option><option value="today">Today</option><option value="month">This month</option></select>');
+  root.querySelectorAll("[data-account-tab]").forEach(button=>button.onclick=()=>{
+    root.querySelectorAll("[data-account-tab]").forEach(item=>item.classList.toggle("active",item===button));
+    root.querySelectorAll("[data-account-panel]").forEach(panel=>panel.classList.toggle("active",panel.dataset.accountPanel===button.dataset.accountTab));
+  });
+  const filterStatement=()=>{
+    const query=$("statement-search").value.trim().toLowerCase(),from=$("statement-from").value,to=$("statement-to").value,product=$("statement-product").value,type=$("statement-type").value;
+    root.querySelectorAll("[data-ledger-row]").forEach(row=>{const show=(!query||row.dataset.search.includes(query))&&(!from||row.dataset.date>=from)&&(!to||row.dataset.date<=to)&&(!product||row.dataset.product===product)&&(!type||row.dataset.type===type);row.hidden=!show});
+    const balanceChange=row=>row.transaction_type==="COMMISSION_EARNED"?Number(row.total_amount||0):["PAYMENT_RECEIVED","COMMISSION_REVERSAL"].includes(row.transaction_type)?-Number(row.total_amount||0):0;
+    const opening=rows.filter(row=>from&&((row.sale_date||row.created_at.slice(0,10))<from)).reduce((sum,row)=>sum+balanceChange(row),0);
+    const closing=opening+rows.filter(row=>(!from||(row.sale_date||row.created_at.slice(0,10))>=from)&&(!to||(row.sale_date||row.created_at.slice(0,10))<=to)).reduce((sum,row)=>sum+balanceChange(row),0);
+    $("statement-opening").textContent=money(opening);$("statement-closing").textContent=money(closing);
+  };
+  ["statement-search","statement-from","statement-to","statement-product","statement-type"].forEach(id=>$(id).addEventListener(id.includes("search")?"input":"change",filterStatement));
+  $("statement-period").onchange=()=>{
+    const today=new Date(),date=today.toISOString().slice(0,10);
+    if($("statement-period").value==="today"){$("statement-from").value=date;$("statement-to").value=date}
+    else if($("statement-period").value==="month"){$("statement-from").value=new Date(today.getFullYear(),today.getMonth(),1).toISOString().slice(0,10);$("statement-to").value=date}
+    else{$("statement-from").value="";$("statement-to").value=""}
+    filterStatement();
+  };
+  filterStatement();
+  $("statement-csv").onclick=()=>{
+    const visible=[...root.querySelectorAll("[data-ledger-row]")].filter(row=>!row.hidden),csv=["Transaction ID,Date,Product,Type,Quantity,Price,Total,Status",...visible.map(row=>[...row.cells].map(cell=>'"'+cell.textContent.replaceAll('"','""')+'"').join(","))].join("\n");
+    const link=document.createElement("a");link.href=URL.createObjectURL(new Blob(["\ufeff"+csv],{type:"text/csv"}));link.download="ayu-account-statement.csv";link.click();URL.revokeObjectURL(link.href);
+  };
+  $("statement-print").onclick=()=>window.print();
+  const submit=$("sale-submit");if(submit){
+    let saleRequestId=crypto.randomUUID();
+    const updateSaleTotal=()=>{const product=products.find(item=>item.id===$("sale-product").value),quantity=Math.max(0,Number($("sale-quantity").value)||0),price=Number(product?.account_sale_price)||0;$("sale-price").value=price?money(price):"Set by company";$("sale-total").textContent="Total: "+money(price*quantity)};
+    $("sale-product").onchange=updateSaleTotal;$("sale-quantity").oninput=updateSaleTotal;
+    submit.onclick=async()=>{
+    const product_id=$("sale-product").value,quantity=Number($("sale-quantity").value),sale_date=$("sale-date").value;
+    if(!product_id||!Number.isInteger(quantity)||quantity<=0||!sale_date){$("sale-message").innerHTML='<div class="msg err">Choose a priced product, positive whole quantity, and sale date.</div>';return}
+    submit.disabled=true;$("sale-message").innerHTML="";
+    const{error}=await sb.rpc("sell_distributor_product",{target_product:product_id,sold_quantity:quantity,customer:$("sale-customer").value,customer_phone_value:$("sale-phone").value,method:$("sale-method").value,customer_payment_status:$("sale-payment").value,transaction_date:sale_date,transaction_request:saleRequestId});
+    if(error){submit.disabled=false;$("sale-message").innerHTML=`<div class="msg err">${esc(error.message)}</div>`;return}
+    await renderBusinessAccount();const refreshed=$("d-business-account");refreshed.querySelector('[data-account-tab="ledger"]').click();
+    };
+  }
+  const adjustSubmit=$("adjust-submit");if(adjustSubmit)adjustSubmit.onclick=async()=>{
+    const product_id=$("adjust-product").value,quantity_delta=Number($("adjust-quantity").value),notes=$("adjust-note").value.trim();
+    if(!product_id||!Number.isInteger(quantity_delta)||quantity_delta===0||!notes){$("adjust-message").innerHTML='<div class="msg err">Choose a product, enter a non-zero whole quantity, and provide a reason.</div>';return}
+    adjustSubmit.disabled=true;const{error}=await sb.rpc("distributor_request_stock_adjustment",{target_product:product_id,quantity_delta,notes});adjustSubmit.disabled=false;
+    if(error){$("adjust-message").innerHTML=`<div class="msg err">${esc(error.message)}</div>`;return}
+    await renderBusinessAccount();root.querySelector('[data-account-tab="stock"]').click();
+  };
 }
 
 async function toWebp(file,max){
@@ -496,25 +643,55 @@ async function renderDist(){
   if(me.staff){box.innerHTML='<div class="msg">Please use a customer account to apply as a distributor.</div>';return}
   box.innerHTML='<div class="pc">Loading…</div>';
   let d;try{d=await myDist()}catch(e){box.innerHTML=`<div class="msg err">${esc(e.message)}</div>`;return}
+  const photoResult=d.profile_photo_path?await sb.storage.from("ayu-docs").createSignedUrl(d.profile_photo_path,600):{data:null,error:null};
+  const photoUrl=photoResult.data?.signedUrl||"",displayName=d.full_name||d.contact_person||me.full_name||d.business_name||"Distributor";
   const edit=d.status==="draft"||d.status==="rejected",appr=d.status==="approved";
-  let h=`<div class="idcard"><small style="color:#cfeed5">Your permanent Distributor ID</small><br><b>${esc(d.distributor_code)}</b><br><span class="badge">${STAT[d.status]}</span></div>`;
+  let h=`<article class="distributor-id-card" id="distributor-id-card" aria-label="AYU LIFE HEARBAL distributor identity card"><div class="distributor-id-head"><b>🌿 AYU LIFE HEARBAL</b><small>DISTRIBUTOR IDENTITY CARD</small></div><div class="distributor-id-body">${photoUrl?`<img class="distributor-id-photo" id="distributor-card-photo" src="${esc(photoUrl)}" alt="${esc(displayName)}">`:`<div class="distributor-id-photo distributor-id-photo-placeholder" aria-label="No profile photo">${esc(displayName.charAt(0).toUpperCase())}</div>`}<div class="distributor-id-data"><small>DISTRIBUTOR NAME</small><b class="distributor-id-name" id="distributor-card-name">${esc(displayName)}</b><small style="margin-top:5px">DISTRIBUTOR ID</small><b class="distributor-id-code">${esc(d.distributor_code||"Pending ID")}</b><div class="distributor-id-meta"><span id="distributor-card-business">${esc(d.business_name||"AYU LIFE HEARBAL Distributor")}</span><br><span id="distributor-card-contact">${esc(d.phone||"")}${d.city?` · ${esc(d.city)}`:""}${d.state?`, ${esc(d.state)}`:""}</span><br><span id="distributor-card-email">${esc(d.email||me.email||"")}</span></div></div></div><div class="distributor-id-foot"><span>AYU LIFE HEARBAL · INDIA</span><span>${esc(STAT[d.status]||d.status||"Pending")}</span></div></article>
+  <div class="pc"><b>Identity card photo</b><small style="display:block">Upload a JPG, PNG, or WebP photo, up to 5 MB.</small><div class="id-photo-actions"><input type="file" id="distributor-photo-file" accept="image/jpeg,image/png,image/webp"><button class="btn sm" id="distributor-photo-save">Save photo</button><button class="btn ghost sm" id="distributor-id-print">Print / Save PDF</button><button class="btn ghost sm" id="profile-save-top">Save profile details</button></div><div id="profile-autosave-message" aria-live="polite"></div><div id="distributor-photo-message">${photoResult.error?`<div class="msg err">Photo preview failed: ${esc(photoResult.error.message)}</div>`:""}</div></div>`;
   if(d.status==="rejected"&&d.admin_remarks)h+=`<div class="msg err"><b>Message from our team:</b> ${esc(d.admin_remarks)}<br>Please update your details and submit again.</div>`;
   if(d.status==="submitted"||d.status==="under_review")h+='<div class="msg">Your application is with our team. We will contact you soon.</div>';
   if(appr)h+='<div class="msg">Congratulations! You are an approved AYU LIFE HEARBAL distributor.'+(d.admin_remarks?" Note: "+esc(d.admin_remarks):"")+'</div>';
-  DSEC.forEach(sec=>{h+=`<div class="pc"><b>${sec[0]}</b><div class="fgrid">${sec[1].map(f=>fld(f,d[f[0]]??"",!edit)).join("")}</div></div>`});
+  DSEC.forEach(sec=>{h+=`<div class="pc"><b>${sec[0]}</b><div class="fgrid">${sec[1].map(f=>fld(f,d[f[0]]??"",false)).join("")}</div></div>`});
   h+='<div class="pc"><b>Documents</b><small style="display:block">PDF, JPG, PNG or WebP · max 5 MB each · stored privately</small>';
   for(const[k,l]of DDOCS)h+=`<div class="row"><div class="grow"><b>${esc(l)}</b><br>${await signedLink(d[k])}</div>${edit?`<input type="file" id="dd-${k}" accept="image/jpeg,image/png,image/webp,application/pdf" style="max-width:46%">`:""}</div>`;
   h+="</div>";
   if(appr)h+=`<div class="pc"><b>Bank details</b><div class="fgrid">${DBANK.map(f=>fld(f,d[f[0]]??"",false)).join("")}</div></div>`;
   if(edit)h+=`<div class="pc"><label style="display:flex;gap:10px;align-items:flex-start;margin:0"><input type="checkbox" id="df-decl" ${d.declaration_accepted?"checked":""} style="margin-top:4px"> I declare that all information provided is true and I agree to the company’s distributor terms and conditions.</label></div>`;
-  h+='<div id="dmsg"></div><p>'+(edit?'<button class="btn ghost" id="d-draft">Save draft</button> <button class="btn" id="d-submit">Submit application</button>':appr?'<button class="btn" id="d-bank">Save bank details</button>':"")+"</p>";
+  h+='<div id="dmsg"></div><p>'+(edit?'<button class="btn ghost" id="d-draft">Save draft</button> <button class="btn" id="d-submit">Submit application</button>':'<button class="btn" id="d-save-details">Save profile details</button>')+(appr?' <button class="btn ghost" id="d-bank">Save bank details</button>':'')+"</p>";
   box.innerHTML=h;
-  const msg=(t,er)=>{$("dmsg").innerHTML=`<div class="msg ${er?"err":""}">${esc(t)}</div>`};
+  const msg=(t,er)=>{const message=`<div class="msg ${er?"err":""}">${esc(t)}</div>`;if($("dmsg"))$("dmsg").innerHTML=message;if($("profile-autosave-message"))$("profile-autosave-message").innerHTML=message};
+  $("distributor-id-print").onclick=()=>{document.body.classList.add("printing-distributor-id");window.print();window.addEventListener("afterprint",()=>document.body.classList.remove("printing-distributor-id"),{once:true})};
+  $("distributor-photo-save").onclick=async event=>{
+    const file=$("distributor-photo-file").files[0];if(!file)return msg("Choose a profile photo first.",true);
+    if(!["image/jpeg","image/png","image/webp"].includes(file.type)||file.size>5*1024*1024)return msg("Choose a JPG, PNG, or WebP photo under 5 MB.",true);
+    event.target.disabled=true;let uploadedPath=null;
+    try{
+      const photo=await toWebp(file,1200);if(!photo.blob)throw new Error("Could not process this photo.");
+      uploadedPath=`${me.id}/profile-photo-${Date.now()}.${photo.ext}`;
+      const{error:uploadError}=await sb.storage.from("ayu-docs").upload(uploadedPath,photo.blob,{contentType:photo.type});if(uploadError)throw uploadError;
+      const{data:previewData,error:previewError}=await sb.storage.from("ayu-docs").createSignedUrl(uploadedPath,600);
+      if(previewError||!previewData?.signedUrl)throw new Error(`Photo uploaded but cannot be previewed: ${previewError?.message||"signed URL unavailable"}. Re-run supabase-distributor-identity-card.sql.`);
+      const{data:updateId,error:updateError}=await sb.rpc("update_my_distributor_photo",{photo_path:uploadedPath});if(updateError)throw updateError;if(updateId!==me.id)throw new Error("Photo update was not confirmed for this distributor.");
+      if(d.profile_photo_path){const{error:removeError}=await sb.storage.from("ayu-docs").remove([d.profile_photo_path]);if(removeError)console.warn("Old profile photo cleanup failed",removeError.message)}
+      await renderDist();
+      const photoElement=$("distributor-card-photo");
+      if(photoElement){
+        $("distributor-photo-message").innerHTML='<div class="msg">Profile photo saved.</div>';
+        photoElement.addEventListener("error",()=>{$("distributor-photo-message").innerHTML='<div class="msg err">Photo saved, but the image could not be loaded from ayu-docs. Check the bucket policy and image object.</div>'},{once:true});
+      }
+    }catch(error){if(uploadedPath)await sb.storage.from("ayu-docs").remove([uploadedPath]);event.target.disabled=false;msg(error.message||String(error),true)}
+  };
   const collect=()=>{const o={};DSEC.forEach(x=>x[1].forEach(f=>{const v=$("df-"+f[0]).value.trim();o[f[0]]=f[2]==="number"?(v===""?null:parseInt(v,10)):(v||null)}));return o};
+  const updateIdCard=profile=>{
+    $("distributor-card-name").textContent=profile.contact_person||d.full_name||me.full_name||d.business_name||"Distributor";
+    $("distributor-card-business").textContent=profile.business_name||"AYU LIFE HEARBAL Distributor";
+    $("distributor-card-contact").textContent=[profile.phone,profile.city,profile.state].filter(Boolean).join(profile.phone?" · ":", ");
+    $("distributor-card-email").textContent=profile.email||me.email||"";
+  };
   async function save(extra,btn,ok){
     btn.disabled=true;
     try{
-      const o=Object.assign(collect(),extra);
+      const o=Object.assign(collect(),extra),replacedDocs=[];
       for(const[k]of DDOCS){
         const inp=$("dd-"+k),f=inp&&inp.files[0];if(!f)continue;
         if(f.size>5*1024*1024)throw new Error("Each file must be under 5 MB.");
@@ -522,9 +699,10 @@ async function renderDist(){
         if(f.type.startsWith("image/")){const w=await toWebp(f,1800);blob=w.blob;ext=w.ext;type=w.type}
         const path=`${me.id}/${k}-${Date.now()}.${ext}`;
         const{error}=await sb.storage.from("ayu-docs").upload(path,blob,{contentType:type});if(error)throw error;
-        if(d[k])await sb.storage.from("ayu-docs").remove([d[k]]);o[k]=path;
+        if(d[k])replacedDocs.push(d[k]);o[k]=path;
       }
-      const{error}=await sb.from("ayu_distributors").update(o).eq("user_id",me.id);if(error)throw error;
+      const{data:updateId,error}=await sb.rpc("update_my_distributor_profile",{profile_data:o,submit_application:extra.status==="submitted"});if(error)throw error;if(updateId!==me.id)throw new Error("Profile update was not confirmed for this distributor.");
+      for(const path of replacedDocs)await sb.storage.from("ayu-docs").remove([path]);
       await renderDist();$("dmsg").innerHTML=`<div class="msg">${esc(ok)}</div>`;
     }catch(e){btn.disabled=false;msg(e.message||String(e),true)}
   }
@@ -539,11 +717,41 @@ async function renderDist(){
       save({declaration_accepted:true,status:"submitted",submitted_at:new Date().toISOString()},e.target,"Application submitted. It will be reviewed by our team.");
     };
   }
-  if(appr)$("d-bank").onclick=async e=>{
-    e.target.disabled=true;const o={};DBANK.forEach(f=>o[f[0]]=$("df-"+f[0]).value.trim()||null);
-    const{error}=await sb.from("ayu_distributors").update(o).eq("user_id",me.id);e.target.disabled=false;
-    msg(error?error.message:"Bank details saved.",!!error);
-  };
+  if(!edit){
+    let profileSaveQueue=Promise.resolve(),profileSaveTimer;
+    const queueProfileSave=()=>{
+      clearTimeout(profileSaveTimer);msg("Saving profile details…",false);
+      profileSaveTimer=setTimeout(()=>{
+        const profile=collect();
+        profileSaveQueue=profileSaveQueue.catch(()=>{}).then(async()=>{
+          const{data:updateId,error}=await sb.rpc("update_my_distributor_profile",{profile_data:profile,submit_application:false});
+          if(error)throw error;if(updateId!==me.id)throw new Error("Profile update was not confirmed for this distributor.");
+          d={...d,...profile};updateIdCard(profile);msg("Profile details updated.",false);
+        }).catch(error=>msg(error.message||String(error),true));
+      },450);
+    };
+    DSEC.forEach(section=>section[1].forEach(field=>{
+      const input=$("df-"+field[0]);input.addEventListener("input",queueProfileSave);input.addEventListener("change",queueProfileSave);
+    }));
+    $("d-save-details").onclick=event=>save({},event.target,"Profile details saved.");
+  }
+  $("profile-save-top").onclick=event=>save({},event.target,"Profile details saved.");
+  if(appr){
+    let bankSaveQueue=Promise.resolve(),bankSaveTimer;
+    const saveBankDetails=()=>{
+      const bankData={};DBANK.forEach(field=>bankData[field[0]]=$("df-"+field[0]).value.trim()||null);
+      bankSaveQueue=bankSaveQueue.catch(()=>{}).then(async()=>{
+        const{data:updateId,error}=await sb.rpc("update_my_distributor_bank_details",{bank_data:bankData});
+        if(error)throw error;if(updateId!==me.id)throw new Error("Bank details update was not confirmed for this distributor.");
+        msg("Bank details updated.",false);
+      }).catch(error=>msg(error.message||String(error),true));
+      return bankSaveQueue;
+    };
+    DBANK.forEach(field=>$("df-"+field[0]).addEventListener("change",()=>{
+      clearTimeout(bankSaveTimer);msg("Saving bank details…",false);bankSaveTimer=setTimeout(saveBankDetails,450);
+    }));
+    $("d-bank").onclick=async event=>{clearTimeout(bankSaveTimer);event.target.disabled=true;await saveBankDetails();event.target.disabled=false};
+  }
 }
 (function(){
  const hd=document.querySelector("header"),nv=$("nav"),bg=$("burger");

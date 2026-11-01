@@ -52,6 +52,8 @@ main{padding:18px;max-width:1000px}
 .kv{display:grid;grid-template-columns:minmax(110px,40%) 1fr;gap:6px 12px;padding:6px 0;border-top:1px solid var(--line);word-break:break-word}
 .tools{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}.tools input{flex:1;min-width:150px}.tools select{width:auto}
 .network-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.network-panel{border:1px solid var(--line);border-radius:12px;padding:14px}.network-panel h2{font-size:1rem}.network-row{border-top:1px solid var(--line);padding:8px 0}.network-row:first-child{border-top:0}.network-controls{display:grid;grid-template-columns:minmax(0,1fr) 110px 120px;gap:8px}.network-controls select,.network-controls button{width:100%}@media(max-width:860px){.network-grid{grid-template-columns:1fr}.network-controls{grid-template-columns:1fr}}
+.account-table-wrap{overflow:auto}.account-table{width:100%;border-collapse:collapse;font-size:.88rem}.account-table th,.account-table td{text-align:left;padding:9px 8px;border-bottom:1px solid var(--line);white-space:nowrap}.account-table th{color:var(--forest);font-size:.78rem}.account-tools{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}.account-tools input,.account-tools select{flex:1;min-width:150px}.account-stats{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));margin-bottom:14px}.account-stat{background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px}.account-stat b{display:block;font:700 1.3rem Georgia,serif;color:var(--forest)}
+.admin-distributor-id{display:flex;align-items:center;gap:16px;background:linear-gradient(135deg,#064E35,#16834A);color:#fff;border-radius:10px;padding:16px}.admin-distributor-id img,.admin-distributor-id-placeholder{width:84px;height:100px;border:2px solid #fff;border-radius:7px;object-fit:cover;background:#fff;flex:none}.admin-distributor-id-placeholder{display:grid;place-items:center;color:var(--forest);font:700 1.8rem Georgia,serif}.admin-distributor-id small{display:block;color:#d8f0dc}.admin-distributor-id b{display:block;color:#fff}.admin-distributor-id .code{font:700 1.2rem Georgia,serif;letter-spacing:.04em}.admin-distributor-meta{overflow-wrap:anywhere;font-size:.82rem;color:#eef8ef}
 .owner-tree-toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px}.owner-tree-toolbar input{flex:1;min-width:220px;padding:9px 12px;border:1px solid #bcd8c2;border-radius:8px;font:inherit}.owner-tree-toolbar button{width:38px;height:36px;padding:0}.owner-tree-viewport{height:min(620px,70vh);overflow:hidden;border:1px solid var(--line);border-radius:12px;background:linear-gradient(#f8fbf8,#fff);cursor:grab;touch-action:none}.owner-tree-viewport.dragging{cursor:grabbing}.owner-tree-canvas{display:inline-block;min-width:max-content;padding:28px 80px;transform-origin:50% 0;transition:transform .08s}.owner-org{display:flex;flex-direction:column;align-items:center}.owner-children{display:flex;justify-content:center;gap:72px;margin-top:62px;position:relative}.owner-children::before{content:"";position:absolute;top:-31px;left:25%;right:25%;border-top:2px solid #9fc3a6}.owner-node{display:flex;flex-direction:column;align-items:center;position:relative;min-width:210px}.owner-node::before{content:"";position:absolute;top:-31px;height:31px;border-left:2px solid #9fc3a6}.owner-node-label{font-size:.68rem;font-weight:800;letter-spacing:.08em;color:#5d806b;margin-bottom:7px}.owner-card{width:190px;min-height:72px;border:1px solid var(--line);border-radius:9px;border-top:4px solid var(--green);background:#fff;padding:10px 12px;text-align:center;color:var(--forest);font-weight:700;cursor:pointer;box-shadow:0 5px 16px rgba(6,78,53,.09)}.owner-card.right{border-top-color:#65A765}.owner-card.owner-root{width:230px;background:var(--forest);border-color:var(--forest);color:#fff}.owner-card small{display:block;font-size:.72rem;font-weight:400;color:#6c8177;margin-top:4px}.owner-card.owner-root small{color:#d8f0dc}.owner-slot{width:190px;min-height:72px;border:1px dashed #98bca0;border-radius:9px;background:#eef6ef;padding:12px;text-align:center;color:#718c77;font-size:.82rem} .owner-card.search-hit{outline:3px solid #f0c36b;outline-offset:3px}.owner-distributor-heading{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.owner-distributor-table{overflow-x:auto}.owner-distributor-table table{width:100%;border-collapse:collapse;font-size:.86rem}.owner-distributor-table th{text-align:left;color:var(--forest);background:var(--mist);padding:9px;border-bottom:1px solid var(--line)}.owner-distributor-table td{padding:10px 9px;border-bottom:1px solid var(--line);vertical-align:middle}.owner-distributor-table tr:hover td{background:#fbfdfb}.owner-card-actions{display:flex;justify-content:center;gap:5px;margin-top:7px}.owner-card-actions button{font-size:.68rem;padding:4px 7px}.owner-tree-picker{width:190px;border:1px solid var(--line);border-radius:9px;background:#fff;padding:8px;text-align:left}.owner-tree-picker select{width:100%;font-size:.72rem;margin-bottom:5px}.owner-rosters{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-bottom:12px}.owner-roster{border:1px solid var(--line);border-radius:10px;background:#fff;padding:12px}.owner-roster summary{cursor:pointer;font-weight:700;color:var(--forest)}.owner-roster-list{max-height:220px;overflow:auto;margin-top:10px}.owner-roster-row{display:flex;justify-content:space-between;gap:12px;padding:8px;border-top:1px solid var(--line);cursor:pointer}.owner-roster-row:first-child{border-top:0}.owner-roster-row:hover{background:var(--mist)}@media(max-width:760px){.owner-rosters{grid-template-columns:1fr}}.binary-tree{overflow-x:auto;padding:24px 12px;text-align:center}.binary-root{display:inline-flex}.binary-node{display:flex;flex-direction:column;align-items:center}.binary-card{min-width:150px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px 10px;color:var(--forest);font-weight:700;box-shadow:0 4px 12px rgba(6,78,53,.06)}.binary-card small{display:block;font-weight:400}.binary-children{display:flex;justify-content:center;gap:28px;position:relative;padding-top:24px}.binary-children::before{content:"";position:absolute;top:0;left:25%;right:25%;height:2px;background:#bcd8c2}.binary-child{position:relative;padding-top:24px}.binary-child::before{content:"";position:absolute;top:0;left:50%;height:24px;border-left:2px solid #bcd8c2}.binary-slot{min-width:150px;border:1px dashed #a8c8b0;border-radius:10px;padding:9px;color:#769080;background:var(--mist)}details.binary-node summary{cursor:pointer;list-style:none}.binary-branch{font-size:.72rem;letter-spacing:.08em;color:#5d7b6c;margin-bottom:4px}
 @media(max-width:860px){
  aside{transform:translateX(-100%)}aside.open{transform:none;box-shadow:0 0 0 100vmax rgba(0,0,0,.35)}
@@ -78,6 +80,7 @@ main{padding:18px;max-width:1000px}
    <a data-s="dashboard">📊 Dashboard</a>
    <a data-s="owner-tree">🌳 Owner Direct Tree</a>
    <a data-s="distributors">🤝 Distributors</a>
+  <a data-s="distributor-accounts">💼 Distributor Accounts</a>
    <a data-s="users">👥 Users &amp; Accounts</a>
    <a data-s="products">🌿 Products</a>
    <a data-s="gallery">🖼️ Gallery</a>
@@ -98,8 +101,8 @@ const $=id=>document.getElementById(id);
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const B="ayu-media",D="ayu-docs";
 const STAT={draft:"Draft",submitted:"Submitted",under_review:"Under review",approved:"Approved",rejected:"Rejected"};
-const TITLES={dashboard:"Dashboard","owner-tree":"Owner Direct Tree",distributors:"Distributors",users:"Users & Accounts",products:"Products",gallery:"Gallery",content:"Website Content",settings:"Settings"};
-let me=null,cur="dashboard",DL=[];
+const TITLES={dashboard:"Dashboard","owner-tree":"Owner Direct Tree",distributors:"Distributors","distributor-accounts":"Distributor Accounts",users:"Users & Accounts",products:"Products",gallery:"Gallery",content:"Website Content",settings:"Settings"};
+let me=null,cur="dashboard",DL=[],activeDistributorId=null,activeDistributorPhotoPath=null,refreshingDistributor=false;
 
 function toast(t,err){$("toast").innerHTML=t?`<div class="msg ${err?"err":""}">${esc(t)}</div>`:"";if(t)scrollTo(0,0)}
 function showLogin(m){$("app").classList.add("hide");$("login").classList.remove("hide");$("lmsg").innerHTML=m?`<div class="msg err">${esc(m)}</div>`:""}
@@ -127,14 +130,25 @@ addEventListener("hashchange",()=>{if(me)go(location.hash.slice(1)||"dashboard")
 document.addEventListener("click",e=>{if(!$("side").contains(e.target)&&e.target!==$("burger"))$("side").classList.remove("open")});
 
 function go(s){
-  if(!TITLES[s])s="dashboard";cur=s;toast("");
+  const [route,targetId]=s.split("/");
+  if(!TITLES[route])s="dashboard";else s=route;cur=s;toast("");
   $("title").textContent=TITLES[s];
   document.querySelectorAll("#nav a").forEach(a=>a.classList.toggle("on",a.dataset.s===s));
   $("main").innerHTML='<div class="card"><small>Loading…</small></div>';
-  ({dashboard,"owner-tree":ownerTree,distributors,users,products,gallery,content,settings})[s]().catch(err=>{$("main").innerHTML="";toast(err.message||String(err),true)});
+  const page=({dashboard,"owner-tree":ownerTree,distributors,"distributor-accounts":distributorAccounts,users,products,gallery,content,settings})[s];
+  (s==="distributor-accounts"&&targetId?page(decodeURIComponent(targetId)):page()).catch(err=>{$("main").innerHTML="";toast(err.message||String(err),true)});
 }
 const cnt=async(t,f)=>{let q=sb.from(t).select("*",{count:"exact",head:true});if(f)q=f(q);const{count,error}=await q;if(error)throw error;return count||0};
 const fmt=d=>d?new Date(d).toLocaleDateString():"—";
+async function selectAllPages(queryFactory){
+  const pageSize=1000,rows=[];
+  for(let offset=0;;offset+=pageSize){
+    const{data,error}=await queryFactory().range(offset,offset+pageSize-1);
+    if(error)return{data:null,error};
+    rows.push(...(data||[]));
+    if(!data||data.length<pageSize)return{data:rows,error:null};
+  }
+}
 
 async function ownerTree(){
   const settings=await sb.from("ayu_site_settings").select("owner_name").eq("id",1).maybeSingle();
@@ -192,12 +206,12 @@ async function ownerTree(){
     e.stopPropagation();
     const d=rows.find(x=>x.user_id===button.dataset.distributorDelete);if(!d)return;
     const directCount=rows.filter(x=>x.parent_id===d.user_id).length;
-    if(!confirm(`Permanently remove ${name(d)} (${d.distributor_code||"No ID"}) from the distributor list? Their sign-in account will remain. ${directCount} direct team member${directCount===1?"":"s"} will become unassigned.`))return;
+    if(!confirm(`Permanently delete ${name(d)} (${d.distributor_code||"No ID"}), including their login, profile, stock, payments, commissions, and ledger? This cannot be undone. Their ${directCount} direct team member${directCount===1?"":"s"} will be kept but detached from the team.`))return;
     button.disabled=true;
-    const{error}=await sb.rpc("admin_remove_ayu_distributor",{target_id:d.user_id});
-    button.disabled=false;
-    if(error)return toast(error.message,true);
-    toast("Distributor removed. Their sign-in account was preserved.");await ownerTree();
+    try{
+      const{storageWarning}=await deleteDistributorAccount(d.user_id);
+      await ownerTree();toast(storageWarning?`Distributor and account data deleted, but document cleanup failed: ${storageWarning}`:"Distributor and all account data permanently deleted.",!!storageWarning);
+    }catch(error){button.disabled=false;toast(error.message||String(error),true)}
   });
   document.querySelectorAll("[data-tree-add]").forEach(button=>button.onclick=async e=>{
     e.stopPropagation();const parent=button.dataset.parent,position=button.dataset.treeAdd;
@@ -226,6 +240,88 @@ async function dashboard(){
   <small>Sales, business volume and payments will appear here once those modules exist in the database.</small>`;
 }
 
+async function distributorAccounts(selectedId=null){
+  const distributorResult=await loadDistributors();
+  if(distributorResult.error)throw distributorResult.error;
+  const distributors=distributorResult.data||[];
+  const search=$("account-search")?.value.trim().toLowerCase()||"";
+  const[productResult,stockResult,ledgerResult,adjustmentResult]=await Promise.all([
+    selectAllPages(()=>sb.from("ayu_products").select("id,name").order("sort_order").order("created_at").order("id")),
+    selectAllPages(()=>sb.from("ayu_distributor_inventory").select("distributor_id,product_id,quantity").order("distributor_id").order("product_id")),
+    selectAllPages(()=>sb.from("ayu_distributor_ledger").select("*").order("created_at",{ascending:false}).order("id")),
+    selectAllPages(()=>sb.from("ayu_distributor_adjustment_requests").select("id,distributor_id,product_id,quantity_delta,description,status,created_at").order("created_at",{ascending:false}).order("id"))
+  ]);
+  const accountDataError=[productResult,stockResult,ledgerResult,adjustmentResult].find(result=>result.error)?.error;
+  if(accountDataError){
+    const visible=distributors.filter(distributor=>!search||[distributor.distributor_code,distributor.user_id,distributor.full_name,distributor.contact_person,distributor.business_name].join(" ").toLowerCase().includes(search));
+    const rows=visible.map(distributor=>`<tr><td><b>${esc(distributor.distributor_code||distributor.user_id)}</b></td><td>${esc(distributor.full_name||distributor.contact_person||distributor.business_name||"Distributor")}</td><td>${esc(distributor.status||"—")}</td></tr>`).join("");
+    $("main").innerHTML=`<div class="msg err">Account inventory and ledger data are unavailable: ${esc(accountDataError.message)}. Run <b>supabase-distributor-accounts.sql</b> in the Supabase SQL Editor, then refresh this page.</div><div class="card"><div class="tools"><input id="account-search" type="search" placeholder="Search distributor name or ID" value="${esc(search)}"></div><div class="account-table-wrap"><table class="account-table"><thead><tr><th>Distributor ID</th><th>Distributor</th><th>Status</th></tr></thead><tbody>${rows||'<tr><td colspan="3"><small>No distributors found.</small></td></tr>'}</tbody></table></div><small>${visible.length} of ${distributors.length} distributors</small></div>`;
+    $("account-search").oninput=()=>distributorAccounts();
+    return;
+  }
+  const products=productResult.data||[],inventory=stockResult.data||[];
+  const ledger=(ledgerResult.data||[]).filter(row=>row.record_status==="VERIFIED"),requests=adjustmentResult.data||[];
+  const productById=new Map(products.map(product=>[product.id,product.name]));
+  const amount=(rows,type)=>rows.filter(row=>row.transaction_type===type).reduce((sum,row)=>sum+Number(row.total_amount||0),0);
+  if(selectedId){
+    const distributor=distributors.find(row=>row.user_id===selectedId);
+    if(!distributor)return distributorAccounts();
+    const accountLedger=ledger.filter(row=>row.distributor_id===selectedId).sort((a,b)=>new Date(b.created_at)-new Date(a.created_at));
+    const accountInventory=inventory.filter(row=>row.distributor_id===selectedId);
+    const earned=amount(accountLedger,"COMMISSION_EARNED"),paid=amount(accountLedger,"PAYMENT_RECEIVED"),customerDue=amount(accountLedger,"PAYMENT_PENDING");
+    const stats=[
+      [accountInventory.reduce((sum,row)=>sum+Number(row.quantity||0),0),"Available stock"],
+      [amount(accountLedger,"PRODUCT_SOLD").toLocaleString("en-IN",{style:"currency",currency:"INR"}),"Total sales"],
+      [earned.toLocaleString("en-IN",{style:"currency",currency:"INR"}),"Commission earned"],
+      [paid.toLocaleString("en-IN",{style:"currency",currency:"INR"}),"Payments received"],
+      [customerDue.toLocaleString("en-IN",{style:"currency",currency:"INR"}),"Customer payments due"],
+      [Math.max(0,earned-paid).toLocaleString("en-IN",{style:"currency",currency:"INR"}),"Commission payout due"]
+    ];
+    const options=products.map(product=>`<option value="${esc(product.id)}">${esc(product.name)}</option>`).join("");
+    const accountRequests=requests.filter(row=>row.distributor_id===selectedId);
+    let stockRequestId=crypto.randomUUID(),paymentRequestId=crypto.randomUUID();
+    const transactionRows=accountLedger.map(row=>`<tr><td>${esc(row.transaction_id)}</td><td>${esc(fmt(row.created_at))}</td><td>${esc(row.product_name||productById.get(row.product_id)||"—")}</td><td>${esc(row.transaction_type.replaceAll("_"," "))}</td><td>${Number(row.quantity)||"—"}</td><td>${Number(row.total_amount||0).toLocaleString("en-IN",{style:"currency",currency:"INR"})}</td><td>${esc(row.payment_status)}</td></tr>`).join("");
+    $("main").innerHTML=`<p><button class="ghost sm" id="account-back">← All accounts</button></p><div class="card"><small>Distributor ID</small><h2>${esc(distributor.distributor_code||distributor.user_id)} · ${esc(distributor.full_name||distributor.contact_person||distributor.business_name||"Distributor")}</h2><span class="badge ${esc(distributor.status)}">${esc(distributor.status)}</span></div><div class="stats">${stats.map(([value,label])=>`<div class="stat"><b>${value}</b><small>${label}</small></div>`).join("")}</div>
+      <div class="card"><h2>Assign products</h2><div class="network-controls"><select id="account-stock-product"><option value="">Select product</option>${options}</select><input id="account-stock-quantity" type="number" min="1" step="1" placeholder="Quantity"><input id="account-stock-note" type="text" placeholder="Description"></div><p style="margin:10px 0 0"><button id="account-stock-submit">Assign stock</button></p></div>
+      <div class="card"><h2>Record payment</h2><div class="network-controls"><input id="account-payment-amount" type="number" min="0.01" step="0.01" placeholder="Amount"><select id="account-payment-method"><option value="BANK_TRANSFER">Bank transfer</option><option value="UPI">UPI</option><option value="CASH">Cash</option><option value="OTHER">Other</option></select><input id="account-payment-note" type="text" placeholder="Reference / note"></div><p style="margin:10px 0 0"><button id="account-payment-submit">Record payment</button></p></div>
+      <div class="card"><h2>Stock adjustment requests</h2>${accountRequests.length?accountRequests.map(row=>`<div class="row"><div class="grow"><b>${esc(productById.get(row.product_id)||"Product")} · ${row.quantity_delta>0?"+":""}${row.quantity_delta}</b><br><small>${esc(row.description)} · ${fmt(row.created_at)}</small></div><span class="badge">${esc(row.status)}</span>${row.status==="PENDING"?`<button data-adjust-review="approve" data-adjust-id="${row.id}">Approve</button><button class="danger sm" data-adjust-review="reject" data-adjust-id="${row.id}">Reject</button>`:""}</div>`).join(""):'<small>No adjustment requests.</small>'}</div>
+      <div class="card"><h2>Account ledger</h2>${transactionRows?`<div class="account-table-wrap"><table class="account-table"><thead><tr><th>Transaction ID</th><th>Date</th><th>Product</th><th>Type</th><th>Qty</th><th>Amount</th><th>Status</th></tr></thead><tbody>${transactionRows}</tbody></table></div>`:'<small>No verified transactions.</small>'}</div>`;
+    $("account-back").onclick=()=>location.hash.startsWith("#distributor-accounts/")?location.hash="distributor-accounts":distributorAccounts();
+    $("account-stock-submit").onclick=async event=>{
+      const target_product=$("account-stock-product").value,received_quantity=Number($("account-stock-quantity").value);
+      if(!target_product||!Number.isInteger(received_quantity)||received_quantity<1)return toast("Choose a product and enter a positive whole quantity.",true);
+      event.target.disabled=true;const{error}=await sb.rpc("admin_distributor_stock_receipt",{target_distributor:selectedId,target_product,received_quantity,transaction_request:stockRequestId,notes:$("account-stock-note").value.trim()||null});event.target.disabled=false;
+      if(error)return toast(error.message,true);toast("Stock assigned and recorded.");await distributorAccounts(selectedId);
+    };
+    $("account-payment-submit").onclick=async event=>{
+      const payment_amount=Number($("account-payment-amount").value),method=$("account-payment-method").value;
+      if(!Number.isFinite(payment_amount)||payment_amount<=0)return toast("Enter a payment amount greater than zero.",true);
+      event.target.disabled=true;const{error}=await sb.rpc("admin_record_distributor_payment",{target_distributor:selectedId,payment_amount,method,transaction_request:paymentRequestId,notes:$("account-payment-note").value.trim()||null});event.target.disabled=false;
+      if(error)return toast(error.message,true);toast("Payment recorded.");await distributorAccounts(selectedId);
+    };
+    document.querySelectorAll("[data-adjust-review]").forEach(button=>button.onclick=async()=>{
+      button.disabled=true;const{error}=await sb.rpc("admin_review_stock_adjustment",{request_id:button.dataset.adjustId,approve:button.dataset.adjustReview==="approve",notes:null});
+      if(error){button.disabled=false;return toast(error.message,true)}toast("Adjustment request reviewed.");await distributorAccounts(selectedId);
+    });
+    return;
+  }
+  const visible=distributors.filter(distributor=>!search||[distributor.distributor_code,distributor.user_id,distributor.full_name,distributor.contact_person,distributor.business_name].join(" ").toLowerCase().includes(search));
+  const totalSales=amount(ledger,"PRODUCT_SOLD"),totalCommissions=amount(ledger,"COMMISSION_EARNED"),totalCustomerDue=amount(ledger,"PAYMENT_PENDING"),totalInventory=inventory.reduce((sum,row)=>sum+Number(row.quantity||0),0);
+  $("main").innerHTML=`<div class="stats"><div class="stat"><b>${totalSales.toLocaleString("en-IN",{style:"currency",currency:"INR"})}</b><small>Company-wide sales</small></div><div class="stat"><b>${totalInventory}</b><small>Distributor inventory units</small></div><div class="stat"><b>${totalCommissions.toLocaleString("en-IN",{style:"currency",currency:"INR"})}</b><small>Personal commissions</small></div><div class="stat"><b>${totalCustomerDue.toLocaleString("en-IN",{style:"currency",currency:"INR"})}</b><small>Customer payments due</small></div></div><div class="card"><div class="tools"><input id="account-search" type="search" placeholder="Search distributor name or ID" value="${esc(search)}"><button class="ghost" id="accounts-csv">Export CSV</button></div><div class="account-table-wrap"><table class="account-table"><thead><tr><th>Distributor ID</th><th>Distributor</th><th>Status</th><th>Stock</th><th>Sales</th><th>Commission</th><th>Customer due</th><th>Pending payout</th><th></th></tr></thead><tbody>${visible.map(distributor=>{
+    const rows=ledger.filter(row=>row.distributor_id===distributor.user_id),stockCount=inventory.filter(row=>row.distributor_id===distributor.user_id).reduce((sum,row)=>sum+Number(row.quantity||0),0),sales=amount(rows,"PRODUCT_SOLD"),commission=amount(rows,"COMMISSION_EARNED"),payments=amount(rows,"PAYMENT_RECEIVED"),customerDue=amount(rows,"PAYMENT_PENDING");
+    return `<tr><td><b>${esc(distributor.distributor_code||distributor.user_id)}</b></td><td>${esc(distributor.full_name||distributor.contact_person||distributor.business_name||"Distributor")}</td><td>${esc(distributor.status)}</td><td>${stockCount}</td><td>${sales.toLocaleString("en-IN",{style:"currency",currency:"INR"})}</td><td>${commission.toLocaleString("en-IN",{style:"currency",currency:"INR"})}</td><td>${customerDue.toLocaleString("en-IN",{style:"currency",currency:"INR"})}</td><td>${Math.max(0,commission-payments).toLocaleString("en-IN",{style:"currency",currency:"INR"})}</td><td><button class="ghost sm" data-account-open="${distributor.user_id}">Open account</button></td></tr>`;
+  }).join("")||'<tr><td colspan="9"><small>No distributors found.</small></td></tr>'}</tbody></table></div><small>${visible.length} of ${distributors.length} distributors · Stock assignments are inventory movements, not sales or binary volume.</small></div>`;
+  $("account-search").oninput=()=>distributorAccounts();
+  document.querySelectorAll("[data-account-open]").forEach(button=>button.onclick=()=>distributorAccounts(button.dataset.accountOpen));
+  $("accounts-csv").onclick=()=>{
+    const csv=["Distributor ID,Name,Status,Stock Units,Sales,Commission,Customer Payments Due,Commission Payouts Received,Pending Commission Payout",...visible.map(distributor=>{
+      const rows=ledger.filter(row=>row.distributor_id===distributor.user_id),stockCount=inventory.filter(row=>row.distributor_id===distributor.user_id).reduce((sum,row)=>sum+Number(row.quantity||0),0),sales=amount(rows,"PRODUCT_SOLD"),commission=amount(rows,"COMMISSION_EARNED"),payments=amount(rows,"PAYMENT_RECEIVED"),customerDue=amount(rows,"PAYMENT_PENDING");
+      return [distributor.distributor_code||distributor.user_id,distributor.full_name||distributor.contact_person||distributor.business_name,distributor.status,stockCount,sales,commission,customerDue,payments,Math.max(0,commission-payments)].map(value=>'"'+String(value??"").replaceAll('"','""')+'"').join(",");
+    })].join("\r\n");
+    const link=document.createElement("a");link.href=URL.createObjectURL(new Blob(["\ufeff"+csv],{type:"text/csv"}));link.download="ayu-distributor-accounts.csv";link.click();URL.revokeObjectURL(link.href);
+  };
+}
+
 /* ---------- distributors ---------- */
 const FIELDS=[["business_name","Business name"],["business_type","Business type"],["year_started","Year started"],["business_description","About business"],["contact_person","Contact person"],["designation","Designation"],["phone","Phone"],["whatsapp","WhatsApp"],["email","Email"],["address","Address"],["city","City"],["state","State"],["pincode","PIN code"],["territory","Territory"],["gst_number","GST number"],["pan_number","PAN number"],["registration_number","Registration no."],["years_in_business","Years in business"],["current_products","Current products"],["premises_size","Premises size"],["ref1_name","Reference 1"],["ref1_phone","Reference 1 phone"],["ref2_name","Reference 2"],["ref2_phone","Reference 2 phone"]];
 const DOCS=[["doc_id_proof","ID proof"],["doc_address_proof","Address proof"],["doc_gst","GST / licence"],["doc_photo","Photo"]];
@@ -234,9 +330,13 @@ async function autoApprovePending(){
   const deadline=new Date(Date.now()-5*60*1000).toISOString();
   await sb.from("ayu_distributors").update({status:"approved"}).eq("status","submitted").lt("submitted_at",deadline);
 }
+async function loadDistributors(){
+  return selectAllPages(()=>sb.from("ayu_distributors").select("*").order("created_at",{ascending:false}).order("user_id"));
+}
 async function distributors(){
+  activeDistributorId=null;
   await autoApprovePending();
-  const{data,error}=await sb.from("ayu_distributors").select("*").order("created_at",{ascending:false});
+  const{data,error}=await loadDistributors();
   if(error)throw error;DL=data||[];
   const distributorOptions=DL.map(d=>`<option value="${d.user_id}">${esc(d.distributor_code||d.user_id)} · ${esc(d.full_name||d.contact_person||d.business_name||"")}</option>`).join("");
   $("main").innerHTML=`<div class="card"><h2>Assign Distributor to Team</h2><div class="network-controls"><select id="team-parent"><option value="">Company / No parent</option>${distributorOptions}</select><select id="team-position"><option value="LEFT">Left Team</option><option value="RIGHT">Right Team</option></select><select id="team-member"><option value="">Choose distributor</option>${distributorOptions}</select></div><p style="margin:12px 0 0"><button id="team-assign">Add to Team</button></p><small>One distributor can be assigned to each LEFT or RIGHT position only.</small></div><div class="card"><div class="tools"><input type="text" id="q" placeholder="Search ID, name, city, phone"><select id="f"><option value="">All statuses</option>${Object.keys(STAT).map(k=>`<option value="${k}">${STAT[k]}</option>`).join("")}<option value="LEFT">Left Team</option><option value="RIGHT">Right Team</option></select><button class="ghost" id="csv">Export CSV</button></div><small id="cnt"></small><div id="dl"></div></div>`;
@@ -275,16 +375,26 @@ async function openDoc(path){
   if(w)w.location=data.signedUrl;else location.href=data.signedUrl;
 }
 async function distDetail(uid){
-  const d=DL.find(x=>x.user_id===uid);if(!d)return;toast("");
-  const kv=a=>a.map(([k,l])=>`<div class="kv"><small>${l}</small><div>${esc(d[k]??"—")}</div></div>`).join("");
+  const{data:d,error:detailError}=await sb.from("ayu_distributors").select("*").eq("user_id",uid).maybeSingle();
+  if(detailError)return toast(detailError.message,true);if(!d)return toast("Distributor not found.",true);
+  activeDistributorId=uid;toast("");
+  activeDistributorPhotoPath=d.profile_photo_path||null;
+  const cachedIndex=DL.findIndex(row=>row.user_id===uid);if(cachedIndex>=0)DL[cachedIndex]=d;
+  const kv=a=>a.map(([k,l])=>`<div class="kv"><small>${l}</small><div data-distributor-field="${k}">${esc(d[k]??"—")}</div></div>`).join("");
+  const{data:photoData,error:photoError}=d.profile_photo_path?await sb.storage.from(D).createSignedUrl(d.profile_photo_path,600):{data:null,error:null};
+  const idName=d.full_name||d.contact_person||d.business_name||"Distributor";
+  const photoMarkup=photoData?.signedUrl?`<img src="${esc(photoData.signedUrl)}" alt="${esc(idName)}">`:`<div class="admin-distributor-id-placeholder">${esc(idName.charAt(0).toUpperCase())}</div>`;
   $("main").innerHTML=`<p><button class="ghost sm" id="back">← Back to list</button></p>
-  <div class="card"><small>Distributor ID</small><h1>${esc(d.distributor_code)}</h1><span class="badge ${d.status}">${STAT[d.status]}</span> <small>Submitted: ${fmt(d.submitted_at)}</small></div>
+  <div class="card"><small>Distributor ID</small><h1>${esc(d.distributor_code)}</h1><span class="badge ${d.status}">${STAT[d.status]}</span> <small>Submitted: ${fmt(d.submitted_at)}</small><p style="margin:12px 0 0"><button class="ghost sm" id="open-business-account">Open business account</button></p></div>
+  <div class="card"><h2>Distributor Identity Card</h2><div class="admin-distributor-id"><div id="admin-distributor-photo">${photoMarkup}</div><div><small>Distributor name</small><b id="admin-id-name">${esc(idName)}</b><small style="margin-top:8px">Distributor ID</small><b class="code">${esc(d.distributor_code||d.user_id)}</b><div class="admin-distributor-meta"><span id="admin-id-business">${esc(d.business_name||"AYU LIFE HEARBAL Distributor")}</span><br><span id="admin-id-contact">${esc(d.phone||"")}${d.city?` · ${esc(d.city)}`:""}${d.state?`, ${esc(d.state)}`:""}</span><br><span id="admin-id-email">${esc(d.email||"")}</span></div><span class="badge" id="admin-id-status">${esc(STAT[d.status]||d.status||"Pending")}</span></div></div><div id="admin-id-photo-warning">${photoError?`<div class="msg err" style="margin-top:10px">Photo preview failed: ${esc(photoError.message)}</div>`:""}</div></div>
   <div class="card"><h2>Application</h2>${kv(FIELDS)}<div class="kv"><small>Declaration accepted</small><div>${d.declaration_accepted?"Yes":"No"}</div></div></div>
   <div class="card"><h2>Documents</h2>${DOCS.map(([k,l])=>`<div class="row"><div class="grow">${l}</div>${d[k]?`<button class="ghost sm" data-p="${esc(d[k])}">View</button>`:"<small>Not uploaded</small>"}</div>`).join("")}</div>
   <div class="card"><h2>Bank details</h2>${kv(BANK)}</div>
   <div class="card"><h2>Two-Team Network</h2><div id="network-management"><small>Loading network…</small></div></div>
-  <div class="card"><h2>Decision</h2><label style="margin-top:0">Status</label><select id="st">${Object.keys(STAT).map(k=>`<option value="${k}" ${k===d.status?"selected":""}>${STAT[k]}</option>`).join("")}</select><label>Remarks to distributor</label><textarea id="rm">${esc(d.admin_remarks||"")}</textarea><p style="margin:14px 0 0"><button id="sv">Save decision</button></p></div>`;
+  <div class="card"><h2>Decision</h2><label style="margin-top:0">Status</label><select id="st">${Object.keys(STAT).map(k=>`<option value="${k}" ${k===d.status?"selected":""}>${STAT[k]}</option>`).join("")}</select><label>Remarks to distributor</label><textarea id="rm">${esc(d.admin_remarks||"")}</textarea><p style="margin:14px 0 0"><button id="sv">Save decision</button></p></div>
+  <div class="card"><h2>Delete distributor account</h2><small>This permanently deletes their login, application, stock, payments, commissions, and ledger. Their team members are kept and detached.</small><p style="margin:14px 0 0"><button class="danger" id="delete-distributor">Delete account and all data</button></p></div>`;
   $("back").onclick=distributors;
+  $("open-business-account").onclick=()=>{location.hash=`distributor-accounts/${encodeURIComponent(uid)}`};
   loadNetworkManagement(uid);
   $("main").querySelectorAll("[data-p]").forEach(b=>b.onclick=()=>openDoc(b.dataset.p));
   $("sv").onclick=async e=>{e.target.disabled=true;
@@ -292,9 +402,43 @@ async function distDetail(uid){
     e.target.disabled=false;if(error)return toast(error.message,true);
     await distributors();toast("Decision saved.");
   };
+  $("delete-distributor").onclick=async event=>{
+    if(!confirm(`Permanently delete ${d.distributor_code||"this distributor"} and all account data, including their sign-in? This cannot be undone.`))return;
+    event.target.disabled=true;
+    try{
+      const{storageWarning}=await deleteDistributorAccount(uid);
+      await distributors();toast(storageWarning?`Distributor and account data deleted, but document cleanup failed: ${storageWarning}`:"Distributor and all account data permanently deleted.",!!storageWarning);
+    }catch(error){event.target.disabled=false;toast(error.message||String(error),true)}
+  };
+}
+async function refreshDistributorDetail(uid){
+  if(refreshingDistributor||cur!=="distributors"||activeDistributorId!==uid)return;
+  refreshingDistributor=true;
+  try{
+    const{data:distributor,error}=await sb.from("ayu_distributors").select("*").eq("user_id",uid).maybeSingle();
+    if(error||!distributor)return;
+    const index=DL.findIndex(row=>row.user_id===uid);if(index>=0)DL[index]=distributor;
+    document.querySelectorAll("[data-distributor-field]").forEach(element=>{const key=element.dataset.distributorField;element.textContent=distributor[key]??"—"});
+    const name=distributor.full_name||distributor.contact_person||distributor.business_name||"Distributor";
+    $("admin-id-name").textContent=name;
+    $("admin-id-business").textContent=distributor.business_name||"AYU LIFE HEARBAL Distributor";
+    $("admin-id-contact").textContent=[distributor.phone,distributor.city,distributor.state].filter(Boolean).join(" · ");
+    $("admin-id-email").textContent=distributor.email||"";
+    $("admin-id-status").textContent=STAT[distributor.status]||distributor.status||"Pending";
+    const photoPath=distributor.profile_photo_path||null;
+    if(photoPath!==activeDistributorPhotoPath){
+      activeDistributorPhotoPath=photoPath;
+      const container=$("admin-distributor-photo"),warning=$("admin-id-photo-warning");container.replaceChildren();warning.textContent="";
+      if(photoPath){
+        const{data:photoData,error:photoError}=await sb.storage.from(D).createSignedUrl(photoPath,600);
+        if(photoError||!photoData?.signedUrl){const placeholder=document.createElement("div");placeholder.className="admin-distributor-id-placeholder";placeholder.textContent=name.charAt(0).toUpperCase();container.append(placeholder);warning.innerHTML=`<div class="msg err" style="margin-top:10px">Photo preview failed: ${esc(photoError?.message||"Could not create a signed URL")}</div>`}
+        else{const image=document.createElement("img");image.src=photoData.signedUrl;image.alt=name;container.append(image)}
+      }else{const placeholder=document.createElement("div");placeholder.className="admin-distributor-id-placeholder";placeholder.textContent=name.charAt(0).toUpperCase();container.append(placeholder)}
+    }
+  }finally{refreshingDistributor=false}
 }
 async function loadNetworkManagement(uid){
-  const{data,error}=await sb.from("ayu_distributors").select("user_id,distributor_code,full_name,contact_person,business_name,parent_id,sponsor_id,position,network_status,status");
+  const{data,error}=await loadDistributors();
   if(error){$("network-management").innerHTML=`<div class="msg err">${esc(error.message)}</div>`;return}
   const rows=data||[];
   const children=(id,position)=>rows.filter(x=>x.parent_id===id&&x.position===position);
@@ -347,22 +491,58 @@ async function upload(file,folder,max=1600){
   if(error)throw error;return sb.storage.from(B).getPublicUrl(path).data.publicUrl;
 }
 async function removeFile(url){if(!url)return;const i=url.indexOf("/"+B+"/");if(i>-1)await sb.storage.from(B).remove([url.slice(i+B.length+2)])}
+async function deleteDistributorAccount(id){
+  const{data:distributor,error:lookupError}=await sb.from("ayu_distributors").select("doc_id_proof,doc_address_proof,doc_gst,doc_photo,profile_photo_path").eq("user_id",id).single();
+  if(lookupError)throw lookupError;
+  const{error}=await sb.rpc("admin_remove_ayu_distributor",{target_id:id});
+  if(error)throw error;
+  const paths=[distributor.doc_id_proof,distributor.doc_address_proof,distributor.doc_gst,distributor.doc_photo,distributor.profile_photo_path].filter(path=>typeof path==="string"&&path.trim());
+  if(!paths.length)return{storageWarning:null};
+  const{error:storageError}=await sb.storage.from(D).remove(paths);
+  return{storageWarning:storageError?.message||null};
+}
 
 async function products(){
   const{data,error}=await sb.from("ayu_products").select("*").order("sort_order").order("created_at");
   if(error)throw error;
-  $("main").innerHTML=`<div class="card"><h2>Add product</h2><label style="margin-top:0">Name</label><input type="text" id="pn"><label>Description</label><textarea id="pd"></textarea><label>Photograph</label><input type="file" id="pi" accept="image/*"><p style="margin:14px 0 0"><button id="pa">Add product</button></p></div>
-  <div class="card"><h2>Products (${data.length})</h2>${data.length?data.map(p=>`<div class="row"><img class="thumb" src="${esc(p.image_url)}" alt=""><div class="grow"><b>${esc(p.name)}</b><br><small>${esc(p.description)}</small></div><button class="ghost sm" data-pub="${p.id}" data-v="${p.is_published}">${p.is_published?"Hide":"Publish"}</button><button class="danger sm" data-del="${p.id}">Delete</button></div>`).join(""):"<small>No products yet.</small>"}</div>`;
+  $("main").innerHTML=`<div class="card"><h2>Add product</h2><label style="margin-top:0">Name</label><input type="text" id="pn"><label>Description</label><textarea id="pd"></textarea><div class="network-controls"><div><label>Distributor sale price (INR)</label><input type="number" id="product-price" min="0" step="0.01" value="0"></div><div><label>Personal sale commission (%)</label><input type="number" id="product-rate" min="0" max="100" step="0.01" value="0"></div></div><small>These settings apply only to personal product sales, not the binary plan.</small><label>Photograph</label><input type="file" id="pi" accept="image/*"><p style="margin:14px 0 0"><button id="pa">Add product</button></p></div>
+  <div class="card"><h2>Products (${data.length})</h2>${data.length?data.map(p=>`<div class="row"><img class="thumb" src="${esc(p.image_url)}" alt=""><div class="grow"><b>${esc(p.name)}</b><br><small>${esc(p.description)}</small><div class="network-controls" style="margin-top:8px"><input type="number" min="0" step="0.01" aria-label="Distributor sale price in INR" data-product-price="${p.id}" value="${Number(p.account_sale_price)||0}"><input type="number" min="0" max="100" step="0.01" aria-label="Personal commission rate percent" data-product-rate="${p.id}" value="${Number(p.distributor_commission_rate)||0}"><button class="ghost sm" data-product-save="${p.id}">Save pricing</button></div></div><button class="ghost sm" data-pub="${p.id}" data-v="${p.is_published}">${p.is_published?"Hide":"Publish"}</button><button class="danger sm" data-del="${p.id}">Delete</button></div>`).join(""):"<small>No products yet.</small>"}</div>`;
   $("pa").onclick=async e=>{
     const name=$("pn").value.trim();if(!name)return toast("Enter a product name.",true);
     e.target.disabled=true;
+    const account_sale_price=Number($("product-price").value),distributor_commission_rate=Number($("product-rate").value);
+    if(!Number.isFinite(account_sale_price)||account_sale_price<0||!Number.isFinite(distributor_commission_rate)||distributor_commission_rate<0||distributor_commission_rate>100){e.target.disabled=false;return toast("Price must be non-negative and commission must be 0–100%.",true)}
     try{const f=$("pi").files[0],image_url=f?await upload(f,"products"):null;
-      const{error}=await sb.from("ayu_products").insert({name,description:$("pd").value.trim()||null,image_url});if(error)throw error;
+      const{error}=await sb.from("ayu_products").insert({name,description:$("pd").value.trim()||null,image_url,account_sale_price,distributor_commission_rate});if(error)throw error;
       await products();toast("Product added.");
     }catch(err){toast(err.message||String(err),true);e.target.disabled=false}
   };
+  $("main").querySelectorAll("[data-product-save]").forEach(button=>button.onclick=async()=>{
+    const id=button.dataset.productSave,account_sale_price=Number(document.querySelector(`[data-product-price="${id}"]`).value),distributor_commission_rate=Number(document.querySelector(`[data-product-rate="${id}"]`).value);
+    if(!Number.isFinite(account_sale_price)||account_sale_price<0||!Number.isFinite(distributor_commission_rate)||distributor_commission_rate<0||distributor_commission_rate>100)return toast("Price must be non-negative and commission must be 0–100%.",true);
+    button.disabled=true;const{error}=await sb.from("ayu_products").update({account_sale_price,distributor_commission_rate}).eq("id",id);button.disabled=false;
+    if(error)return toast(error.message,true);toast("Distributor pricing saved.");await products();
+  });
   $("main").querySelectorAll("[data-pub]").forEach(b=>b.onclick=async()=>{const{error}=await sb.from("ayu_products").update({is_published:b.dataset.v!=="true"}).eq("id",b.dataset.pub);if(error)toast(error.message,true);else products()});
-  $("main").querySelectorAll("[data-del]").forEach(b=>b.onclick=async()=>{if(!confirm("Delete this product?"))return;const p=data.find(x=>x.id===b.dataset.del);const{error}=await sb.from("ayu_products").delete().eq("id",p.id);if(error)return toast(error.message,true);await removeFile(p.image_url);products()});
+  $("main").querySelectorAll("[data-del]").forEach(button=>button.onclick=async()=>{
+    if(!confirm("Delete this product? Products referenced by distributor stock or account history will be archived instead to preserve those records."))return;
+    const product=data.find(row=>row.id===button.dataset.del);if(!product)return;
+    button.disabled=true;
+    try{
+      const references=await Promise.all([
+        sb.from("ayu_distributor_inventory").select("product_id").eq("product_id",product.id).limit(1),
+        sb.from("ayu_distributor_ledger").select("product_id").eq("product_id",product.id).limit(1),
+        sb.from("ayu_distributor_adjustment_requests").select("product_id").eq("product_id",product.id).limit(1)
+      ]);
+      const referenceError=references.find(result=>result.error)?.error;if(referenceError)throw referenceError;
+      if(references.some(result=>result.data?.length)){
+        const{error}=await sb.from("ayu_products").update({is_published:false}).eq("id",product.id);if(error)throw error;
+        await products();toast("Product archived from the catalogue; distributor stock and account history were preserved.");return;
+      }
+      const{error}=await sb.from("ayu_products").delete().eq("id",product.id);if(error)throw error;
+      await removeFile(product.image_url);await products();toast("Product deleted.");
+    }catch(error){button.disabled=false;toast(error.message||String(error),true)}
+  });
 }
 async function gallery(){
   const{data,error}=await sb.from("ayu_gallery").select("*").order("sort_order").order("created_at",{ascending:false});
@@ -420,7 +600,8 @@ async function settings(){
   };
 }
 gate();
-setInterval(()=>{if(me&&cur=== "distributors")distributors()},60000);
+setInterval(()=>{if(me&&cur==="distributors"&&activeDistributorId)refreshDistributorDetail(activeDistributorId)},10000);
+setInterval(()=>{if(me&&cur==="distributors"&&!activeDistributorId)distributors()},60000);
 </script>
 </body>
 </html>
